@@ -1,0 +1,16 @@
+.content{
+    position: absolute;
+    top:var(--headHeight);
+    width: 100vw;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    z-index: -1;
+
+
+}
+
+.contentText{
+    padding:20px 10px 20px 10px;
+    width: var(--contentWidth);
+}

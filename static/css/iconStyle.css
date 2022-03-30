@@ -1,0 +1,24 @@
+ion-icon{
+    font-size: 20px;
+    /* color: white; */
+}
+#short-menu-icon{
+    font-size: 15px;
+    position: relative;
+    top:3px;
+    padding: 0px;
+}
+#short-menu-icon-li{
+    padding-right: 5px;
+}
+#menu-btn-icon{
+    font-size: 30px;
+    color: white;
+    position: relative;
+    left:5px;
+    top: 2px;
+}
+.side-menu-content-item-icon ion-icon{
+    font-size: 20px;
+
+}

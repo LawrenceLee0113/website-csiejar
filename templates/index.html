@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>庭愷設計的班網</title>
+    <style>
+        
+
+        :root {
+            --headHeight: 60px;
+            --contentWidth: 1000px;
+        }
+        /* @media(min-width: 900px) {
+
+        :root {
+                --headHeight: 150px;
+                --contentWidth: auto;
+            }
+        } */
+        
+
+        /* @media(max-width: 900px) {
+
+            :root {
+                --headHeight: 200px;
+                --contentWidth: 50px;
+            }
+        } */
+    </style>
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="../static/css/headStyle.css">
+    <link rel="stylesheet" href="../static/css/contentStyle.css">
+    <link rel="stylesheet" href="../static/css/menuStyle.css">
+    <link rel="stylesheet" href="../static/css/iconStyle.css">
+
+    <link rel="short icon" href="../static/image/logo.jpg">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="../static/script.js"></script>
+    <!--icon script-->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <!--icon script-->
+
+    <!-- <script src="outputMenuIcon.js"></script> -->
+    <script src="../static/changeColor.js"></script>
+    <script src="../static/ajax.js"></script>
+</head>
+
+<body>
+    <div class="head">
+        <div class="iconArea">
+            <div class="menu-btn-position">
+                <div class="menu-btn" id="menu-btn">
+                    <div class="menu-btn-content">
+                        <a href="">
+                            <!-- <hr style="border: 1px solid white;margin-top:10px">
+                        <hr style="border: 1px solid white;">
+                        <hr style="border: 1px solid white;"> -->
+                            <ion-icon name="menu-sharp" id="menu-btn-icon"></ion-icon>
+                        </a>
+                    </div>
+
+
+
+                </div>
+            </div>
+            <div class="logo-icon">
+
+                <img src="../static/image/nutc-logo.png" alt="logo">
+            </div>
+            <div class="title-icon">
+                <img src="../static/image/bdb4eda31297411f92249806fc4fafa4.PNG" alt="logo">
+                <!-- <img src="image/bdb4eda31297411f92249806fc4fafa4.PNG" alt="logo"> -->
+            </div>
+        </div>
+        <div class="short-menu">
+            <ul style="display: flex;">
+                <li id="short-menu-icon-li">
+                    <ion-icon name="color-wand-sharp" id="short-menu-icon"></ion-icon>
+                </li>
+                <li><a href="https://www.nutc.edu.tw/bin/home.php" target="_blank"> 中科大校網</a></li>
+                <li><a href="https://sso.nutc.edu.tw/ePortal/" target="_blank"> eportal</a></li>
+                <li><a href="https://www.instagram.com/lawrencelee666/" target="_blank"> 班代IG</a></li>
+                <li><a href="https://www.instagram.com/ntcust_csie_jar/" target="_blank">追蹤IG</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- <div class="headBr">
+    </div> -->
+
+    <!--menu content-->
+
+    <div class="side-menu-btn">
+
+    </div>
+    <div class="menu">
+        <div class="menu-content">
+
+            <!--
+                    "首頁",
+                    "公告消息",
+                    "班級課表",
+                    "個網站資源整理",
+                    "班級資料",
+                    行事曆
+                    "其他"
+                    
+                    回憶專區
+                    公告消息 (班級活動 校內活動: 活動資訊)
+                    幹部名單
+                    班級成員
+                    作品分享
+                -->
+
+
+            <!--menu item header from here-->
+            <div class="menu-content-item">
+                <a href="home.html">
+                    <div class="menu-content-item-padding">
+                        <div class="menu-content-item-icon">
+                            <ion-icon name="home-outline"></ion-icon>
+                        </div>
+                        <div class="menu-content-item-text">
+                            <h1>
+                                首頁
+                            </h1>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="menu-content-item">
+                <a href="news.html">
+                    <div class="menu-content-item-padding">
+                        <div class="menu-content-item-icon">
+                            <ion-icon name="megaphone-outline"></ion-icon>
+                        </div>
+                        <div class="menu-content-item-text">
+                            <h1>
+                                公告消息
+                            </h1>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="menu-content-item">
+                <a href="curriculum.html">
+                    <div class="menu-content-item-padding">
+                        <div class="menu-content-item-icon">
+                            <ion-icon name="clipboard-outline"></ion-icon>
+                        </div>
+                        <div class="menu-content-item-text">
+                            <h1>
+                                班級課表
+                            </h1>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="menu-content-item">
+                <a href="resourseLink.html">
+                    <div class="menu-content-item-padding">
+                        <div class="menu-content-item-icon">
+                            <ion-icon name="document-attach-outline"></ion-icon>
+                        </div>
+                        <div class="menu-content-item-text">
+                            <h1>
+                                資源整理
+                            </h1>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="menu-content-item">
+                <a href="classData.html">
+                    <div class="menu-content-item-padding">
+                        <div class="menu-content-item-icon">
+                            <ion-icon name="people-outline"></ion-icon>
+                        </div>
+                        <div class="menu-content-item-text">
+                            <h1>
+                                班級資料
+                            </h1>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="menu-content-item">
+                <a href="calendar.html">
+                    <div class="menu-content-item-padding">
+                        <div class="menu-content-item-icon">
+                            <ion-icon name="calendar-clear-outline"></ion-icon>
+                        </div>
+                        <div class="menu-content-item-text">
+                            <h1>
+                                行事曆
+                            </h1>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="menu-content-item">
+                <a href="other.html">
+                    <div class="menu-content-item-padding">
+                        <div class="menu-content-item-icon">
+                            <ion-icon name="chevron-forward-outline"></ion-icon>
+                        </div>
+                        <div class="menu-content-item-text">
+                            <h1>
+                                其他
+                            </h1>
+                        </div>
+                    </div>
+                </a>
+            </div>
+          <style>
+            #view-amount-Text{
+              width:100%;
+              text-align:center;
+            }
+          </style>
+            <div id = "view-amount-Text">
+              參訪人數：{{viewAmount}}
+            </div>
+            
+
+            <!--menu item footer to here-->
+            <!-- <input type = "color" id = "colorSelecter"> -->
+
+
+        </div>
+
+
+
+    </div>
+    <div class="content">
+        <div class="contentText">
+          
+        </div>
+
+    </div>
+</body>
+
+</html>

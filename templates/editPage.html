@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+    
+    <head>
+        <meta charset="UTF-8">
+        <title>編輯{{editPageName}}</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        
+        <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+        <script src = "../static/editData/editMode.js"></script>
+        <link rel="stylesheet" href="../static/editData/style.css">
+        <script src="../static/editData/uiBtn.js">//ui btn js</script>
+        <script src="../static/editData/unlock.js">//lock js</script>
+        <link rel="stylesheet" href="../static/editData/lock.css">
+
+</head>
+
+<body onbeforeunload="return myFunction()" onunload="haha();">
+<!-- <body> -->
+  <script>
+    function haha(){
+      // return "haha"
+      $.post("https://csiejar.lawrencelee0113.repl.co/key", {},
+        function (data, textStatus, jqXHR) {
+            console.log(data)
+        },
+        "json"
+    );
+      console.log("close!")
+    }
+    
+  function myFunction() {
+    console.log("wheather close")
+    if(pass){
+
+    return "Write something clever here...";
+    }
+}
+</script>
+
+    <div class="checkPage">
+
+    </div>
+    <div style="display: none;" id = "dataDiv">{{editPageName}}</div>
+    <h1 style="text-align: center;display: block;">！！編輯<label id="page-hint"> </label>分頁！！</h1>
+    <div class="menu">
+        <div class="menu-content">
+            <div class="home">
+                <div class="inner-content"><a href="">首 頁</a></div>
+            </div>
+            <div class="news">
+                <div class="inner-content"><a href="">公告消息</a></div>
+            </div>
+            <div class="curriculum">
+                <div class="inner-content"><a href="">班級課表</a></div>
+            </div>
+            <div class="resourseLink">
+                <div class="inner-content"><a href="">資源整理</a></div>
+            </div>
+            <div class="classData">
+                <div class="inner-content"><a href="">班級資料</a></div>
+            </div>
+            <div class="calendar">
+                <div class="inner-content"><a href="">行事曆</a></div>
+            </div>
+            <div class="other">
+                <div class="inner-content"><a href="">其 他</a></div>
+            </div>
+        </div>
+    </div>
+    <div id = "lock-area">
+
+        <div class="ui-area">
+            <button id="download-btn">⬇⬇下載⬇⬇</button>
+            <button id="view-btn">==>預覽==></button>
+            <button id="upload-btn">⬆⬆上傳⬆⬆</button>
+        </div>
+        <div class="content">
+            <div class="edit-area">
+                <!-- <input style="height: 100%;width: 100%;" id = "edit-input"> -->
+                <textarea name="edit-input" cols="" rows="" style="height: 100%;width: 100%;" id="edit-input"></textarea>
+            </div>
+            <div class="view-area">
+                <div class="view-output">
+    
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div id = "lock-hint-area">
+        <div id = "input-area">
+            <h3 style="text-align: center;">輸入編輯<label id="labHead3"></label>的密碼</h3>
+            <input type="password" style="width: 70%;border-radius: 7px;" id="keyInput">
+            <button style="width: 20%;border-radius: 10px;" id="keySubmit">認證</button>
+            
+        </div>
+        <div id = "hint-text" style="display:none;">
+            ⬆⬆請選擇編輯模式⬆⬆
+        </div>
+    </div>
+
+
+    <div id = "other">
+        <h2>!~對此編輯網頁提出意見~!</h2>
+        <input type="text" id="comment-input" placeholder="~輸入你想建議的評論~">
+        <button id="submitComment">確認送出</button>
+
+    </div>
+
+</body>
+
+</html>

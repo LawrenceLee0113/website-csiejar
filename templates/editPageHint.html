@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    
+    <head>
+        <meta charset="UTF-8">
+        <title>編輯{{editPageName}}</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        
+        <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+        <script src = "../static/editData/editMode.js"></script>
+        <link rel="stylesheet" href="../static/editData/style.css">
+        <script src="../static/editData/uiBtn.js">//ui btn js</script>
+        <script src="../static/editData/unlock.js">//lock js</script>
+        <link rel="stylesheet" href="../static/editData/lock.css">
+
+</head>
+
+<body onbeforeunload="return myFunction()" onunload="haha();">
+<!-- <body> -->
+
+    <div class="checkPage">
+
+    </div>
+    <div style="display: none;" id = "dataDiv">{{editPageName}}</div>
+    <h1 style="text-align: center;display: block;">！！編輯<label id="page-hint"> </label>分頁！！</h1>
+    <div class="menu">
+        <div class="menu-content">
+            <div class="home">
+                <div class="inner-content"><a href="">首 頁</a></div>
+            </div>
+            <div class="news">
+                <div class="inner-content"><a href="">公告消息</a></div>
+            </div>
+            <div class="curriculum">
+                <div class="inner-content"><a href="">班級課表</a></div>
+            </div>
+            <div class="resourseLink">
+                <div class="inner-content"><a href="">資源整理</a></div>
+            </div>
+            <div class="classData">
+                <div class="inner-content"><a href="">班級資料</a></div>
+            </div>
+            <div class="calendar">
+                <div class="inner-content"><a href="">行事曆</a></div>
+            </div>
+            <div class="other">
+                <div class="inner-content"><a href="">其 他</a></div>
+            </div>
+        </div>
+    </div>
+   <div id = "lock-hint-area">
+        <div id = "hint-text">
+            ⬆⬆請選擇編輯模式⬆⬆
+        </div>
+    </div>
+
+
+    <div id = "other">
+        <h2>!~對此編輯網頁提出意見~!</h2>
+        <input type="text" id="comment-input" placeholder="~輸入你想建議的評論~">
+        <button id="submitComment">確認送出</button>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,142 @@
+.menu {
+    height: 100px;
+    width: 95vw;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    /* color: rgb(rgb(255, 238, 0), green, blue); */
+
+}
+
+.menu-content {
+    background-color: rgb(76, 83, 180);
+    border-radius: 50px;
+    height: 70px;
+    width: 800px;
+    display: flex;
+
+}
+
+
+.content {
+    /* margin-top: 30px; */
+    height: 500px;
+    width: 95vw;
+    display: flex;
+    /* flex- */
+}
+
+.edit-area {
+    background-color: royalblue;
+    flex: 1;
+    padding: 20px;
+
+}
+
+.view-area {
+    background-color: sandybrown;
+    flex: 1;
+    padding: 20px;
+
+}
+
+.home {
+    flex: 1;
+    text-align: center;
+
+
+}
+
+.news {
+    flex: 1;
+    text-align: center;
+
+
+}
+
+.curriculum {
+    flex: 1;
+    text-align: center;
+
+
+}
+
+.resourseLink {
+    flex: 1;
+    text-align: center;
+
+
+}
+
+.classData {
+    flex: 1;
+    text-align: center;
+
+
+}
+
+.calendar {
+    flex: 1;
+    text-align: center;
+
+
+}
+
+.other {
+    flex: 1;
+    text-align: center;
+
+
+}
+#other{
+            background-color: rgb(118, 118, 197);
+            width: 300px;
+            height: 150px;
+            border-radius: 30px;
+            position: absolute;
+            top: 10px;
+            right: 30px;
+            color: orange;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            border: 5px rgb(185, 0, 0) ;
+            border-style: dashed;
+
+        }
+
+.inner-content {
+    width: auto;
+    height: 70px;
+    /* background-color: aqua; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+
+
+}
+
+a {
+    text-decoration: none;
+    color: aliceblue;
+}
+
+#page-hint {
+    color: rgb(255, 156, 25);
+}
+
+.ui-area {
+    height: 50px;
+    width: 95vw;
+    display: flex;
+    /* align-items: space-between; */
+    justify-content: space-between;
+}
+
+.view-output {
+    background-color: white;
+    height: 100%;
+    /* width: 100%; */
+}

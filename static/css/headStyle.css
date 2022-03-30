@@ -1,0 +1,148 @@
+
+
+
+.head{
+    /* background-color: rgb(74, 152, 197); */
+    /* background-color: rgba(6, 81, 124, 1); */
+    background-color: rgb(72, 141, 182);
+
+    /* background-color: rgb(35, 35, 35); */
+
+    /* border: 1px black solid; */
+    width: 100%;
+    /* height: var(--headHeight); */
+    height: var(--headHeight);
+    
+    position:fixed;
+    /* position:relative; */
+    top:0px;
+    z-index: 2;
+
+    /* display:flex; */
+
+    
+
+}
+/* .head div{
+    display: inline;
+} */
+.headBr{
+    width: 100%;
+    height: var(--headHeight);
+    
+    position:relative;
+    top:0px;
+
+    
+
+}
+.iconArea{
+    display: flex;
+    /* justify-content: center;
+    align-items: center; */
+
+    height: 100%;
+    width: 800px;
+
+    /* background-color: white; */
+
+
+}
+.menu-btn{
+    padding: 10px 10px 10px 10px;
+    /* background-color: #555; */
+    width: 40px;
+    height: 40px;
+    
+    display:flex;
+    justify-self: center;
+    align-items: center;
+    
+}
+.menu-btn-content{
+    width: 100%;
+    height: 100%;
+    display:flex;
+    justify-self: center;
+    align-items: center;
+}
+
+.menu-btn-content:hover{
+    background-color: rgb(83, 80, 80);
+    border-radius: 20px;
+    
+
+}
+.menu-btn-position{
+    height: 100%;
+    width: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2
+    
+}
+.title-icon{
+    height: 100%;
+    width: 200px;
+    position: relative;
+    left: -10px;
+    z-index: 1
+}
+.logo-icon{
+    width: 60px;
+    height: 60px;
+}
+img{
+    width: 100%;
+    height: 100%;
+}
+
+.short-menu{
+    position: absolute;
+    right: 15px;
+    bottom: 0px;
+    color: white;
+    /* width: 50%;
+    height: 50%; */
+    /* background-color: red; */
+}
+/* ul {
+    display: block;
+    list-style-type: disc;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 40px;
+}
+li {
+    display: list-item;
+    text-align: -webkit-match-parent;
+} */
+
+ul li {
+    /* width:5.6em; */
+    float:left;
+    /* list-style: square inside url("line.gif"); */
+    background: url("../image/line.gif") no-repeat right;
+    padding: 0 8px;
+    display: list-item;
+    text-align: -webkit-match-parent;
+    /* color: white; */
+    
+
+  }
+ul{
+    line-height: 1.75em;
+    display: block;
+    /* list-style-type: disc;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 40px; */
+}
+li a{
+    color: white;
+}
