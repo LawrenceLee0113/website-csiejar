@@ -1,9 +1,15 @@
 from flask import Flask, render_template, request, json, jsonify ,redirect,url_for
-import time,datetime,sys
-
+import time,datetime,sys,codecs
+from bs4 import BeautifulSoup
 
 app = Flask(__name__)
 
+def top_navbar_html():
+  with open("templates/index.html", "r", encoding='utf-8') as f:
+      text= f.read()
+  soup = BeautifulSoup(text, "html.parser")
+  result = soup.find("nav", {"id": "top_navbar"})
+  return result
 
 @app.route('/')
 def index_page():
@@ -12,13 +18,13 @@ def index_page():
 @app.route('/<pageName>')
 def page(pageName):
     if pageName == "home":
-        return render_template("home.html")
+        return render_template("home.html",top_navbar_html=top_navbar_html())
     elif pageName == "news":
       return render_template("news.html")
     elif pageName == "curriculum":
       return render_template("curriculum.html")
-    elif pageName == "resourseLink":
-      return render_template("resourseLink.html")
+    elif pageName == "resourse":
+      return render_template("resourse.html")
     elif pageName == "classData":
       return render_template("classData.html")
     elif pageName == "calendar":
