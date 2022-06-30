@@ -1,0 +1,14 @@
+#top_nav_ul li {
+    margin-right: 10px;
+}
+
+#carouselExampleIndicator .carousel-inner div {
+    background-color: #9b9b9b;
+}
+
+.navbar {
+    z-index: 100;
+}
+#navbarNavDropdown{
+    background-color: #f8f9fa;
+}

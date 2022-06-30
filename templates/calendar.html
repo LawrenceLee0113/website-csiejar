@@ -20,56 +20,7 @@
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="height: 60px;">
-        <a class="navbar-brand h-100" style="vertical-align:middle;" href="#">
-            <img src="../static/img/logo.png"  class="h-100" alt="csiejar_icon"><span class="font-weight-bold" style="font-size: 100%;">CSIEJAR</span>
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse justify-content-between" id="navbarNavDropdown">
-          <ul class="navbar-nav" id="top_nav_ul">
-            <li class="nav-item active">
-              <a class="nav-link" href="/home">首頁<span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/news">公告</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/curriculum">課表</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/resourseLink">資源</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/classData">班級</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/calendar">行事曆</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                其他
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item" href="#">其它一</a>
-                <a class="dropdown-item" href="#">其他二</a>
-                <a class="dropdown-item" href="#">其他三</a>
-              </div>
-            </li>
-          </ul>
-          <nav class="nav align-items-end justify-content-end " style="height: 60px;">
-            <a class="nav-link" href="https://www.nutc.edu.tw/bin/home.php">校網</a>
-            <a class="nav-link" href="https://sso.nutc.edu.tw/ePortal/">ePortal</a>
-            <a class="nav-link" href="https://www.instagram.com/ntcust_csie_jar/">班帳</a>
-            <a class="nav-link" href="/error">報錯</a>
-          </nav>
-        </div>
-        
-      </nav>
-     
-
-     
+    {{top_navbar_html | safe}}
     <style>
         /* CSS Document */
 
@@ -1073,10 +1024,8 @@
 <tr><th class='number'>1</th><th class='time'>08:10<br>｜<br>09:00</th><td class='data'><div class='course_name'> </div><div class='teacher_name'> </div><div class='classroom'> </div></td><td class='data'><div class='course_name'>數學</div><div class='teacher_name'>黃馨逸</div><div class='classroom'>6604</div></td><td class='data'><div class='course_name'> </div><div class='teacher_name'> </div><div class='classroom'> </div></td><td class='data'><div class='course_name'> </div><div class='teacher_name'> </div><div class='classroom'> </div></td><td class='data'><div class='course_name'> </div><div class='teacher_name'> </div><div class='classroom'> </div></td></tr><tr><th class='number'>2</th><th class='time'>09:10<br>｜<br>10:00</th><td class='data'><div class='course_name'> </div><div class='teacher_name'> </div><div class='classroom'> </div></td><td class='data'><div class='course_name'>數學</div><div class='teacher_name'>黃馨逸</div><div class='classroom'>6604</div></td><td class='data'><div class='course_name'>基本電學</div><div class='teacher_name'>陳柏淩</div><div class='classroom'>6701</div></td><td class='data'><div class='course_name'>英語文</div><div class='teacher_name'>謝玉娥</div><div class='classroom'>6701</div></td><td class='data'><div class='course_name'> </div><div class='teacher_name'> </div><div class='classroom'> </div></td></tr><tr><th class='number'>3</th><th class='time'>10:10<br>｜<br>11:00</th><td class='data'><div class='course_name'>數學</div><div class='teacher_name'>黃馨逸</div><div class='classroom'>6604</div></td><td class='data'><div class='course_name'>地理</div><div class='teacher_name'>郭基賢</div><div class='classroom'>5109</div></td><td class='data'><div class='course_name'>基本電學</div><div class='teacher_name'>陳柏淩</div><div class='classroom'>6701</div></td><td class='data'><div class='course_name'>英語文</div><div class='teacher_name'>謝玉娥</div><div class='classroom'>6701</div></td><td class='data'><div class='course_name'>資訊科技</div><div class='teacher_name'>賴錦緣</div><div class='classroom'>2701</div></td></tr><tr><th class='number'>4</th><th class='time'>11:10<br>｜<br>12:00</th><td class='data'><div class='course_name'>數學</div><div class='teacher_name'>黃馨逸</div><div class='classroom'>6604</div></td><td class='data'><div class='course_name'>地理</div><div class='teacher_name'>郭基賢</div><div class='classroom'>5109</div></td><td class='data'><div class='course_name'>基本電學</div><div class='teacher_name'>陳柏淩</div><div class='classroom'>6701</div></td><td class='data'><div class='course_name'>英語文</div><div class='teacher_name'>謝玉娥</div><div class='classroom'>6701</div></td><td class='data'><div class='course_name'>資訊科技</div><div class='teacher_name'>賴錦緣</div><div class='classroom'>2701</div></td></tr><tr><th class='number'>5</th><th class='time'>13:25<br>｜<br>14:15</th><td class='data'><div class='course_name'>音樂</div><div class='teacher_name'>呂佳陵</div><div class='classroom'>3305</div></td><td class='data'><div class='course_name'>歷史</div><div class='teacher_name'>張孟秋</div><div class='classroom'>6605</div></td><td class='data'><div class='course_name'>國語文</div><div class='teacher_name'>王月秀</div><div class='classroom'>6701</div></td><td class='data'><div class='course_name'>體育</div><div class='teacher_name'>簡岱芸</div><div class='classroom'>0000</div></td><td class='data'><div class='course_name'>資訊科技與運算思維</div><div class='teacher_name'>侯幸雨</div><div class='classroom'>2702</div></td></tr><tr><th class='number'>6</th><th class='time'>14:20<br>｜<br>15:10</th><td class='data'><div class='course_name'>音樂</div><div class='teacher_name'>呂佳陵</div><div class='classroom'>3305</div></td><td class='data'><div class='course_name'>歷史</div><div class='teacher_name'>張孟秋</div><div class='classroom'>6605</div></td><td class='data'><div class='course_name'>國語文</div><div class='teacher_name'>王月秀</div><div class='classroom'>6701</div></td><td class='data'><div class='course_name'>體育</div><div class='teacher_name'>簡岱芸</div><div class='classroom'>0000</div></td><td class='data'><div class='course_name'>資訊科技與運算思維</div><div class='teacher_name'>侯幸雨</div><div class='classroom'>2702</div></td></tr><tr><th class='number'>7</th><th class='time'>15:20<br>｜<br>16:10</th><td class='data'><div class='course_name'>基本電學實習</div><div class='teacher_name'>張文澤</div><div class='classroom'>2802</div></td><td class='data'><div class='course_name'>全民國防教育</div><div class='teacher_name'>單環琪</div><div class='classroom'>8402</div></td><td class='data'><div class='course_name'>國語文</div><div class='teacher_name'>王月秀</div><div class='classroom'>6701</div></td><td class='data'><div class='course_name'>週會/班會</div><div class='teacher_name'>劉嘉雯</div><div class='classroom'>6701</div></td><td class='data'><div class='course_name'>資訊科技與運算思維</div><div class='teacher_name'>侯幸雨</div><div class='classroom'>2702</div></td></tr><tr><th class='number'>8</th><th class='time'>16:15<br>｜<br>17:05</th><td class='data'><div class='course_name'>基本電學實習</div><div class='teacher_name'>張文澤</div><div class='classroom'>2802</div></td><td class='data'><div class='course_name'>健康與護理</div><div class='teacher_name'>林錦良</div><div class='classroom'>8401</div></td><td class='data'><div class='course_name'>計算機概論</div><div class='teacher_name'>張家瑋</div><div class='classroom'>2702</div></td><td class='data'><div class='course_name'>週會/班會</div><div class='teacher_name'>劉嘉雯</div><div class='classroom'>6701</div></td><td class='data'><div class='course_name'> </div><div class='teacher_name'> </div><div class='classroom'> </div></td></tr><tr><th class='number'>9</th><th class='time'>17:10<br>｜<br>18:00</th><td class='data'><div class='course_name'>基本電學實習</div><div class='teacher_name'>張文澤</div><div class='classroom'>2802</div></td><td class='data'><div class='course_name'> </div><div class='teacher_name'> </div><div class='classroom'> </div></td><td class='data'><div class='course_name'>計算機概論</div><div class='teacher_name'>張家瑋</div><div class='classroom'>2702</div></td><td class='data'><div class='course_name'> </div><div class='teacher_name'> </div><div class='classroom'> </div></td><td class='data'><div class='course_name'> </div><div class='teacher_name'> </div><div class='classroom'> </div></td></tr><tr>
     
   </tbody></table>
-</div></div>
-       
-       {{htmlValue}}
-
+</div>
+</div>
    </div>
 </body>
 </html>

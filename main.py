@@ -20,17 +20,17 @@ def page(pageName):
     if pageName == "home":
         return render_template("home.html",top_navbar_html=top_navbar_html())
     elif pageName == "news":
-      return render_template("news.html")
+      return render_template("news.html",top_navbar_html=top_navbar_html())
     elif pageName == "curriculum":
-      return render_template("curriculum.html")
-    elif pageName == "resourse":
-      return render_template("resourse.html")
+      return render_template("curriculum.html",top_navbar_html=top_navbar_html())
+    elif pageName == "resource":
+      return render_template("resource.html",top_navbar_html=top_navbar_html())
     elif pageName == "classData":
-      return render_template("classData.html")
+      return render_template("classData.html",top_navbar_html=top_navbar_html())
     elif pageName == "calendar":
-      return render_template("calendar.html")
+      return render_template("calendar.html",top_navbar_html=top_navbar_html())
     else:
-        return render_template("noPage.html")
+        return render_template("noPage.html",top_navbar_html=top_navbar_html())
 
       
 #run server

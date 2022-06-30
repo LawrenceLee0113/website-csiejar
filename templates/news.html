@@ -20,54 +20,7 @@
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="height: 60px;">
-        <a class="navbar-brand h-100" style="vertical-align:middle;" href="#">
-            <img src="../static/img/logo.png"  class="h-100" alt="csiejar_icon"><span class="font-weight-bold" style="font-size: 100%;">CSIEJAR</span>
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse justify-content-between" id="navbarNavDropdown">
-          <ul class="navbar-nav" id="top_nav_ul">
-            <li class="nav-item">
-              <a class="nav-link" href="/home">首頁<span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item active">
-            
-              <a class="nav-link" href="/news">公告</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/curriculum">課表</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/resourseLink">資源</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/classData">班級</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/calendar">行事曆</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                其他
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item" href="#">其它一</a>
-                <a class="dropdown-item" href="#">其他二</a>
-                <a class="dropdown-item" href="#">其他三</a>
-              </div>
-            </li>
-          </ul>
-          <nav class="nav align-items-end justify-content-end " style="height: 60px;">
-            <a class="nav-link" href="https://www.nutc.edu.tw/bin/home.php">校網</a>
-            <a class="nav-link" href="https://sso.nutc.edu.tw/ePortal/">ePortal</a>
-            <a class="nav-link" href="https://www.instagram.com/ntcust_csie_jar/">班帳</a>
-            <a class="nav-link" href="/error">報錯</a>
-          </nav>
-        </div>
-        
-      </nav>
+  {{top_navbar_html | safe}}
       <widgetbot
   server="885480589233369098"
   channel="982359735753900073"
