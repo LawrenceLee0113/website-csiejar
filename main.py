@@ -14,6 +14,7 @@ def addViewAmount():
     return data["viewAmount"]
 
 
+
 def backup(pageName, data):
     backupData = {
         "time": time.ctime(time.time() + 28800),
