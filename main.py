@@ -4,11 +4,18 @@ from bs4 import BeautifulSoup
 
 app = Flask(__name__)
 
-def component_html(tag,id):
+def component_html(tag,id,innerTags=False):
   with open("templates/index.html", "r", encoding='utf-8') as f:
       text= f.read()
   soup = BeautifulSoup(text, "html.parser")
   result = soup.find(tag, {"id": id})
+  if innerTags:
+    result = result.findChildren()
+    output = ""
+    for i in result:
+      output += str(i)
+    result = output
+    
   return result
 
 @app.route('/')
@@ -19,7 +26,8 @@ def index_page():
 def page(pageName):
     component_html_obj = {
       "top_navbar_html":component_html("nav","top_navbar"),
-      "error_window_html":component_html("div","exampleModalCenter")
+      "error_window_html":component_html("div","exampleModalCenter"),
+      "header_info_html":component_html("div","header_info",True)
       }
     if pageName == "home":
         return render_template("home.html",component_html_obj=component_html_obj)
@@ -37,6 +45,8 @@ def page(pageName):
       return render_template("article.html",component_html_obj=component_html_obj)
     elif pageName == "manager":
       return render_template("manager.html",component_html_obj=component_html_obj)
+    elif pageName == "article_page":
+      return render_template("article_page.html",component_html_obj=component_html_obj)
     else:
         return render_template("noPage.html",component_html_obj=component_html_obj)
 
