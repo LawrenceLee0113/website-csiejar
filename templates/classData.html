@@ -28,7 +28,45 @@
 </head>
 
 <body>
-    {{top_navbar_html | safe}}
+    {{component_html_obj.top_navbar_html | safe}}
+    {{component_html_obj.error_window_html | safe}}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+              <div class="card">...</div>
+            </div>
+            <div class="col-sm-4 scroll">
+              <div class="card">...</div>
+            </div>
+            <div class="col-sm-4">
+              <div class="card">...</div>
+            </div>
+            <div class="col-sm-4">
+                <div class="card">...</div>
+              </div>
+              <div class="col-sm-4 scroll">
+                <div class="card">...</div>
+              </div>
+              <div class="col-sm-4">
+                <div class="card">...</div>
+              </div>
+              <div class="col-sm-4">
+                <div class="card">...</div>
+              </div>
+              <div class="col-sm-4 scroll">
+                <div class="card">...</div>
+              </div>
+              <div class="col-sm-4">
+                <div class="card">...</div>
+              </div>
+          </div>
+          <style>
+            .row {
+    max-height: 100px;
+    overflow-y: auto;
+}
+          </style>
+    </div>
 
 </body>
 

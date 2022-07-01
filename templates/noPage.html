@@ -6,7 +6,8 @@
 </head>
 
 <body style="background-color: white;color:black">
-   {{top_navbar_html | safe}}
+   {{component_html_obj.top_navbar_html | safe}}
+    {{component_html_obj.error_window_html | safe}}
    <div id = "home-page" style="display: flex;justify-content: center;align-items: center;
 width: 100vw;height: 95vh;flex-direction: column;">
 <img src="https://cdn0.techbang.com/system/excerpt_images/55555/original/d5045073e258563e2b62eed24605cd60.png?1512550227">

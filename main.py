@@ -4,11 +4,11 @@ from bs4 import BeautifulSoup
 
 app = Flask(__name__)
 
-def top_navbar_html():
+def component_html(tag,id):
   with open("templates/index.html", "r", encoding='utf-8') as f:
       text= f.read()
   soup = BeautifulSoup(text, "html.parser")
-  result = soup.find("nav", {"id": "top_navbar"})
+  result = soup.find(tag, {"id": id})
   return result
 
 @app.route('/')
@@ -17,20 +17,28 @@ def index_page():
 
 @app.route('/<pageName>')
 def page(pageName):
+    component_html_obj = {
+      "top_navbar_html":component_html("nav","top_navbar"),
+      "error_window_html":component_html("div","exampleModalCenter")
+      }
     if pageName == "home":
-        return render_template("home.html",top_navbar_html=top_navbar_html())
+        return render_template("home.html",component_html_obj=component_html_obj)
     elif pageName == "news":
-      return render_template("news.html",top_navbar_html=top_navbar_html())
+      return render_template("news.html",component_html_obj=component_html_obj)
     elif pageName == "curriculum":
-      return render_template("curriculum.html",top_navbar_html=top_navbar_html())
+      return render_template("curriculum.html",component_html_obj=component_html_obj)
     elif pageName == "resource":
-      return render_template("resource.html",top_navbar_html=top_navbar_html())
+      return render_template("resource.html",component_html_obj=component_html_obj)
     elif pageName == "classData":
-      return render_template("classData.html",top_navbar_html=top_navbar_html())
+      return render_template("classData.html",component_html_obj=component_html_obj)
     elif pageName == "calendar":
-      return render_template("calendar.html",top_navbar_html=top_navbar_html())
+      return render_template("calendar.html",component_html_obj=component_html_obj)
+    elif pageName == "article":
+      return render_template("article.html",component_html_obj=component_html_obj)
+    elif pageName == "manager":
+      return render_template("manager.html",component_html_obj=component_html_obj)
     else:
-        return render_template("noPage.html",top_navbar_html=top_navbar_html())
+        return render_template("noPage.html",component_html_obj=component_html_obj)
 
       
 #run server

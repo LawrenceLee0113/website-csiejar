@@ -28,8 +28,10 @@
 </head>
 
 <body>
-    {{top_navbar_html | safe}}
+    {{component_html_obj.top_navbar_html | safe}}
+    {{component_html_obj.error_window_html | safe}}
     <div class="container justify-content-center">
+        
         <div id="carouselExampleIndicator" class="carousel slide w-100 mb-2" data-ride="carousel">
             <ol class="carousel-indicators">
                 <li data-target="#carouselExampleIndicator" data-slide-to="0" class="active"></li>
