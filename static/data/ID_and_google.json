@@ -1,0 +1,22 @@
+{   
+    
+"user_id":
+{   
+    "admin":"",
+    "google_id":"",
+    "name":"",
+    "google_name":"",
+    "gmail":"",
+    "google_img":"",
+    "own_article_id":{},
+    "edit_article_id":{},
+    "role":"",
+    "ban":"",
+    "authorize":"",
+    "last_login_time":"",
+    "user_id":"",
+    "login_times":""
+}
+
+
+}

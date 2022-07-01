@@ -1,0 +1,21 @@
+{
+"permission":{
+    "admin":{
+
+    },
+    "ban":{
+    
+    },
+    "authorize":{
+    
+    },
+    "unauthorize":{
+    
+    },
+    "visitor":{
+    
+    }
+    
+}
+
+}
