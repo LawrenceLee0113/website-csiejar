@@ -3,7 +3,7 @@ import time,datetime,sys,codecs
 from bs4 import BeautifulSoup
 
 app = Flask(__name__)
-#test
+
 def top_navbar_html():
   with open("templates/index.html", "r", encoding='utf-8') as f:
       text= f.read()
