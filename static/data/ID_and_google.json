@@ -4,7 +4,7 @@
 {   
     "admin":"",
     "google_id":"",
-    "name":"",
+    "view_name":"",
     "google_name":"",
     "gmail":"",
     "google_img":"",
@@ -15,7 +15,8 @@
     "authorize":"",
     "last_login_time":"",
     "user_id":"",
-    "login_times":""
+    "login_times":"",
+    "login_type":""
 }
 
 
