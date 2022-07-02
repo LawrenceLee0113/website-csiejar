@@ -28,7 +28,10 @@ def index_page():
 def page(pageName):
     component_html_obj = {
         "top_navbar_html": component_html("nav", "top_navbar"),
-        "error_window_html": component_html("div", "exampleModalCenter"),
+        "error_window_html": "".join([
+          str(component_html("div", "errorModalCenter")),
+          str(component_html("div", "loginModalCenter"))
+          ]),
         "header_info_html": component_html("div", "header_info", True)
     }
     if pageName == "home":
