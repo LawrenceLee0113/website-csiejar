@@ -50,7 +50,8 @@ def page(pageName):
     elif pageName == "article_page":
       return render_template("article_edit.html", component_html_obj=component_html_obj)
     else:
-        return render_template("noPage.html",top_navbar_html=top_navbar_html())
+        return render_template("noPage.html", component_html_obj=component_html_obj)
+
 # '''
 # "GET"=>R
 # "POST"=> C
@@ -74,8 +75,7 @@ def page(pageName):
 # 3 all 
 
 # '''
-        return render_template("noPage.html", component_html_obj=component_html_obj)
-
+       
 
 @app.route('/api/article', methods=["get", "post"])
 def test():
