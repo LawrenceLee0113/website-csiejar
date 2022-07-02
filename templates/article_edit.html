@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/34.1.0/inline/ckeditor.js"></script>
+
+    {{component_html_obj.header_info_html | safe}}
+
+</head>
+
+<body>
+    {{component_html_obj.top_navbar_html | safe}}
+    {{component_html_obj.error_window_html | safe}}
+    <div class="container">
+        <div class="article_edit">
+            <form action="/api/article" method="post">
+                <div class="form-group">
+                    <label for="username">標題：</label>
+                    <input class="form-control" type="text" name="subject" placeholder="寫個吸引人的標題~" />
+                </div>
+                <div class="form-group">
+                    <label for="username">內文：</label>
+                    <input class="form-control" type="hidden" id="content_editor_input" name="content"
+                        placeholder="寫個吸引人的標題~" />
+                    <div id="content_editor" style="border: 1px solid black;padding: 40px;">
+
+                    </div>
+                    <script>
+                        var editor;
+                        InlineEditor
+                            .create(document.querySelector('#content_editor'), {
+                                cloudServices: {
+                                    tokenUrl: 'https://90366.cke-cs.com/token/dev/d20e8fa470fade60fd1c8eb057600aff2f26e4cde07abe06302686ed03fd?limit=10',
+                                    uploadUrl: 'https://90366.cke-cs.com/easyimage/upload/'
+                                }
+                            })
+                            .then(a => {
+                                editor = a
+                                editor.model.document.on('change:data', () => {
+                                    const data = editor.getData();
+                                    $("#content_editor_input").val(data);
+                                });
+                            })
+                            .catch(error => {
+                                console.error(error);
+                            });
+                    </script>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="article_type_selector">文章類型</label>
+                    </div>
+                    <select class="custom-select" id="article_type_selector" name="article_type">
+                        <option selected>Choose...</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
+                </div>
+
+                <div class="input-group mb-3" id="article_img_uploader_parent">
+                    <input type="hidden" value="urlHere" name="article_img_url">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="article_img_uploader">
+                        <label class="custom-file-label" for="big_img_uploader">請選擇中圖照片</label>
+                    </div>
+                    <div class="input-group-append">
+                        <span class="input-group-text btn" id="">Upload</span>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text">
+                        <input type="hidden" name="home" id="is_home_middle">
+                        <input type="checkbox" value="true" id = "home_middle_controller" aria-label="Checkbox for following text input">
+                      </div>
+                    </div>
+                    <label class="form-control" aria-label="Text input with checkbox">顯示在首頁中間</label>
+                    <div class="input-group-prepend middle_img_checked">
+                        <span class="input-group-text" id="">首頁中間下架時間</span>
+                      </div>
+                    <input type="time" class="form-control middle_img_checked" name="home_delete_time">
+                  </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text">
+                        <input type="hidden" name="home_img" id="is_home_top">
+                        <input type="checkbox" value="true" id = "home_top_controller" aria-label="Checkbox for following text input">
+                      </div>
+                    </div>
+                    <label class="form-control" aria-label="Text input with checkbox">顯示在首頁大圖區</label>
+                    <div class="input-group-prepend big_img_checked">
+                        <span class="input-group-text" id="">首頁大圖區下架時間</span>
+                      </div>
+                    <input type="time" class="form-control big_img_checked" name="home_img_delete_time">
+                  </div>
+                  <style>
+                    .big_img_checked,.middle_img_checked{
+                        display: none;
+                    }
+                  </style>
+                  <script>
+                    $(document).ready(function () {
+                        $("#home_top_controller").change(function (e) {
+                            if(document.getElementById("home_top_controller").checked){
+                                $(".big_img_checked").css("display","flex");
+                            }else{
+                                $(".big_img_checked").hide();
+                            }
+                            $("#is_home_top").val(document.getElementById("home_top_controller").checked);
+                        });
+                        $("#home_middle_controller").change(function (e) {
+                            if(document.getElementById("home_middle_controller").checked){
+                                $(".middle_img_checked").css("display","flex");
+                                
+                            }else{
+                                $(".middle_img_checked").hide();
+                            }
+                            $("#is_home_middle").val(document.getElementById("home_middle_controller").checked);
+                        });
+                    });
+                  </script>
+                <div class="input-group mb-3 big_img_checked">
+                    <input type="hidden" name="big_img"  value="big img here(大圖標">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="big_img_uploader">
+                        <label class="custom-file-label" for="big_img_uploader">請選擇大圖照片</label>
+                    </div>
+                    <div class="input-group-append">
+                        <span class="input-group-text" id="">Upload</span>
+                    </div>
+                </div>
+                <input type="hidden" value="user-id" name="user_id">
+                <input type="hidden" value="user-token" name="user_token">
+                <div class="form-group d-flex justify-content-around">
+                    <button type="button" class="btn">取消</button>
+                    <button type="button" class="btn btn-link">顯示預覽</button>
+                    <button type="submit" class="btn btn-primary">確定</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

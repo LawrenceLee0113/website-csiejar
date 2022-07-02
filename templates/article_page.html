@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    {{component_html_obj.header_info_html | safe}}
+
+</head>
+
+<body>
+    {{component_html_obj.top_navbar_html | safe}}
+    {{component_html_obj.error_window_html | safe}}
+
+    <div class="container">
+        <div class="article_full_page">
+            
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            var article_id = {
+                "subject": "幹部介紹-班代",
+                "big_img": "https://scontent-tpe1-1.xx.fbcdn.net/v/t1.6435-9/43273258_2355244381171941_3447976470801022976_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=8bfeb9&_nc_ohc=3DUuYhgS1P8AX_inyx1&_nc_ht=scontent-tpe1-1.xx&oh=00_AT_HASlM_lAAKAvgRSOoSqgPqP-ZmZ6bqueYWxwW7lOeww&oe=62E3BE83",
+                "check": "true",//審核
+                "article_owner_id": "1111032033",
+                "article_owner_img": "https://scontent-tpe1-1.xx.fbcdn.net/v/t39.30808-6/285454628_1458424274584554_8592331470505763492_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=SL1qYrZh2YwAX-F8aJC&_nc_ht=scontent-tpe1-1.xx&oh=00_AT82Anwgl9bmh9MLRwMW3OqtAKcSUF1hfUr1Pi1bf5mWxA&oe=62C333E9",
+                "create_time": "2022.07.01 12:36",
+                "last_edit_time": "2022.07.01 12:36",
+                "last_editor": "1111032033",
+                "article_type": "幹部介紹",
+                "upload": "true",//上架
+                "home": "false",
+                "home_img": "",
+                "home_img_delete_time": "",
+                "editor_google_id": ""
+            }
+        });
+        
+    </script>
+    <!-- 
+內文:
+主題:
+大圖標:
+文章網址:
+審核:false
+擁有者:(google name
+擁有者id:(google id
+擁有者img:(google img
+建立時間:(creat time
+上次編輯時間:
+上次編輯者:
+id:(type-uuid4
+type:公告 作品..
+上架:(認證true
+首頁: true
+首頁上圖片區:false
+首頁上圖片下架時間:5days
+編輯者:google ids
+     -->
+</body>
+
+</html>
