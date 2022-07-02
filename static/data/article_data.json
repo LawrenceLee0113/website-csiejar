@@ -13,9 +13,9 @@
         "upload":"",
         "home":"",
         "home_img":"",
-        "home_img_delete_time":"",
+        "home_img_delete_time":"5",
         "editor_google_id":""
-        
+
 }
 
 }
