@@ -4,6 +4,8 @@ from bs4 import BeautifulSoup
 
 app = Flask(__name__)
 
+
+
 def component_html(tag, id, innerTags=False):
   with open("templates/index.html", "r", encoding='utf-8') as f:
       text = f.read()
@@ -30,7 +32,8 @@ def page(pageName):
         "top_navbar_html": component_html("nav", "top_navbar"),
         "error_window_html": "".join([
           str(component_html("div", "errorModalCenter")),
-          str(component_html("div", "loginModalCenter"))
+          str(component_html("div", "loginModalCenter")),
+          str(component_html("div", "unloginModalCenter"))
           ]),
         "header_info_html": component_html("div", "header_info", True)
     }
