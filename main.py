@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 
 def component_html(tag, id, innerTags=False):
-  with open("/Users/jerry950511/Desktop/web2./website-csiejar/templates/index.html", "r",encoding="utf-8") as f:
+  with open("templates/index.html", "r",encoding="utf-8") as f:
       text = f.read()
   soup = BeautifulSoup(text, "html.parser")
   result = soup.find(tag, {"id": id})
@@ -60,7 +60,7 @@ def page(pageName):
         return render_template("noPage.html", component_html_obj=component_html_obj)
 
 def login_by_google(ac,name):
-  with open("/Users/jerry950511/Desktop/web2./website-csiejar/static/data/ID_and_google.json") as file:
+  with open("static/data/ID_and_google.json") as file:
     data = json.load(file)
   if ac in data["user_id"]:
     data["user_id"][ac]["login_times"]+=1
@@ -73,7 +73,7 @@ def login_by_google(ac,name):
 
 
 def create_account(user_id,name,email,view_name,picture,id,login_type):
-  with open("/Users/jerry950511/Desktop/web2./website-csiejar/static/data/ID_and_google.json") as file:
+  with open("static/data/ID_and_google.json") as file:
     data = json.load(file)
   data["user_id"][user_id] = {
       "admin":"false",
@@ -92,24 +92,24 @@ def create_account(user_id,name,email,view_name,picture,id,login_type):
     "login_times":1,
     "login_type":login_type
   }
-  with open("/Users/jerry950511/Desktop/web2./website-csiejar/static/data/ID_and_google.json", "w") as file:
+  with open("static/data/ID_and_google.json", "w") as file:
     json.dump(data, file)
 
 #上方完成
-print(create_account("1029849082","嘎睿","j0970238552@gmail.com","GaGa","https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg","1234567890","google"))
+# print(create_account("1029849082","嘎睿","j0970238552@gmail.com","GaGa","https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg","1234567890","google"))
 
 def create_user_id(id):
-  with open("/Users/jerry950511/Desktop/web2./website-csiejar/static/data/ID_and_google.json") as file:
+  with open("static/data/ID_and_google.json") as file:
     data = json.load(file)
   user_id = uuid.uuid4()
   data["user_id"][id]["user_id"] = user_id
-  with open("/Users/jerry950511/Desktop/web2./website-csiejar/static/data/ID_and_google.json", "w") as file:
+  with open("static/data/ID_and_google.json", "w") as file:
     json.dump(data, file)
   return user_id
 
 
 
-print(create_user_id("1029849082"))
+# print(create_user_id("1029849082"))
 
 @app.route('/google',methods=["POST"])
 def google_login():
