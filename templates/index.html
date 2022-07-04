@@ -1,204 +1,318 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <title>boot strap learning</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+  <title>boot strap learning</title>
 </head>
+
 <body>
+  <!-- head 載入文件 -->
   <div id="header_info">
     <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <meta name="google-signin-client_id" content="463794153045-oaatiueehd89im9ft3s1uhdge0d6ebnb.apps.googleusercontent.com">
+    <meta name="google-signin-client_id"
+      content="463794153045-oaatiueehd89im9ft3s1uhdge0d6ebnb.apps.googleusercontent.com">
     <link rel="stylesheet" href="../static/css/topnav.css">
     <title>神奇的班網2.0</title>
+    <script src="../static/script/apis.js"></script>
   </div>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="height: 60px;" id="top_navbar">
-        <a class="navbar-brand h-100" style="vertical-align:middle;" href="#">
-            <img src="../static/img/logo.png"  class="h-100" alt="csiejar_icon"><span class="font-weight-bold" style="font-size: 100%;">CSIEJAR</span>
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse justify-content-between" id="navbarNavDropdown">
-          <ul class="navbar-nav" id="top_nav_ul">
-            <li class="nav-item">
-              <a class="nav-link" href="/home">首頁<span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/news">公告</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/curriculum">課表</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/resource">資源</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/classData">班級</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/calendar">行事曆</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/article">文章</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/manager">管理</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                其他
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item" href="#">其它一</a>
-                <a class="dropdown-item" href="#">其他二</a>
-                <a class="dropdown-item" href="#">其他三</a>
-              </div>
-            </li>
-          </ul>
-          <nav class="nav align-items-end justify-content-end " style="height: 60px;">
-            <a class="nav-link" href="https://www.nutc.edu.tw/bin/home.php">校網</a>
-            <a class="nav-link" href="https://sso.nutc.edu.tw/ePortal/">ePortal</a>
-            <a class="nav-link" href="https://www.instagram.com/ntcust_csie_jar/">班帳</a>
-            <a class="nav-link" href="/error" data-toggle="modal" data-target="#exampleModalCenter">報錯</a>
-          </nav>
-        </div>
-        
-        <script>
-          $(document).ready(function () {
-            var now_pathname = window.location.pathname
-            let a = $("#top_nav_ul").children(".nav-item").children(".nav-link")
-            $.each(a, function (i, v) {
-                if(now_pathname == $(v).attr("href")){
-                  $(v).parent(".nav-item").addClass("active")
-                }else{
-                  $(v).parent(".nav-item").removeClass("active")
 
-                }
-            });
-          });
-        </script>
+  <!-- 上方導覽頁 -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light" style="height: 60px;" id="top_navbar">
+    <a class="navbar-brand h-100" style="vertical-align:middle;" href="#">
+      <img src="../static/img/logo.png" class="h-100" alt="csiejar_icon"><span class="font-weight-bold"
+        style="font-size: 100%;">CSIEJAR</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+      aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-between" id="navbarNavDropdown">
+      <ul class="navbar-nav" id="top_nav_ul">
+        <li class="nav-item">
+          <a class="nav-link" href="/home">首頁<span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/news">公告</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/curriculum">課表</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/resource">資源</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/classData">班級</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/calendar">行事曆</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/article">文章</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/manager">管理</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            其他
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" href="#">其它一</a>
+            <a class="dropdown-item" href="#">其他二</a>
+            <a class="dropdown-item" href="#">其他三</a>
+          </div>
+        </li>
+      </ul>
+      <nav class="nav align-items-end justify-content-end " style="height: 60px;">
+        <a class="nav-link" href="https://www.nutc.edu.tw/bin/home.php">校網</a>
+        <a class="nav-link" href="https://sso.nutc.edu.tw/ePortal/">ePortal</a>
+        <a class="nav-link" href="https://www.instagram.com/ntcust_csie_jar/">班帳</a>
+        <a class="nav-link" href="/error" data-toggle="modal" data-target="#errorModalCenter">報錯</a>
+        <a class="nav-link" href="/login" data-toggle="modal" data-target="#loginModalCenter" id="login_btn">登入</a>
       </nav>
-      <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title text-center" id="exampleModalLongTitle">回報錯誤</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+    </div>
+
+    <script>
+      $(document).ready(function () {
+        // 切換上方navbar active
+        var now_pathname = window.location.pathname
+        let a = $("#top_nav_ul").children(".nav-item").children(".nav-link")
+        $.each(a, function (i, v) {
+          if (now_pathname == $(v).attr("href")) {
+            $(v).parent(".nav-item").addClass("active")
+          } else {
+            $(v).parent(".nav-item").removeClass("active")
+
+          }
+        });
+      });
+    </script>
+  </nav>
+  <!-- 報錯 MODAL -->
+  <div class="modal fade" id="errorModalCenter" tabindex="-1" role="dialog" aria-labelledby="errorModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-center" id="errorModalLongTitle">回報錯誤</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="btn-group btn-group-vertical" role="group">
+            <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle mb-3"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              選擇分頁
+            </button>
+            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" id="btnGroupDrop1_li">
+              <a class="dropdown-item" href="#"></a>
             </div>
-            <div class="modal-body">
-              <div class="btn-group btn-group-vertical" role="group">
-                <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle mb-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  選擇分頁
-                </button>
-                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" id="btnGroupDrop1_li">
-                  <a class="dropdown-item" href="#"></a>
-                </div>
-                <input type="hidden" id="return_page_input" value="">
-              </div>
-              <script>
-                $(document).ready(function () {
-                  let option_template = $("#btnGroupDrop1_li a");
-                  let output_html = ""
-                  $.each($("#top_nav_ul").children(".nav-item").children(".nav-link"), function (i, v) { 
-                    output_html += $(option_template).html($(v).html()).prop('outerHTML')
-                  });
-                  $("#btnGroupDrop1_li").append(output_html);
-                  $(option_template).html("選擇分頁")
-                  $("#btnGroupDrop1_li a").click(function (e) { 
-                    e.preventDefault();
-                    let option = $(this).html();
-                    $("#btnGroupDrop1").html(option);
-                    $("#return_page_input").val(option);
-                  });
-                });
-              </script>
-              
-              <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                  <span class="input-group-text" id="return_title">標題<span class="text-danger">*</span></span>
-                </div>
-                <input type="text" class="form-control" placeholder="錯誤簡述" id="return_title_input" aria-label="Title" aria-describedby="return_title">
-              </div>
-              <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                  <span class="input-group-text" id="return_content">內文</span>
-                </div>
-                <textarea class="form-control" aria-label="With textarea" id="return_content_input" aria-describedby="return_content"></textarea>
-                <!-- <input type="text" class="form-control"  placeholder="我在網頁看到error恐龍" aria-label="Content" aria-describedby="return_content"> -->
-              </div>
-              <div class="progress" style="display: none;">
-                <div class="progress-bar progress-bar-striped progress-bar-animated" id="return_img_progress" role="progressbar" style="width: 0%"  aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
-              </div>
-              <script>
-                function return_img_progress_controller(num){
-                  $("#return_img_progress").parent().show()
-                  $("#return_img_progress").css("width",`${num}%`).attr("aria-valuenow",`${num}`).html(`${num}%`);
-                  if(num == "100"){
-                    setTimeout(()=>{
-                      $("#return_img_progress").addClass("bg-success").html("上傳成功").removeClass("progress-bar-animated");
-                    },500)
-                  }
-                }
-              </script>
-              <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                  <span class="input-group-text" id="return_img_uploader">圖片上傳</span>
-                </div>
-                <input type="file" class="form-control" id="return_img_uploader_input" placeholder="fileHere" aria-label="Image" aria-describedby="return_img_uploader">
-                <img src="https://fakeimg.pl/250x150/ff0000/" class = "" alt="預覽圖片" style="height: 44px;">
-                <input type="hidden" id="return_img_url_input">
-              </div>
-              <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                  <span class="input-group-text" id="return_mail">電子郵件</span>
-                </div>
-                <input type="text" class="form-control" id="return_mail_input" placeholder="example@mail.com" aria-label="Mail" aria-describedby="return_mail">
-              </div>
+            <input type="hidden" id="return_page_input" value="">
+          </div>
+
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="return_title">標題<span class="text-danger">*</span></span>
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-              <button type="button" class="btn btn-primary" id="return_submit">送出</button>
+            <input type="text" class="form-control" placeholder="錯誤簡述" id="return_title_input" aria-label="Title"
+              aria-describedby="return_title">
+          </div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="return_content">內文</span>
             </div>
-            <script>
-              $(document).ready(function () {
-                $("#return_submit").click(function (e) { 
-                  e.preventDefault();
-                  let return_obj = {
-                    "return_page_input":$("#return_page_input").val(),
-                    "return_title_input":$("#return_title_input").val(),
-                    "return_content_input":$("#return_content_input").val(),
-                    "return_img_url_input":$("#return_img_url_input").val(),
-                    "return_mail_input":$("#return_mail_input").val()
-                  }
-                  console.log(
-                    $("#return_page_input").val(),
-                    $("#return_title_input").val(),
-                    $("#return_content_input").val(),
-                    $("#return_img_url_input").val(),
-                    $("#return_mail_input").val()
-                  )
-                  $.post("/return", {return_obj:return_obj},
-                    function (data, textStatus, jqXHR) {
-                      console.log(data)
-                    },
-                    "json"
-                  );
-                });
-              });
-            </script>
+            <textarea class="form-control" aria-label="With textarea" id="return_content_input"
+              aria-describedby="return_content"></textarea>
+            <!-- <input type="text" class="form-control"  placeholder="我在網頁看到error恐龍" aria-label="Content" aria-describedby="return_content"> -->
+          </div>
+          <div class="progress" style="display: none;">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" id="return_img_progress"
+              role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+          </div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="return_img_uploader">圖片上傳</span>
+            </div>
+            <input type="file" class="form-control" id="return_img_uploader_input" placeholder="fileHere"
+              aria-label="Image" aria-describedby="return_img_uploader">
+            <img src="https://fakeimg.pl/250x150/ff0000/" class="" alt="預覽圖片" style="height: 44px;">
+            <input type="hidden" id="return_img_url_input">
+          </div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="return_mail">電子郵件</span>
+            </div>
+            <input type="text" class="form-control" id="return_mail_input" placeholder="example@mail.com"
+              aria-label="Mail" aria-describedby="return_mail">
           </div>
         </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-primary" id="return_submit">送出</button>
+        </div>
       </div>
-      <div class="container">
-        
+    </div>
+    <script src="../static/script/error_modal.js"></script>
+  </div>
+
+  <!-- 登入 Modal -->
+  <div class="modal fade" id="loginModalCenter" tabindex="-1" role="dialog" aria-labelledby="loginModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="loginModalCenterTitle">登入</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="login_btns w-100 d-flex justify-content-center">
+
+            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+        </div>
       </div>
+    </div>
+    <script src="../static/script/login_modal.js"></script>
+  </div>
+
+  <!-- 帳號設定 Modal -->
+  <div class="modal fade" id="unloginModalCenter" tabindex="-1" role="dialog" aria-labelledby="unloginModalCenterTitle"
+    aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="unloginModalCenterTitle">帳號設定</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="personnel_setting d-flex flex-column align-items-center">
+            <div class="w-75 d-flex align-items-center flex-column">
+              <div class="input-group mb-3"><!--暱稱-->
+                <div class="input-group-prepend w-25">
+                  <span class="input-group-text w-100 text-center" id="personnel_setting_view_name">暱稱</span>
+                </div>
+                <input type="text" class="form-control" id="personnel_setting_view_name_input" placeholder="Username"
+                  aria-label="Username" aria-describedby="personnel_setting_view_name">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" type="button" id="view_name_uploader"
+                    style="display: none;">更變</button>
+                </div>
+              </div>
+              <div class="input-group mb-3"><!--使用者id-->
+                <div class="input-group-prepend w-25">
+                  <span class="input-group-text w-100 text-center" id="personnel_setting_user_id">使用者id</span>
+
+                </div>
+                <div class="form-control">
+                  <label id="personnel_setting_user_id_label" aria-describedby="personnel_setting_user_id"></label>
+                  <button id="personnel_setting_user_id_copy_btn" class="close popover-dismiss" type="button"
+                    data-container="body" data-toggle="popover" data-placement="bottom" data-content="copied">
+                    <svg id="personnel_setting_user_id_copy" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                      fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16">
+                      <path
+                        d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z" />
+                      <path
+                        d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z" />
+                    </svg>
+                    <svg id="personnel_setting_user_id_copied" style="display:none;" xmlns="http://www.w3.org/2000/svg"
+                      width="16" height="16" fill="currentColor" class="bi bi-clipboard-check" viewBox="0 0 16 16">
+                      <path fill-rule="evenodd"
+                        d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z" />
+                      <path
+                        d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z" />
+                      <path
+                        d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z" />
+                    </svg>
+
+                </div>
+
+              </div>
+              <div class="input-group mb-3"><!--身分 登入方式-->
+                <div class="input-group-prepend w-25">
+                  <span class="input-group-text w-100 text-center" id="personnel_setting_role">身分</span>
+                </div>
+                <label class="form-control w-25" id="personnel_setting_role_label"
+                  aria-describedby="personnel_setting_login_type"></label>
+                <div class="input-group-prepend w-25">
+                  <span class="input-group-text w-100 text-center" id="personnel_setting_login_type">登入方式</span>
+                </div>
+                <label class="form-control w-25" id="personnel_setting_login_type_label"
+                  aria-describedby="personnel_setting_login_type"></label>
+              </div>
+              <div class="progress w-100" style="display: none; height: 10px;"><!--img上傳的進度條-->
+                <div class="progress-bar progress-bar-striped progress-bar-animated" id="personnel_setting_img_porgress"
+                  role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+              </div>
+              <div class="input-group mb-3 d-none"><!--img上傳檔案選擇(消失)-->
+                <input type="hidden" value="" id="personnel_setting_img_url">
+                <div class="input-group-prepend w-25">
+                  <span class="input-group-text w-100 text-center" id="personnel_setting_img_text">圖片</span>
+                </div>
+                <div class="custom-file">
+                  <input type="file" class="custom-file-input" id="personnel_setting_img">
+                  <label class="custom-file-label" for="personnel_setting_img"
+                    aria-describedby="inputGroupFileAddon02">Choose file</label>
+                </div>
+                <div class="input-group-append">
+                  <span class="input-group-text" id="inputGroupFileAddon02">Upload</span>
+                </div>
+              </div>
+              <div class="input-group mb-3"><!--照片預覽(控制img上傳)-->
+                <div class="input-group-prepend w-25">
+                  <span class="input-group-text w-100 text-center" id="personnel_setting_view_img_text">圖片預覽</span>
+                </div>
+                <div class="view_img form-control" id="personnel_setting_view_img_container">
+                  <img class="w-100" src="https://fakeimg.pl/350x200/ff0000/000">
+                </div>
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" type="button"
+                    id="personnel_setting_view_img_btn">更改</button>
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+          <div class="logout_btns w-100 d-flex justify-content-center">
+            <button type="button" class="btn btn-light border" onclick="logout()">登出</button>
+          </div>
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+    <script src="../static/script/unlogin_modal.js"></script>
+  </div>
+
+
+
+  <div class="container">
+
+  </div>
 </body>
+
 </html>

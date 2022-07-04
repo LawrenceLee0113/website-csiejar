@@ -5,6 +5,8 @@ import datetime
 
 app = Flask(__name__)
 
+
+
 def component_html(tag, id, innerTags=False):
   with open("/Users/jerry950511/Desktop/web2./website-csiejar/templates/index.html", "r",encoding="utf-8") as f:
       text = f.read()
@@ -29,7 +31,11 @@ def index_page():
 def page(pageName):
     component_html_obj = {
         "top_navbar_html": component_html("nav", "top_navbar"),
-        "error_window_html": component_html("div", "exampleModalCenter"),
+        "error_window_html": "".join([
+          str(component_html("div", "errorModalCenter")),
+          str(component_html("div", "loginModalCenter")),
+          str(component_html("div", "unloginModalCenter"))
+          ]),
         "header_info_html": component_html("div", "header_info", True)
     }
     if pageName == "home":
