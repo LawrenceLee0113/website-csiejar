@@ -22,11 +22,14 @@
 <body>
   <!-- head 載入文件 -->
   <div id="header_info">
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <meta name="google-signin-client_id"
-      content="463794153045-oaatiueehd89im9ft3s1uhdge0d6ebnb.apps.googleusercontent.com">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <div id="g_id_onload"
+         data-client_id="463794153045-oaatiueehd89im9ft3s1uhdge0d6ebnb.apps.googleusercontent.com"
+         data-callback="handleCredentialResponse">
+    </div>
     <link rel="stylesheet" href="../static/css/topnav.css">
     <title>神奇的班網2.0</title>
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
     <script src="../static/script/apis.js"></script>
   </div>
 
@@ -184,8 +187,26 @@
         </div>
         <div class="modal-body">
           <div class="login_btns w-100 d-flex justify-content-center">
-
-            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+<div class="g_id_signin" data-type="standard"></div>
+<script>
+  window.onload = function () {
+    google.accounts.id.initialize({
+      client_id: '513159013962-1bp03rago46o75rlq51ktj17qqk2d06t.apps.googleusercontent.com',
+      callback: handleCredentialResponse,
+    });
+    google.accounts.id.prompt();
+  };
+  function handleCredentialResponse(CredentialResponse) {
+    console.log(CredentialResponse)
+    $.post("/google_check_test", {"token_id":CredentialResponse.credential},
+        function (data, textStatus, jqXHR) {
+            console.log(data)
+        },
+        "json"
+    );
+  }
+</script>
+<!--             <div class="g-signin2" data-onsuccess="onSignIn"></div> -->
           </div>
         </div>
         <div class="modal-footer">

@@ -3,6 +3,11 @@ import time,datetime,sys,codecs,uuid
 from bs4 import BeautifulSoup
 import datetime
 
+# google login import
+from google.oauth2 import id_token
+from google.auth.transport import requests
+CLIENT_ID = "513159013962-1bp03rago46o75rlq51ktj17qqk2d06t.apps.googleusercontent.com"
+
 app = Flask(__name__)
 
 
@@ -26,7 +31,9 @@ def component_html(tag, id, innerTags=False):
 def index_page():
     return redirect(url_for("page", pageName="home"))
 
-
+@app.route('/test_uptimerobot')
+def test_uptimerobot():
+    return jsonify({"test":"success"})
 @app.route('/<pageName>')
 def page(pageName):
     component_html_obj = {
@@ -127,6 +134,26 @@ def google_login():
 
   except Exception:
     return jsonify({"message":"false"})
+
+@app.route('/google_check_test',methods=["POST"])
+def google_check_test():
+    token_id = request.form.get('token_id')
+    try:
+        # Specify the CLIENT_ID of the app that accesses the backend:
+        idinfo = id_token.verify_oauth2_token(token_id, requests.Request(), CLIENT_ID)
+        user = {}
+        user["user_id"] = idinfo['sub']
+        user["user_email"] = idinfo["email"]
+        user["user_name"] = idinfo["name"]
+        user["user_given_name"] = idinfo["given_name"]
+        user["user_family_name"] = idinfo["family_name"]
+        # user["user_locale"] = idinfo["locale"]
+
+    except ValueError:
+        # Invalid token
+        user["user_id"] = "fail"
+        pass
+    return jsonify({"user":user})
 
 
 def check_passcode(ac,passcode):
