@@ -1,25 +1,28 @@
-var user = {}
-user.view_name = "無敵臭臘腸"
-user.user_id = "user-654646844655646"
-user.role = "已認證"
-user.login_type = "google"
-user.img = "https://fakeimg.pl/350x200/ffbb00/000"
-function onSignIn(googleUser) {
-  var profile = googleUser.getBasicProfile();
-  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-  console.log('Name: ' + profile.getName());
-  console.log('Image URL: ' + profile.getImageUrl());
-  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-  var id_token = googleUser.getAuthResponse().id_token;
-  $.post("/google_login", { 'id_token': id_token },
-    function (data, textStatus, jqXHR) {
-      console.log(data)
-      user = data.user
-    },
-    "json"
+window.onload = function () {
+  google.accounts.id.initialize({
+    client_id: '513159013962-1bp03rago46o75rlq51ktj17qqk2d06t.apps.googleusercontent.com',
+    callback: handleCredentialResponse,
+  });
+  google.accounts.id.prompt();
+};
+function handleCredentialResponse(CredentialResponse) {
+  console.log(CredentialResponse)
+  $.post("/google_check_test", {"token_id":CredentialResponse.credential},
+      function (data, textStatus, jqXHR) {
+          console.log(data)
+          user = data.user
+          login_success()
+      },
+      "json"
   );
-  login_success()
 }
+var user = {}
+// user.view_name = "無敵臭臘腸"
+// user.user_id = "user-654646844655646"
+// user.role = "已認證"
+// user.login_type = "google"
+// user.img = "https://fakeimg.pl/350x200/ffbb00/000"
+
 function login_success() {
   $("#login_btn").html("登出");
   $("#login_btn").attr("data-target", "#unloginModalCenter");
