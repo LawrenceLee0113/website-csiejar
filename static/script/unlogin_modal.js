@@ -3,7 +3,12 @@ function signOut() {//google signOut
     // auth2.signOut().then(function () {
     //     console.log('User signed out.');
     // });
-    alert("test")
+  // GoogleAuth.signOut()
+  google.accounts.id.disableAutoSelect();
+  console.log('User signed out.');
+  $('#unloginModalCenter').modal('hide')
+
+    // alert("test")
 }
 function logout() {
     let login_type = "google"

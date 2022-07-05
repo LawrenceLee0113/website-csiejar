@@ -7,7 +7,7 @@ window.onload = function () {
 };
 function handleCredentialResponse(CredentialResponse) {
   console.log(CredentialResponse)
-  $.post("/google_check_test", {"token_id":CredentialResponse.credential},
+  $.post("/google_check_test", {"token_id":CredentialResponse.credential,"client_id":CredentialResponse.clientId},
       function (data, textStatus, jqXHR) {
           console.log(data)
           user = data.user
@@ -33,4 +33,6 @@ function login_success() {
   $("#personnel_setting_login_type_label").html(user.login_type);
   $("#personnel_setting_img_url").val(user.img);
   $("#personnel_setting_view_img_container").html(`<img class="w-100"src="${user.img}">`);
+
+  $('#loginModalCenter').modal('hide')
 }

@@ -6,7 +6,6 @@ import datetime
 # google login import
 from google.oauth2 import id_token
 from google.auth.transport import requests
-CLIENT_ID = "513159013962-1bp03rago46o75rlq51ktj17qqk2d06t.apps.googleusercontent.com"
 
 app = Flask(__name__)
 
@@ -138,15 +137,18 @@ def google_login():
 @app.route('/google_check_test',methods=["POST"])
 def google_check_test():
     token_id = request.form.get('token_id')
+    client_id = request.form.get('client_id')
+    user = {}
     try:
         # Specify the CLIENT_ID of the app that accesses the backend:
-        idinfo = id_token.verify_oauth2_token(token_id, requests.Request(), CLIENT_ID)
-        user = {}
+        idinfo = id_token.verify_oauth2_token(token_id, requests.Request(), client_id)
+        print(idinfo)
         user["user_id"] = idinfo['sub']
         user["user_email"] = idinfo["email"]
-        user["user_name"] = idinfo["name"]
+        user["view_name"] = idinfo["name"]
         user["user_given_name"] = idinfo["given_name"]
         user["user_family_name"] = idinfo["family_name"]
+        user["img"] = idinfo["picture"]
         # user["user_locale"] = idinfo["locale"]
 
     except ValueError:
