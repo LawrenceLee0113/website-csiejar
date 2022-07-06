@@ -1,20 +1,30 @@
 window.onload = function () {
   google.accounts.id.initialize({
     client_id: '513159013962-1bp03rago46o75rlq51ktj17qqk2d06t.apps.googleusercontent.com',
-    callback: handleCredentialResponse,
+  callback: handleCredentialResponse,
+    	auto_select: true
   });
   google.accounts.id.prompt();
 };
 function handleCredentialResponse(CredentialResponse) {
   console.log(CredentialResponse)
-  $.post("/google_check_test", {"token_id":CredentialResponse.credential,"client_id":CredentialResponse.clientId},
-      function (data, textStatus, jqXHR) {
-          console.log(data)
-          user = data.user
-          login_success()
-      },
-      "json"
-  );
+  $("#login_btn").html("登入中..");
+  $("#login_btn").attr("data-target", "#");
+ $.ajax({
+    type: "POST",
+    url: "/google_check_test",
+    data: {"token_id":CredentialResponse.credential,"client_id":CredentialResponse.clientId},
+    dataType: "json",
+    success: function (data) {
+        console.log(data)
+        user = data.user
+        login_success()
+    },error: function(XMLHttpRequest, textStatus, errorThrown) {
+        alert("登入失敗 請重新登入");
+        $("#login_btn").html("登入");
+        $("#login_btn").attr("data-target", "#loginModalCenter");
+     },
+});
 }
 var user = {}
 // user.view_name = "無敵臭臘腸"
