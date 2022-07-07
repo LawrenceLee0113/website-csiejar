@@ -285,7 +285,13 @@ def edit_self_info():
 # 3 all 
 
 # '''
-       
+def create_article_id(id):
+        with open("static/data/article_data.json") as file:
+            data = json.load(file)
+        article_id = str(uuid.uuid4())
+        with open("static/data/article_data.json", "w") as file:
+            json.dump(data, file)
+        return article_id
 
 @app.route('/api/article', methods=["get", "post"])
 def test():
@@ -301,6 +307,7 @@ def test():
     big_img = request.form["big_img"]
     user_id = request.form["user_id"]
     user_token = request.form["user_token"]
+    
 
     print({
         "subject": subject,  # 標題
@@ -315,6 +322,28 @@ def test():
         "user_id": user_id,  # user id
         "user_token": user_token  # user token
     })
+    
+    with open("static/data/article_data.json") as file:
+        data = json.load(file)
+        data["article_id"]["article-"+article_id] = {
+            "subject": subject,  # 標題
+            "content": content,  # 內文
+            "article_type": article_type,  # 類型
+            "article_img_url": article_img_url,  # 文章中圖片*
+            "home": home,  # 顯示首頁中間區域
+            "home_delete_time": home_delete_time,  # 首頁中間區域下架時間
+            "home_img": home_img,  # 顯示首頁上方區域
+            "home_img_delete_time": home_img_delete_time,  # 顯示首頁上方下架時間
+            "big_img": big_img,  # 文章大圖片
+            "user_id": user_id,  # user id
+            "user_token": user_token  # user token
+    }
+    article_id = create_article_id(id)
+    data["article_id"][id] = {
+        "article_id":"article-"+article_id
+    }
+    with open("static/data/article.json", "w") as file:
+        json.dump(data, file)
     return redirect(url_for("page", pageName="home"))
 
 
