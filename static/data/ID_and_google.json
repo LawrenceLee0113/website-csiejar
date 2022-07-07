@@ -1,23 +1,27 @@
-{   
-    
-"user_id":
-{   
-    "admin":"",
-    "google_id":"",
-    "view_name":"",
-    "google_name":"",
-    "gmail":"",
-    "google_img":"",
-    "own_article_id":{},
-    "edit_article_id":{},
-    "role":"",
-    "ban":"",
-    "authorize":"",
-    "last_login_time":"",
-    "user_id":"",
-    "login_times":"",
-    "login_type":""
-}
-
-
+{
+    "google_id": {
+        "108306937659223701871": {
+            "user_id": "user-5b0c9ad0-a12f-4b58-9fbc-387e31fadb5e"
+        }
+    },
+    "user_id": {
+        "user-5b0c9ad0-a12f-4b58-9fbc-387e31fadb5e": {
+            "admin": "false",
+            "authorize": "false",
+            "ban": "false",
+            "edit_article_id": {},
+            "gmail": "lawrencelee0113@gmail.com",
+            "google_id": "108306937659223701871",
+            "google_img":
+            "https://lh3.googleusercontent.com/a-/AFdZucr_1lXn_LEFieM07FaJl6kUrjz4ZY7Uz25c74s2Kg=s96-c",
+            "google_name": "\u674e\u5ead\u6137",
+            "last_login_time": "2022-07-07 04:34:38",
+            "login_times": 1,
+            "login_type": "google",
+            "own_article_id": {"fadfasdf":"fdf"},
+            "role": "visitor",
+            "user_id": "user-5b0c9ad0-a12f-4b58-9fbc-387e31fadb5e",
+            "view_name": "\u674e\u5ead\u6137"
+        }
+    }
 }

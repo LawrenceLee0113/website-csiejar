@@ -78,12 +78,12 @@ def login_by_google(ac,name):
     return False
 
 
-def create_account(user_id,name,email,view_name,picture,id,login_type):
+def create_account(user_id,name,email,view_name,picture,login_type,id):
   with open("static/data/ID_and_google.json") as file:
     data = json.load(file)
-  data["user_id"][user_id] = {
+  data["user_id"]["user-"+user_id] = {
+      "user_id":"user-"+user_id,
       "admin":"false",
-      "google_id":id,
       "google_name":name,
       "view_name":view_name,
       "gmail":email,
@@ -94,9 +94,12 @@ def create_account(user_id,name,email,view_name,picture,id,login_type):
     "ban":"false",
     "authorize":"false",
     "last_login_time":datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-    "user_id":user_id,
     "login_times":1,
-    "login_type":login_type
+    "login_type":login_type,
+    "google_id":id
+  }
+  data["google_id"][id] = {
+    "user_id":"user-"+user_id
   }
   with open("static/data/ID_and_google.json", "w") as file:
     json.dump(data, file)
@@ -107,8 +110,7 @@ def create_account(user_id,name,email,view_name,picture,id,login_type):
 def create_user_id(id):
   with open("static/data/ID_and_google.json") as file:
     data = json.load(file)
-  user_id = uuid.uuid4()
-  data["user_id"][id]["user_id"] = user_id
+  user_id = str(uuid.uuid4())
   with open("static/data/ID_and_google.json", "w") as file:
     json.dump(data, file)
   return user_id
@@ -150,7 +152,26 @@ def google_check_test():
         user["user_family_name"] = idinfo["family_name"]
         user["img"] = idinfo["picture"]
         # user["user_locale"] = idinfo["locale"]
-
+        with open("static/data/ID_and_google.json") as file:
+          data = json.load(file)
+        try:
+          now_user_id = data["google_id"][idinfo['sub']]["user_id"]
+        except KeyError:
+          id = create_user_id(idinfo['sub'])
+          create_account(
+            id,
+            idinfo["name"],
+            idinfo["email"],
+            idinfo["name"],
+            idinfo["picture"],
+            "google",
+            idinfo['sub']
+          )
+          now_user_id = "user-"+id
+        finally:
+          with open("static/data/ID_and_google.json") as file:
+              data = json.load(file)
+          user = data["user_id"][now_user_id]
     except ValueError:
         # Invalid token
         user["user_id"] = "fail"
