@@ -18,13 +18,22 @@
     <script src="https://cdn.ckeditor.com/ckeditor5/34.1.0/inline/ckeditor.js"></script>
 
     {{component_html_obj.header_info_html | safe}}
+    <!-- <style>
+        @media screen and (min-width: 676px) {
+            .modal-dialog {
+              max-width: 600px; /* New width for default modal */
+            }
+        }
+    </style> -->
 
 </head>
 
 <body>
     {{component_html_obj.top_navbar_html | safe}}
     {{component_html_obj.error_window_html | safe}}
+    
     <div class="container">
+        <!-- Button HTML (to Trigger Modal) -->
         <div class="article_edit">
             <form action="/api/article" method="post">
                 <div class="form-group">
@@ -35,7 +44,7 @@
                     <label for="username">內文：</label>
                     <input class="form-control" type="hidden" id="content_editor_input" name="content"
                         placeholder="寫個吸引人的標題~" />
-                    <div id="content_editor" style="border: 1px solid black;padding: 40px;">
+                    <div id="content_editor" style="border: 1px solid black;padding: 0 40px;">
 
                     </div>
                     <script>
@@ -71,78 +80,159 @@
                     </select>
                 </div>
 
-                <div class="input-group mb-3" id="article_img_uploader_parent">
-                    <input type="hidden" value="urlHere" name="article_img_url">
+
+                <!-- article_img_uploader progress -->
+                <div class="progress w-100" style="display: none; height: 10px;">
+                    <!--error img上傳的進度條-->
+                    <div class="progress-bar progress-bar-striped progress-bar-animated"
+                        id="article_img_uploader_progress" role="progressbar" style="width: 0%" aria-valuenow="0"
+                        aria-valuemin="0" aria-valuemax="100">0%</div>
+                </div>
+                <div class="input-group mb-3 d-none">
+                    <!--article_img_uploader img上傳檔案選擇(消失)-->
+                    <input type="hidden" value="" id="article_img_uploader_url">
+                    <div class="input-group-prepend w-25">
+                        <span class="input-group-text w-100 text-center">圖片</span>
+                    </div>
                     <div class="custom-file">
                         <input type="file" class="custom-file-input" id="article_img_uploader">
-                        <label class="custom-file-label" for="big_img_uploader">請選擇中圖照片</label>
+                        <label class="custom-file-label" for="article_img_uploader" data-target="article_img_uploader_container_b"
+                            aria-describedby="inputGroupFileAddon02">Choose file</label>
                     </div>
                     <div class="input-group-append">
-                        <span class="input-group-text btn" id="">Upload</span>
+                        <span class="input-group-text">Upload</span>
                     </div>
                 </div>
+                
+                <div class="input-group mb-3">
+                    <!--article_img_uploader 照片預覽(控制img上傳)-->
+                    <div class="input-group-prepend">
+                        <span class="input-group-text w-100 text-center" id="article_img_uploader_text">圖片上傳</span>
+                    </div>
+                    <div class="view_img form-control" id="article_img_uploader_container">
+                        <img class="w-100" src="" id="article_img_uploader_container_b">
+                    </div>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button"
+                            id="article_img_uploader_btn">更改</button>
+                    </div>
+                </div>
+                <script>
+                    
+                    $(document).ready(function () {
+                        $("#article_img_uploader_btn").click(function (e) {
+                            //article_img_uploader img 檔案的按鈕
+                            $('#article_img_uploader').trigger('click');
+                        });
+                        view_img("article_img_uploader","article_img_uploader_container_b")
+                        
+                    });
+                </script>
+
+
+
+
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                      <div class="input-group-text">
-                        <input type="hidden" name="home" id="is_home_middle">
-                        <input type="checkbox" value="true" id = "home_middle_controller" aria-label="Checkbox for following text input">
-                      </div>
+                        <div class="input-group-text">
+                            <input type="hidden" name="home" id="is_home_middle">
+                            <input type="checkbox" value="true" id="home_middle_controller"
+                                aria-label="Checkbox for following text input">
+                        </div>
                     </div>
                     <label class="form-control" aria-label="Text input with checkbox">顯示在首頁中間</label>
                     <div class="input-group-prepend middle_img_checked">
                         <span class="input-group-text" id="">首頁中間下架時間</span>
-                      </div>
+                    </div>
                     <input type="time" class="form-control middle_img_checked" name="home_delete_time">
-                  </div>
+                </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                      <div class="input-group-text">
-                        <input type="hidden" name="home_img" id="is_home_top">
-                        <input type="checkbox" value="true" id = "home_top_controller" aria-label="Checkbox for following text input">
-                      </div>
+                        <div class="input-group-text">
+                            <input type="hidden" name="home_img" id="is_home_top">
+                            <input type="checkbox" value="true" id="home_top_controller"
+                                aria-label="Checkbox for following text input">
+                        </div>
                     </div>
                     <label class="form-control" aria-label="Text input with checkbox">顯示在首頁大圖區</label>
                     <div class="input-group-prepend big_img_checked">
                         <span class="input-group-text" id="">首頁大圖區下架時間</span>
-                      </div>
+                    </div>
                     <input type="time" class="form-control big_img_checked" name="home_img_delete_time">
-                  </div>
-                  <style>
-                    .big_img_checked,.middle_img_checked{
+                </div>
+                <style>
+                    .big_img_checked,
+                    .middle_img_checked {
                         display: none;
                     }
-                  </style>
-                  <script>
+                </style>
+                <script>
                     $(document).ready(function () {
                         $("#home_top_controller").change(function (e) {
-                            if(document.getElementById("home_top_controller").checked){
-                                $(".big_img_checked").css("display","flex");
-                            }else{
+                            if (document.getElementById("home_top_controller").checked) {
+                                $(".big_img_checked").css("display", "flex");
+                            } else {
                                 $(".big_img_checked").hide();
                             }
                             $("#is_home_top").val(document.getElementById("home_top_controller").checked);
                         });
                         $("#home_middle_controller").change(function (e) {
-                            if(document.getElementById("home_middle_controller").checked){
-                                $(".middle_img_checked").css("display","flex");
-                                
-                            }else{
+                            if (document.getElementById("home_middle_controller").checked) {
+                                $(".middle_img_checked").css("display", "flex");
+
+                            } else {
                                 $(".middle_img_checked").hide();
                             }
                             $("#is_home_middle").val(document.getElementById("home_middle_controller").checked);
                         });
                     });
-                  </script>
-                <div class="input-group mb-3 big_img_checked">
-                    <input type="hidden" name="big_img"  value="big img here(大圖標">
+                </script>
+
+                <!-- big_img_uploader progress -->
+                <div class="progress w-100" style="display: none; height: 10px;">
+                    <!--big_img_uploader img上傳的進度條-->
+                    <div class="progress-bar progress-bar-striped progress-bar-animated"
+                        id="big_img_uploader_progress" role="progressbar" style="width: 0%" aria-valuenow="0"
+                        aria-valuemin="0" aria-valuemax="100">0%</div>
+                </div>
+                <div class="input-group mb-3 d-none">
+                    <!--big_img_uploader img上傳檔案選擇(消失)-->
+                    <input type="hidden" value="" id="big_img_uploader_url">
+                    <div class="input-group-prepend w-25">
+                        <span class="input-group-text w-100 text-center">圖片</span>
+                    </div>
                     <div class="custom-file">
                         <input type="file" class="custom-file-input" id="big_img_uploader">
-                        <label class="custom-file-label" for="big_img_uploader">請選擇大圖照片</label>
+                        <label class="custom-file-label" for="big_img_uploader" data-target="big_img_uploader_container_b"
+                            aria-describedby="inputGroupFileAddon02">Choose file</label>
                     </div>
                     <div class="input-group-append">
-                        <span class="input-group-text" id="">Upload</span>
+                        <span class="input-group-text">Upload</span>
                     </div>
                 </div>
+                
+                <div class="input-group mb-3 big_img_checked">
+                    <!--big_img_uploader 照片預覽(控制img上傳)-->
+                    <div class="input-group-prepend">
+                        <span class="input-group-text w-100 text-center" id="big_img_uploader_text">首頁大圖</span>
+                    </div>
+                    <div class="view_img form-control" id="big_img_uploader_container">
+                        <img class="w-100" src="" id="big_img_uploader_container_b">
+                    </div>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button"
+                            id="big_img_uploader_btn">更改</button>
+                    </div>
+                </div>
+                <script>
+                    $(document).ready(function () {
+                        $("#big_img_uploader_btn").click(function (e) { 
+                            $('#big_img_uploader').trigger('click');
+                            
+                        });
+                        view_img("big_img_uploader","big_img_uploader_container_b")
+                    });
+                </script>
                 <input type="hidden" value="user-id" name="user_id">
                 <input type="hidden" value="user-token" name="user_token">
                 <div class="form-group d-flex justify-content-around">
@@ -153,6 +243,7 @@
             </form>
         </div>
     </div>
+    
 </body>
 
 </html>
