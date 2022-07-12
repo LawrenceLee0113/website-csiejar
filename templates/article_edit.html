@@ -70,7 +70,7 @@
                 </div>
                 <div class="input-group mb-3 d-none">
                     <!--article_img_uploader img上傳檔案選擇(消失)-->
-                    <input type="hidden" value="" id="article_img_uploader_url">
+                    <input type="hidden" value="" name = "article_img_url" id="article_img_uploader_url">
                     <div class="input-group-prepend w-25">
                         <span class="input-group-text w-100 text-center">圖片</span>
                     </div>
@@ -100,7 +100,7 @@
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <div class="input-group-text">
-                            <input type="hidden" name="home" id="is_home_middle">
+                            <input type="hidden" name="ishome" id="is_home_middle">
                             <input type="checkbox" value="true" id="home_middle_controller"
                                 aria-label="Checkbox for following text input">
                         </div>
@@ -114,7 +114,7 @@
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <div class="input-group-text">
-                            <input type="hidden" name="home_img" id="is_home_top">
+                            <input type="hidden" name="ishome_img" id="is_home_top">
                             <input type="checkbox" value="true" id="home_top_controller"
                                 aria-label="Checkbox for following text input">
                         </div>
@@ -144,7 +144,7 @@
                 </div>
                 <div class="input-group mb-3 d-none">
                     <!--big_img_uploader img上傳檔案選擇(消失)-->
-                    <input type="hidden" value="" id="big_img_uploader_url">
+                    <input type="hidden" value="" name ="big_img_url" id="big_img_uploader_url">
                     <div class="input-group-prepend w-25">
                         <span class="input-group-text w-100 text-center">圖片</span>
                     </div>
@@ -171,7 +171,7 @@
                             id="big_img_uploader_btn">更改</button>
                     </div>
                 </div>
-                <input type="hidden" value="user-id" name="user_id">
+                <input type="hidden" value="user-id" name="article_owner_id">
                 <input type="hidden" value="user-token" name="user_token">
                 <div class="form-group d-flex justify-content-around">
                     <button type="button" class="btn" id="cancel_btn">取消</button>

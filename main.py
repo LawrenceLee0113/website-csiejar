@@ -4,8 +4,8 @@ from bs4 import BeautifulSoup
 import datetime
 
 # google login import
-from google.oauth2 import id_token
-from google.auth.transport import requests
+# from google.oauth2 import id_token
+# from google.auth.transport import requests
 
 app = Flask(__name__)
 
@@ -22,7 +22,6 @@ def component_html(tag, id, innerTags=False):
     for i in result:
       output += str(i)
     result = output
-
   return result
 
 
@@ -211,12 +210,12 @@ def test():
     content = request.form["content"]
     article_type = request.form["article_type"]
     article_img_url = request.form["article_img_url"]
-    home = request.form["home"]
+    ishome = request.form["ishome"]
     home_delete_time = request.form["home_delete_time"]
-    home_img = request.form["home_img"]
+    ishome_img = request.form["ishome_img"]
     home_img_delete_time = request.form["home_img_delete_time"]
-    big_img = request.form["big_img"]
-    user_id = request.form["user_id"]
+    big_img_url = request.form["big_img_url"]
+    article_owner_id = request.form["article_owner_id"]
     user_token = request.form["user_token"]
     
     print({
@@ -224,12 +223,12 @@ def test():
         "content": content,  # 內文
         "article_type": article_type,  # 類型
         "article_img_url": article_img_url,  # 文章中圖片*
-        "ishome": home,  # 顯示首頁中間區域
+        "ishome": ishome,  # 顯示首頁中間區域
         "home_delete_time": home_delete_time,  # 首頁中間區域下架時間
-        "ishome_img": home_img,  # 顯示首頁上方區域
+        "ishome_img": ishome_img,  # 顯示首頁上方區域
         "home_img_delete_time": home_img_delete_time,  # 顯示首頁上方下架時間
-        "big_img": big_img,  # 文章大圖片
-        "article_owner_id": user_id,  # user id
+        "big_img_url": big_img_url,  # 文章大圖片
+        "article_owner_id": article_owner_id,  # user id
         "user_token": user_token  # user token
     })
 
