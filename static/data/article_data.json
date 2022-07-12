@@ -1,21 +1,25 @@
 {
-"article_id":{
+        "article_id": {
+            "article_id":"",
+            "subject": "",
+            "content": "",
+            "big_img_url": "",
+            "article_link":"",
+            "article_img_url": "",
+            "ischeck": ,
+            "article_owner_name":"",
+            "article_owner_id": "",
+            "article_owner_img": "",
+            "create_time":"",
+            "last_edit_time": "",
+            "last_editor_name": "",
+            "last_editor_id":"",
+            "article_type": "",
+            "isupload": ,
+            "ishome": ,
+            "ishome_img": ,
+            "home_delete_time":"5"
+        }
+    }
     
-        "subject":"",
-        "big_img":"",
-        "check":"",
-        "article_owner_id":"",
-        "article_owner_img":"",
-        "create_time":"",
-        "last_edit_time":"",
-        "last_editor":"",
-        "article_type":"",
-        "upload":"",
-        "home":"",
-        "home_img":"",
-        "home_img_delete_time":"5",
-        "editor_google_id":""
-
-}
-
-}
+    

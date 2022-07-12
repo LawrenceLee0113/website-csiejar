@@ -2,11 +2,10 @@ from flask import Flask, render_template, request, json, jsonify ,redirect,url_f
 import time,datetime,sys,codecs,uuid
 from bs4 import BeautifulSoup
 import datetime
-from imagekitio import ImageKit  # imgkit
 
 # google login import
-# from google.oauth2 import id_token
-# from google.auth.transport import requests
+from google.oauth2 import id_token
+from google.auth.transport import requests
 
 app = Flask(__name__)
 
@@ -105,8 +104,7 @@ def create_account(user_id,name,email,view_name,picture,login_type,id):
   with open("static/data/ID_and_google.json", "w") as file:
     json.dump(data, file)
 
-#上方完成
-# print(create_account("1029849082","嘎睿","j0970238552@gmail.com","GaGa","https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg","1234567890","google"))
+
 
 def create_user_id(id):
   with open("static/data/ID_and_google.json") as file:
@@ -117,8 +115,6 @@ def create_user_id(id):
   return user_id
 
 
-
-# print(create_user_id("1029849082"))
 
 @app.route('/google',methods=["POST"])
 def google_login():
@@ -180,87 +176,7 @@ def google_check_test():
     return jsonify({"user":user})
 
 
-def check_passcode(ac,passcode):
-  print(ac)
-  if ac == "":
-    return False
-  
-  with open("static/data/amount.json") as file:
-    data = json.load(file)
-  if data["accounts"][ac]["passcode"] == passcode:
-    return True
-  else:
-    return False
 
-def getnowdata():
-  with open("static/data/amount.json") as file:
-    data = json.load(file)
-  output = {"accounts":[]}
-  for i in data["accounts"]:
-    output["accounts"].append(data["accounts"][i]["basic"])
-  return output
-def uploadClick(ac,clicks):
-  with open("static/data/amount.json") as file:
-    data = json.load(file)
-  data["accounts"][ac]["basic"]["clicks"] += int(clicks)
-  with open("static/data/amount.json","w") as file:
-    json.dump(data, file)
-
-
-@app.route('/upload',methods=['POST'])
-def upload():
-  print(request.remote_addr)
-  ac = request.form.get("account")
-  if ac == "":#no login
-    nowdata = getnowdata()
-    nowdata["message"] = "success"
-    return jsonify(nowdata)
-  else:#login
-    passcode = request.form.get("passcode")
-    if check_passcode(ac,passcode):#login success
-      clicks = request.form.get("clicks")
-      uploadClick(ac,clicks)
-      nowdata = getnowdata()
-      nowdata["message"] = "success"
-      return jsonify(nowdata)
-    else:#login fail
-      nowdata = getnowdata()
-      nowdata["message"] = "fail"
-      return jsonify(nowdata)
-
-@app.route('/self_info',methods=['GET','POST'])
-def edit_self_info():
-  if request.method == 'GET':
-    try:
-      ac = request.args.get("account")
-      with open("static/data/amount.json") as file:
-          data = json.load(file)
-      print(ac)
-      output = {"self_info":data["accounts"][ac]["basic"],"message":"true"}
-
-      return jsonify(output)
-    except Exception:
-      return jsonify({"message":"false"})
-  elif request.method == 'POST':
-    try:
-      ac = request.form.get("account")
-      class_input = request.form.get("class")
-      ig_input = request.form.get("ig")
-      introduce_input = request.form.get("introduce")
-      name_input = request.form.get("name")
-      with open("static/data/amount.json") as file:
-        data = json.load(file)
-      
-      data["accounts"][ac]["basic"]["class"] = class_input
-      data["accounts"][ac]["basic"]["ig"] = ig_input
-      data["accounts"][ac]["basic"]["name"] = name_input
-      data["accounts"][ac]["basic"]["introduce"] = introduce_input
-      
-      with open("static/data/amount.json","w") as file:
-        json.dump(data, file)
-      return jsonify({"message":"true"})
-    except Exception:
-      return jsonify({"message":"false"})
   
 
 # '''
@@ -286,15 +202,9 @@ def edit_self_info():
 # 3 all 
 
 # '''
-def create_article_id(id):
-        with open("static/data/article_data.json") as file:
-            data = json.load(file)
-        article_id = str(uuid.uuid4())
-        with open("static/data/article_data.json", "w") as file:
-            json.dump(data, file)
-        return article_id
 
-@app.route('/api/article', methods=["get", "post"])
+
+@app.route('/api/article', methods=["GET", "POST"])
 def test():
   if request.method == "POST":
     subject = request.form["subject"]
@@ -309,58 +219,94 @@ def test():
     user_id = request.form["user_id"]
     user_token = request.form["user_token"]
     
-
     print({
         "subject": subject,  # 標題
         "content": content,  # 內文
         "article_type": article_type,  # 類型
         "article_img_url": article_img_url,  # 文章中圖片*
-        "home": home,  # 顯示首頁中間區域
+        "ishome": home,  # 顯示首頁中間區域
         "home_delete_time": home_delete_time,  # 首頁中間區域下架時間
-        "home_img": home_img,  # 顯示首頁上方區域
+        "ishome_img": home_img,  # 顯示首頁上方區域
         "home_img_delete_time": home_img_delete_time,  # 顯示首頁上方下架時間
         "big_img": big_img,  # 文章大圖片
-        "user_id": user_id,  # user id
+        "article_owner_id": user_id,  # user id
         "user_token": user_token  # user token
     })
+
+    # create_article({
+    #     "subject": subject,  # 標題
+    #     "content": content,  # 內文
+    #     "article_type": article_type,  # 類型
+    #     "article_img_url": article_img_url,  # 文章中圖片*
+    #     "ishome": home,  # 顯示首頁中間區域
+    #     "home_delete_time": home_delete_time,  # 首頁中間區域下架時間
+    #     "ishome_img": home_img,  # 顯示首頁上方區域
+    #     "home_img_delete_time": home_img_delete_time,  # 顯示首頁上方下架時間
+    #     "big_img": big_img,  # 文章大圖片
+    #     "article_owner_id": user_id,  # user id
+    #     "user_token": user_token  # user token
+    # })
+    # article_id = create_article_id()
+    # with open("static/data/article_data.json") as file:
+    #   data = json.load(file)
+    # # data = open("static/data/article_data.json", "w")
+    # data["article_id"]["article-"+article_id] = {
+    #     "article_id":"article-"+article_id
+    # }
+    # with open("static/data/article_data.json") as file:
+    #     data = json.load(file)
+    #     data["article_id"]["article-"+article_id] = {
+    #         "subject": subject,  # 標題
+    #         "content": content,  # 內文
+    #         "article_type": article_type,  # 類型
+    #         "article_img_url": article_img_url,  # 文章中圖片*
+    #         "ishome": home,  # 顯示首頁中間區域
+    #         "home_delete_time": home_delete_time,  # 首頁中間區域下架時間
+    #         "ishome_img": home_img,  # 顯示首頁上方區域
+    #         "home_img_delete_time": home_img_delete_time,  # 顯示首頁上方下架時間
+    #         "big_img_url": big_img,  # 文章大圖片
+    #         "article_owner_id": user_id,  # user id
+    #         "user_token": user_token  # user token
+    # }
     
-    with open("static/data/article_data.json") as file:
-        data = json.load(file)
-        data["article_id"]["article-"+article_id] = {
-            "subject": subject,  # 標題
-            "content": content,  # 內文
-            "article_type": article_type,  # 類型
-            "article_img_url": article_img_url,  # 文章中圖片*
-            "home": home,  # 顯示首頁中間區域
-            "home_delete_time": home_delete_time,  # 首頁中間區域下架時間
-            "home_img": home_img,  # 顯示首頁上方區域
-            "home_img_delete_time": home_img_delete_time,  # 顯示首頁上方下架時間
-            "big_img": big_img,  # 文章大圖片
-            "user_id": user_id,  # user id
-            "user_token": user_token  # user token
-    }
-    article_id = create_article_id(id)
-    data["article_id"][id] = {
-        "article_id":"article-"+article_id
-    }
-    with open("static/data/article.json", "w") as file:
-        json.dump(data, file)
+    # with open("static/data/article_data.json", "w") as file:
+    #     json.dump(data, file)
     return redirect(url_for("page", pageName="home"))
 
-#imgkit
-def reflashImagekitKey():  # kitimage get private_key
-  imagekit = ImageKit(
-      public_key='public_4YpxagNybX9kAXW6yNx8x9XnFX0=',
-      private_key='private_S9iytnyLQd+abJCWH7H/iwygXHc=',
-      url_endpoint='https://ik.imagekit.io/csiejarimgstorage'
-  )
-  auth_params = imagekit.get_authentication_parameters()
-  return auth_params
-@app.route('/postImage', methods=["POST"])
-def returnPrivateKay():  # response private_key
-    if request.method == "POST":
-        return jsonify(reflashImagekitKey())
+@app.route('/data_update')
+def data_update():
+  print(request.method)
+  print("data_update success!")
+  return "successful"
+#當送出文章按鈕被按下 執行函式
+def create_article_id():
+  article_id = str(uuid.uuid4())
+  return article_id
+def create_article(article_dict):
+    with open("static/data/ID_and_google.json") as file:
+        id_data = json.load(file)
+    article_dict["article_id"] = "article-"+create_article_id()
+    article_dict["article_link"] = f"/article/{article_dict['article_id']}"
+    article_dict["ischeck"] = False
+    user_id = article_dict["article_owner_id"]
+    article_dict["article_owner_name"] = id_data["user_id"][user_id]["view_name"]
+    article_dict["article_owner_img"] = id_data["user_id"][user_id]["google_img"]
+    article_dict["create_time"] = datetime.datetime.now()
+    article_dict["last_edit_time"] = article_dict["create_time"]
+    article_dict["last_editor_name"] = article_dict["article_owner_name"]
+    article_dict["last_editor_id"] = user_id
+    # article_dict["isupload"] 前端處理
+    with open("static/data/article_data.json", "r") as file:
+        data = json.load(file)
+        
+    data["article_id"][article_dict["article_id"]] = article_dict
+    
+    with open("static/data/article_data.json", "w") as file:
+        json.dump(data, file)
+    
+    
 
+    
 #run server
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8080, debug=True)

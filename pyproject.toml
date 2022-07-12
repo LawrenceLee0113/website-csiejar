@@ -13,4 +13,5 @@ Flask = "^2.1.2"
 numpy = "^1.22.2"
 python = "^3.8"
 bs4 = "^0.0.1"
+imagekitio = "^2.2.8"
 [tool.poetry.dev-dependencies]
