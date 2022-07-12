@@ -1,4 +1,4 @@
-var authenticationEndpoint = "https://csiejar.xyz/uploadImage";
+var authenticationEndpoint = "https://csiejar.xyz/postImage";
 var uploadData = true;
 function change_user_token(new_token){
     user.token = new_token

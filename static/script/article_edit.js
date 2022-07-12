@@ -26,6 +26,28 @@ $(document).ready(function () {
     //預覽中圖片
     $("#big_img_uploader_btn").click(function (e) { 
         $('#big_img_uploader').trigger('click');
+        // imagekit_uploader({
+        //     file_id:"big_img_uploader",
+        //     user_id:"user-asdfkdvkx14",
+        //     user_token:"none",file_name,
+        //     folder_name:"test",
+        //     file_type:"png",
+        //     status_func:{
+        //         "status1":(body)=>{
+        //             alert(body)
+        //         },
+        //         "status2":()=>{
+        //             alert("2")
+                    
+        //         },
+        //         "status3":(body)=>{
+        //             alert(body)
+        //         },
+        //         "status4":()=>{
+        //             alert("4")
+        //         }
+        //     }
+        })
         
     });
     view_img("big_img_uploader","big_img_uploader_container_b")
