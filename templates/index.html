@@ -146,18 +146,36 @@
               aria-describedby="return_content"></textarea>
             <!-- <input type="text" class="form-control"  placeholder="我在網頁看到error恐龍" aria-label="Content" aria-describedby="return_content"> -->
           </div>
-          <div class="progress" style="display: none;">
+          <!-- error progress -->
+          <div class="progress w-100" style="display: none; height: 10px;"><!--error img上傳的進度條-->
             <div class="progress-bar progress-bar-striped progress-bar-animated" id="return_img_progress"
               role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
           </div>
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="return_img_uploader">圖片上傳</span>
+          <div class="input-group mb-3 d-none"><!--error img上傳檔案選擇(消失)-->
+            <input type="hidden" value="" id="return_img_uploader_url">
+            <div class="input-group-prepend w-25">
+              <span class="input-group-text w-100 text-center">圖片</span>
             </div>
-            <input type="file" class="form-control" id="return_img_uploader_input" placeholder="fileHere"
-              aria-label="Image" aria-describedby="return_img_uploader">
-            <img src="https://fakeimg.pl/250x150/ff0000/" class="" alt="預覽圖片" style="height: 44px;">
-            <input type="hidden" id="return_img_url_input">
+            <div class="custom-file">
+              <input type="file" class="custom-file-input" id="return_img_uploader">
+              <label class="custom-file-label" for="return_img_uploader"
+                aria-describedby="inputGroupFileAddon02">Choose file</label>
+            </div>
+            <div class="input-group-append">
+              <span class="input-group-text">Upload</span>
+            </div>
+          </div>
+          <div class="input-group mb-3"><!--error 照片預覽(控制img上傳)-->
+            <div class="input-group-prepend">
+              <span class="input-group-text w-100 text-center" id="return_img_uploader_text">圖片上傳</span>
+            </div>
+            <div class="view_img form-control" id="return_img_uploader_container">
+              <img class="w-100" src="https://fakeimg.pl/350x200/ff0000/000" id="return_img_uploader_container_b">
+            </div>
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="button"
+                id="return_img_uploader_btn">更改</button>
+            </div>
           </div>
           <div class="input-group mb-3">
             <div class="input-group-prepend">

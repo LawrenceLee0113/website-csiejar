@@ -45,7 +45,46 @@ $(document).ready(function () {
     });
     $("#personnel_setting_img").change(function (e) {
         //上傳 img 檔案至 image kit
-        personnel_setting_img_upload();
+        let new_img_url = ""
+        imagekit_uploader({
+            file_id:"personnel_setting_img",
+            user_id:user.user_id,
+            user_token:user.user_token,
+            file_name: user.user_id+"_img",
+            folder_name:user.user_id,
+            file_type:"png",
+            status_func:{
+                status0:()=>{//req send(self server)
+                    console.log("status0")
+                    progress_controller("personnel_setting_img_porgress",25)
+                },
+                status1:(body)=>{//res catch(self server)
+                    console.log("status1")
+                    change_user_token(body.user.user_token)
+                    progress_controller("personnel_setting_img_porgress",50)
+                    
+                },
+                status2:()=>{//req send(imgkit server)
+                    console.log("status2")
+                },
+                status3:(body)=>{//res catch(imgkit server)
+                    progress_controller("personnel_setting_img_porgress",75)
+                    console.log("status3")
+                    console.log(body)
+                },
+                status4:()=>{//finish
+                    $.post("/user", {"img":new_img_url},
+                    function (data, textStatus, jqXHR) {
+                        progress_controller("personnel_setting_img_porgress",100)
+                        console.log(data)
+                        
+                    },
+                    "json"
+                    );
+                    console.log("status4")
+                }
+            }
+        })
     });
     $("#personnel_setting_user_id_copy_btn").click(function (e) {
         //copy user id 的 按鈕

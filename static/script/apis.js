@@ -60,58 +60,53 @@ function imagekit_uploader({file_id,user_id,user_token,file_name,folder_name,fil
     });
     status_func.status4()
 }
-function personnel_setting_img_upload(){
-  // setTimeout(() => {
-  //     progress_controller("personnel_setting_img_porgress",25)
-  //     setTimeout(() => {
-  //       progress_controller("personnel_setting_img_porgress",50)
-  //       setTimeout(() => {
-  //         progress_controller("personnel_setting_img_porgress",75)
-  //         setTimeout(() => {
-  //           progress_controller("personnel_setting_img_porgress",100)
-            
-  //         }, 1000);
-  //       }, 1000);
-  //     }, 1000);
-  //   }, 1000);
-    let new_img_url = ""
-    imagekit_uploader({
-        file_id:"personnel_setting_img",
-        user_id:user.user_id,
-        user_token:user.user_token,
-        file_name: user.user_id+"_img",
-        folder_name:user.user_id,
-        file_type:"png",
-        status_func:{
-            status0:()=>{//req send(self server)
-                console.log("status0")
-                progress_controller("personnel_setting_img_porgress",25)
-            },
-            status1:(body)=>{//res catch(self server)
-                console.log("status1")
-                change_user_token(body.user.user_token)
-                progress_controller("personnel_setting_img_porgress",50)
-                
-            },
-            status2:()=>{//req send(imgkit server)
-                console.log("status2")
-            },
-            status3:(body)=>{//res catch(imgkit server)
-                progress_controller("personnel_setting_img_porgress",75)
-                console.log("status3")
-                console.log(body)
-            },
-            status4:()=>{//finish
-                $.post("/user", {"img":new_img_url},
-                  function (data, textStatus, jqXHR) {
-                    progress_controller("personnel_setting_img_porgress",100)
-                    console.log(data)
-                    
-                  },
-                  "json"
-                );
-                console.log("status4")
-            }
+function view_img(file_id,view_container_id){
+    $("#"+file_id).change(function(){
+        //當檔案改變後，做一些事 
+        if(this.files && this.files[0]){
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                $("#"+view_container_id).attr('src', e.target.result);
+                }
+                reader.readAsDataURL(this.files[0]);
         }
-    })
+    });
+}
+
+//取得 文章類型
+
+function article_data({condition_type="article_type",article_type="none",other="none",user_id=user.user_id}){
+    $.ajax({
+        type: "get",
+        url: "/api/article",
+        data: {
+            "user_id":user_id,
+            "condition_type":condition_type,// article_type other
+            "article_type":article_type,
+            "other":other//home home_img
+            
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response)
+        }
+    });
+}
+
+function show_article({article_mode="full",subject,content,article_type,article_img_url,home,home_delete_time,home_img,home_img_delete_time,big_img,user_id,user_token}){
+    switch(article_mode){
+        case "full"://全頁文章
+
+            break;
+        case "card"://文章預覽
+
+            break;
+        case "home_img"://首頁大圖區
+        
+            break;
+        case "home"://首頁區
+        
+            break;
+
+    }
 }
