@@ -356,9 +356,10 @@ def reflashImagekitKey():  # kitimage get private_key
   )
   auth_params = imagekit.get_authentication_parameters()
   return auth_params
-@app.route('/postImage')
+@app.route('/postImage', methods=["POST"])
 def returnPrivateKay():  # response private_key
-  return jsonify(reflashImagekitKey())
+    if request.method == "POST":
+        return jsonify(reflashImagekitKey())
 
 #run server
 if __name__ == "__main__":
