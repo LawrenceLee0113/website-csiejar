@@ -45,28 +45,8 @@
                     <input class="form-control" type="hidden" id="content_editor_input" name="content"
                         placeholder="寫個吸引人的標題~" />
                     <div id="content_editor" style="border: 1px solid black;padding: 0 40px;">
-
+                        <!-- ckeditor area -->
                     </div>
-                    <script>
-                        var editor;
-                        InlineEditor
-                            .create(document.querySelector('#content_editor'), {
-                                cloudServices: {
-                                    tokenUrl: 'https://90366.cke-cs.com/token/dev/d20e8fa470fade60fd1c8eb057600aff2f26e4cde07abe06302686ed03fd?limit=10',
-                                    uploadUrl: 'https://90366.cke-cs.com/easyimage/upload/'
-                                }
-                            })
-                            .then(a => {
-                                editor = a
-                                editor.model.document.on('change:data', () => {
-                                    const data = editor.getData();
-                                    $("#content_editor_input").val(data);
-                                });
-                            })
-                            .catch(error => {
-                                console.error(error);
-                            });
-                    </script>
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
@@ -117,21 +97,6 @@
                             id="article_img_uploader_btn">更改</button>
                     </div>
                 </div>
-                <script>
-                    
-                    $(document).ready(function () {
-                        $("#article_img_uploader_btn").click(function (e) {
-                            //article_img_uploader img 檔案的按鈕
-                            $('#article_img_uploader').trigger('click');
-                        });
-                        view_img("article_img_uploader","article_img_uploader_container_b")
-                        
-                    });
-                </script>
-
-
-
-
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <div class="input-group-text">
@@ -144,7 +109,7 @@
                     <div class="input-group-prepend middle_img_checked">
                         <span class="input-group-text" id="">首頁中間下架時間</span>
                     </div>
-                    <input type="time" class="form-control middle_img_checked" name="home_delete_time">
+                    <input type="date" class="form-control middle_img_checked" name="home_delete_time">
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
@@ -158,7 +123,7 @@
                     <div class="input-group-prepend big_img_checked">
                         <span class="input-group-text" id="">首頁大圖區下架時間</span>
                     </div>
-                    <input type="time" class="form-control big_img_checked" name="home_img_delete_time">
+                    <input type="date" class="form-control big_img_checked" name="home_img_delete_time">
                 </div>
                 <style>
                     .big_img_checked,
@@ -166,27 +131,6 @@
                         display: none;
                     }
                 </style>
-                <script>
-                    $(document).ready(function () {
-                        $("#home_top_controller").change(function (e) {
-                            if (document.getElementById("home_top_controller").checked) {
-                                $(".big_img_checked").css("display", "flex");
-                            } else {
-                                $(".big_img_checked").hide();
-                            }
-                            $("#is_home_top").val(document.getElementById("home_top_controller").checked);
-                        });
-                        $("#home_middle_controller").change(function (e) {
-                            if (document.getElementById("home_middle_controller").checked) {
-                                $(".middle_img_checked").css("display", "flex");
-
-                            } else {
-                                $(".middle_img_checked").hide();
-                            }
-                            $("#is_home_middle").val(document.getElementById("home_middle_controller").checked);
-                        });
-                    });
-                </script>
 
                 <!-- big_img_uploader progress -->
                 <div class="progress w-100" style="display: none; height: 10px;">
@@ -224,15 +168,6 @@
                             id="big_img_uploader_btn">更改</button>
                     </div>
                 </div>
-                <script>
-                    $(document).ready(function () {
-                        $("#big_img_uploader_btn").click(function (e) { 
-                            $('#big_img_uploader').trigger('click');
-                            
-                        });
-                        view_img("big_img_uploader","big_img_uploader_container_b")
-                    });
-                </script>
                 <input type="hidden" value="user-id" name="user_id">
                 <input type="hidden" value="user-token" name="user_token">
                 <div class="form-group d-flex justify-content-around">
@@ -241,6 +176,29 @@
                     <button type="submit" class="btn btn-primary">確定</button>
                 </div>
             </form>
+            <script src="../static/script/article_edit.js"></script>
+        </div>
+        <div class="article_view w-100 bg-secondary p-5">
+            <div class="header_info d-flex flex-column">
+                <div class="header_text w-100 justify-content-between align-items-center d-flex">
+                    <span class="h3 mb-0">這是大標題<span class="badge badge-danger h6">消息</span></span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-share-fill" viewBox="0 0 16 16">
+                        <path d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5z"/>
+                    </svg>
+                </div>
+                <div class="header_middle w-100 justify-content-between d-flex align-items-center">
+                    <div class="creat_time text-light">05,06,2021</div>
+                    <div class="creat_time"></div>
+                </div>
+            </div>
+            <div class="content mt-4">
+                <div class="post-body entry-content float-container" id="post-body-4383073815119792479">
+                    <p>為甚麼會有這篇文章，因為我覺得天24小時可用的時間實在是太少了，於是我上網照了些資料，有不要<b>浪費時間</b>和<b>睡少一點</b>這些方法，而這篇是睡眠模式的文章。</p><p><br></p><h2 style="text-align: left;"><span style="color: #3d85c6;">睡眠模式1：</span></h2><p>共睡&nbsp; &nbsp;<span style="color: #e06666;">8</span>&nbsp; 小時，困難程度&nbsp; &nbsp;<span style="color: #e06666;">easy</span>，<span style="color: #e06666;">無午休</span></p><h4 style="text-align: left;"><span style="color: #8e7cc3;">適用自己方法：</span></h4><p>&nbsp; &nbsp; 在&nbsp; <span style="color: #e06666;">2200</span> 入睡，在&nbsp; &nbsp;<span style="color: #e06666;">0600</span>&nbsp; 起床。<br></p><span><a name="more"></a></span><p><br></p><h2><span style="color: #3d85c6;">睡眠模式2：</span></h2><p></p><ol style="text-align: left;"><li>共睡&nbsp; &nbsp;<span style="color: #e06666;">6.3</span>&nbsp; 小時，困難程度&nbsp; &nbsp;<span style="color: #e06666;">easy</span>，<span style="color: #e06666;">有</span><span style="color: #e06666;">午休(20min)</span></li></ol><p></p><h4><span style="color: #8e7cc3;"><span>&nbsp;&nbsp; &nbsp;</span><span>&nbsp;&nbsp; &nbsp;</span>適用自己方法：</span></h4><p>&nbsp; &nbsp; <span>&nbsp;&nbsp; &nbsp;</span><span>&nbsp;&nbsp; &nbsp;</span>在&nbsp;&nbsp;<span style="color: #e06666;">2300</span>&nbsp;入睡，在&nbsp; &nbsp;<span style="color: #e06666;">0500</span>&nbsp; 起床。(睡6小時)</p><p><span>&nbsp;&nbsp; &nbsp;<span>&nbsp;&nbsp; &nbsp;</span><span>&nbsp;&nbsp; &nbsp;</span></span>在&nbsp;&nbsp;<span style="color: #e06666;">1400</span>&nbsp;入睡，在&nbsp; &nbsp;<span style="color: #e06666;">1420</span>&nbsp; 起床。(睡20min)</p><p><br></p><p><span>&nbsp; &nbsp; 2.&nbsp;</span>共睡&nbsp; &nbsp;<span style="color: #e06666;">6</span>&nbsp; 小時，困難程度&nbsp; &nbsp;<span style="color: #e06666;">easy</span>，<span style="color: #e06666;">有</span><span style="color: #e06666;">午休(90min)</span></p><h4><span style="color: #8e7cc3;"><span>&nbsp;&nbsp; &nbsp;</span><span>&nbsp;&nbsp; &nbsp;</span>適用自己方法：</span></h4><p>&nbsp; &nbsp; <span>&nbsp;&nbsp; &nbsp;</span><span>&nbsp;&nbsp; &nbsp;</span>在&nbsp;&nbsp;<span style="color: #e06666;">2300</span>&nbsp;入睡，在&nbsp; &nbsp;<span style="color: #e06666;">0330</span>&nbsp; 起床。(睡4.5小時)</p><p><span>&nbsp; &nbsp;&nbsp;<span>&nbsp;&nbsp; &nbsp;</span><span>&nbsp;&nbsp; &nbsp;</span></span>在&nbsp; <span style="color: #e06666;">1330</span>&nbsp;入睡，在&nbsp; &nbsp;<span style="color: #e06666;">1500</span>&nbsp; 起床。(睡1.5小時)</p><span><!--more--></span><p><br></p><h2><span style="color: #3d85c6;">睡眠模式3：</span></h2><p></p><ol><li>共睡&nbsp; &nbsp;<span style="color: #e06666;">5</span>&nbsp; 小時，困難程度&nbsp; &nbsp;<span style="color: #e06666;">medium</span>，<span style="color: #e06666;">有</span><span style="color: #e06666;">午休(20min x2)</span></li><li>共睡&nbsp; &nbsp;<span style="color: #e06666;">4</span>&nbsp; 小時，困難程度&nbsp; &nbsp;<span style="color: #e06666;">medium</span>，<span style="color: #e06666;">有</span><span style="color: #e06666;">午休(20min x3)</span></li><li>共睡&nbsp; &nbsp;<span style="color: #e06666;">3</span>&nbsp; 小時，困難程度&nbsp; &nbsp;<span style="color: #e06666;">medium</span>，<span style="color: #e06666;">有</span><span style="color: #e06666;">午休(20min x4)</span></li></ol><p></p><h4><span style="color: #8e7cc3;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<span><!--more--></span></span></h4><h2><span style="color: #3d85c6;">睡眠模式4：</span></h2><p></p><ol><li>共睡&nbsp; &nbsp;<span style="color: #e06666;">2</span>&nbsp; 小時，困難程度&nbsp; &nbsp;<span style="color: #e06666;">hard</span>，<span style="color: #e06666;">(30min x4)</span></li></ol><div><span><!--more--></span><h2><span style="color: #3d85c6;">睡眠模式5：</span></h2><p></p><ol><li>共睡&nbsp; &nbsp;<span style="color: #e06666;">2</span>&nbsp; 小時，困難程度&nbsp; &nbsp;<span style="color: #e06666;">hard</span>，<span style="color: #e06666;">(20min x6)</span></li></ol><div><span><!--more--></span><h1 style="text-align: left;"><span style="color: #c27ba0;">總結：</span></h1></div></div><div><span style="color: #c27ba0;">&nbsp;&nbsp; &nbsp;</span><span style="color: #c27ba0;">&nbsp; &nbsp;</span> 目前睡眠模式2正在試用，之前有成功，目前正變習慣。<br></div><div><span>&nbsp;&nbsp; &nbsp;</span><span>&nbsp; &nbsp; 至於睡眠模式3未來可以試試看。</span><br></div><p><br></p>
+                    </div>
+            </div>
+            <div class="message_area">
+                
+            </div>
         </div>
     </div>
     

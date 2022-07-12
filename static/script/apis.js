@@ -73,4 +73,40 @@ function view_img(file_id,view_container_id){
     });
 }
 
-//文章類型
+//取得 文章類型
+
+function article_data({condition_type="article_type",article_type="none",other="none",user_id=user.user_id}){
+    $.ajax({
+        type: "get",
+        url: "/api/article",
+        data: {
+            "user_id":user_id,
+            "condition_type":condition_type,// article_type other
+            "article_type":article_type,
+            "other":other//home home_img
+            
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response)
+        }
+    });
+}
+
+function show_article({article_mode="full",subject,content,article_type,article_img_url,home,home_delete_time,home_img,home_img_delete_time,big_img,user_id,user_token}){
+    switch(article_mode){
+        case "full"://全頁文章
+
+            break;
+        case "card"://文章預覽
+
+            break;
+        case "home_img"://首頁大圖區
+        
+            break;
+        case "home"://首頁區
+        
+            break;
+
+    }
+}
