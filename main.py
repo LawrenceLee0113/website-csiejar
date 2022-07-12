@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, json, jsonify ,redirect,url_f
 import time,datetime,sys,codecs,uuid
 from bs4 import BeautifulSoup
 import datetime
+from imagekitio import ImageKit  # imgkit
 
 # google login import
 from google.oauth2 import id_token
@@ -346,6 +347,18 @@ def test():
         json.dump(data, file)
     return redirect(url_for("page", pageName="home"))
 
+#imgkit
+def reflashImagekitKey():  # kitimage get private_key
+  imagekit = ImageKit(
+      public_key='public_4YpxagNybX9kAXW6yNx8x9XnFX0=',
+      private_key='private_S9iytnyLQd+abJCWH7H/iwygXHc=',
+      url_endpoint='https://ik.imagekit.io/csiejarimgstorage'
+  )
+  auth_params = imagekit.get_authentication_parameters()
+  return auth_params
+@app.route('/postImage')
+def returnPrivateKay():  # response private_key
+  return jsonify(reflashImagekitKey())
 
 #run server
 if __name__ == "__main__":
