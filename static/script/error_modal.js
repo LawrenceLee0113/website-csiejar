@@ -1,5 +1,4 @@
 function return_img_uploader(finish_func){
-
   //上傳 img 檔案至 image kit
   let new_img_url = ""
   imagekit_uploader({
@@ -16,21 +15,20 @@ function return_img_uploader(finish_func){
           },
           status1:(body)=>{//res catch(self server)
               console.log("status1")
-              change_user_token(body.user.user_token)
+              // change_user_token(body.user.user_token)
               progress_controller("return_img_progress",50)
               
           },
           status2:()=>{//req send(imgkit server)
+              // progress_controller("return_img_progress",75)
               console.log("status2")
           },
           status3:(body)=>{//res catch(imgkit server)
               progress_controller("return_img_progress",75)
               console.log("status3")
               console.log(body)
-          },
-          status4:()=>{//finish
-              finish_func()
-              console.log("status4")
+              $("#return_img_uploader_url").val(body.url)
+              finish_func(body)
           }
       }
   })
@@ -53,22 +51,16 @@ $(document).ready(function () {
   });
   $("#return_submit").click(function (e) {
     // 送出回報錯誤表單
-    imagekit_uploader(()=>{
+    return_img_uploader((body)=>{
       let return_obj = {
         "return_page_input": $("#return_page_input").val(),
         "return_title_input": $("#return_title_input").val(),
         "return_content_input": $("#return_content_input").val(),
-        "return_img_url_input": $("#return_img_url_input").val(),
+        "return_img_url_input": $("#return_img_uploader_url").val(),
         "return_mail_input": $("#return_mail_input").val()
       }
-      console.log(
-        $("#return_page_input").val(),
-        $("#return_title_input").val(),
-        $("#return_content_input").val(),
-        $("#return_img_url_input").val(),
-        $("#return_mail_input").val()
-      )
-      $.post("/return", { return_obj: return_obj },
+      console.log(return_obj)
+      $.post("/returnError", return_obj,
         function (data, textStatus, jqXHR) {
           progress_controller("return_img_progress",100)
 

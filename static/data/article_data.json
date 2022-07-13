@@ -1,25 +1,51 @@
 {
-        "article_id": {
-            "article_id":"",
-            "subject": "",
-            "content": "",
-            "big_img_url": "",
-            "article_link":"",
-            "article_img_url": "",
-            "ischeck": ,
-            "article_owner_name":"",
-            "article_owner_id": "",
-            "article_owner_img": "",
-            "create_time":"",
-            "last_edit_time": "",
-            "last_editor_name": "",
-            "last_editor_id":"",
-            "article_type": "",
-            "isupload": ,
-            "ishome": ,
-            "ishome_img": ,
-            "home_delete_time":"5"
-        }
-    }
-    
-    
+    "article_id": {
+        "article-45634540-722d-4d0c-901f-ee2e54011d33": {
+            "article_id": "article-45634540-722d-4d0c-901f-ee2e54011d33",
+            "article_img_url":
+            "https://ik.imagekit.io/csiejarimgstorage/web_v2/article/user-5b0c9ad0-a12f-4b58-9fbc-387e31fadb5e_rNLxLGk68.png",
+            "article_link":
+            "/article/article-45634540-722d-4d0c-901f-ee2e54011d33",
+            "article_owner_id": "user-5b0c9ad0-a12f-4b58-9fbc-387e31fadb5e",
+            "article_owner_img":
+            "https://lh3.googleusercontent.com/a-/AFdZucr_1lXn_LEFieM07FaJl6kUrjz4ZY7Uz25c74s2Kg=s96-c",
+            "article_owner_name": "\u674e\u5ead\u6137",
+            "article_type": "\u73ed\u7d1a",
+            "big_img_url":
+            "https://ik.imagekit.io/csiejarimgstorage/web_v2/article/user-5b0c9ad0-a12f-4b58-9fbc-387e31fadb5e_uYlpp3HIk.png",
+            "content": "<p>fafsdfadf</p>",
+            "create_time": "Wed, 13 Jul 2022 14:05:48 GMT",
+            "home_delete_time": "2022-07-27",
+            "home_img_delete_time": "2022-07-30",
+            "ischeck": false,
+            "ishome": "true",
+            "ishome_img": "true",
+            "last_edit_time": "Wed, 13 Jul 2022 14:05:48 GMT",
+            "last_editor_id": "user-5b0c9ad0-a12f-4b58-9fbc-387e31fadb5e",
+            "last_editor_name": "\u674e\u5ead\u6137",
+            "subject": "asdf",
+            "user_token": "user_token"
+        },
+        "article_id": "",
+        "article_img_url": "",
+        "article_link": "",
+        "article_owner_id": "",
+        "article_owner_img": "",
+        "article_owner_name": "",
+        "article_type": "",
+        "big_img_url": "",
+        "content": "",
+        "create_time": "",
+        "home_delete_time": "5",
+        "ischeck": "",
+        "ishome": "",
+        "ishome_img": "",
+        "isupload": "",
+        "last_edit_time": "",
+        "last_editor_id": "",
+        "last_editor_name": "",
+        "subject": ""
+    },
+    "article_type":
+    ["\u516c\u544a", "\u8cc7\u6e90", "\u73ed\u7d1a", "\u4f5c\u54c1"]
+}

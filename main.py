@@ -4,12 +4,23 @@ from bs4 import BeautifulSoup
 import datetime
 
 # google login import
-# from google.oauth2 import id_token
-# from google.auth.transport import requests
+from google.oauth2 import id_token
+from google.auth.transport import requests
+
+import base64  # imgkit
+import os  # imgkit
+from imagekitio import ImageKit  # imgkit
 
 app = Flask(__name__)
 
-
+def reflashImagekitKey():  # kitimage get private_key
+  imagekit = ImageKit(
+      public_key='public_4YpxagNybX9kAXW6yNx8x9XnFX0=',
+      private_key='private_S9iytnyLQd+abJCWH7H/iwygXHc=',
+      url_endpoint='https://ik.imagekit.io/csiejarimgstorage'
+  )
+  auth_params = imagekit.get_authentication_parameters()
+  return auth_params
 
 def component_html(tag, id, innerTags=False):
   with open("templates/index.html", "r",encoding="utf-8") as f:
@@ -24,6 +35,15 @@ def component_html(tag, id, innerTags=False):
     result = output
   return result
 
+component_html_obj = {
+    "top_navbar_html": component_html("nav", "top_navbar"),
+    "error_window_html": "".join([
+      str(component_html("div", "errorModalCenter")),
+      str(component_html("div", "loginModalCenter")),
+      str(component_html("div", "unloginModalCenter"))
+      ]),
+    "header_info_html": component_html("div", "header_info", True)
+}
 
 @app.route('/')
 def index_page():
@@ -34,15 +54,6 @@ def test_uptimerobot():
     return jsonify({"test":"success"})
 @app.route('/<pageName>')
 def page(pageName):
-    component_html_obj = {
-        "top_navbar_html": component_html("nav", "top_navbar"),
-        "error_window_html": "".join([
-          str(component_html("div", "errorModalCenter")),
-          str(component_html("div", "loginModalCenter")),
-          str(component_html("div", "unloginModalCenter"))
-          ]),
-        "header_info_html": component_html("div", "header_info", True)
-    }
     if pageName == "home":
         return render_template("home.html", component_html_obj=component_html_obj)
     elif pageName == "news":
@@ -174,8 +185,30 @@ def google_check_test():
         pass
     return jsonify({"user":user})
 
+@app.route('/uploadImage',methods=["POST"])
+def returnPrivateKay():  # response private_key
+    if request.method == "POST":
+        return jsonify(reflashImagekitKey())
 
-
+@app.route('/returnError',methods=["POST"])
+def returnError():  # response private_key
+    if request.method == "POST":
+        returnErrorDictNum = "error-"+str(uuid.uuid4())
+        returnErrorDict = {
+            "return_page_input": request.form.get("return_page_input"),
+            "return_title_input": request.form.get("return_title_input"),
+            "return_content_input": request.form.get("return_content_input"),
+            "return_img_url_input": request.form.get("return_img_url_input"),
+            "return_mail_input": request.form.get("return_mail_input"),
+            "returnErrorDictNum":returnErrorDictNum
+            
+        }
+        with open("static/data/server.json", "r") as file:
+            data = json.load(file)
+        data["returnError"][returnErrorDictNum] = returnErrorDict
+        with open("static/data/server.json", "w") as file:
+            json.dump(data, file)
+        return jsonify({"go":"go"})
   
 
 # '''
@@ -201,8 +234,32 @@ def google_check_test():
 # 3 all 
 
 # '''
+@app.route('/api/article_type', methods=["GET"])
+def article_type():
+    with open("static/data/article_data.json", "r") as file:
+        data = json.load(file)
+    output = data["article_type"]
+    return jsonify(output)
 
+@app.route('/article/<article_id>', methods=["GET"])
+def article_page(article_id):
+    with open("static/data/article_data.json", "r") as file:
+        data = json.load(file)
 
+    status = True
+    try:
+        article_dict = data["article_id"][article_id]
+        
+    except KeyError:
+        status = False
+        
+    finally:
+        if status:
+            return render_template("article_page.html", component_html_obj=component_html_obj,article_dict=article_dict)
+        else:
+            return render_template("noPage.html", component_html_obj=component_html_obj)
+    
+    
 @app.route('/api/article', methods=["GET", "POST"])
 def test():
   if request.method == "POST":
@@ -218,7 +275,21 @@ def test():
     article_owner_id = request.form["article_owner_id"]
     user_token = request.form["user_token"]
     
-    print({
+    # print({
+    #     "subject": subject,  # 標題
+    #     "content": content,  # 內文
+    #     "article_type": article_type,  # 類型
+    #     "article_img_url": article_img_url,  # 文章中圖片*
+    #     "ishome": ishome,  # 顯示首頁中間區域
+    #     "home_delete_time": home_delete_time,  # 首頁中間區域下架時間
+    #     "ishome_img": ishome_img,  # 顯示首頁上方區域
+    #     "home_img_delete_time": home_img_delete_time,  # 顯示首頁上方下架時間
+    #     "big_img_url": big_img_url,  # 文章大圖片
+    #     "article_owner_id": article_owner_id,  # user id
+    #     "user_token": user_token  # user token
+    # })
+
+    article_dict = create_article({
         "subject": subject,  # 標題
         "content": content,  # 內文
         "article_type": article_type,  # 類型
@@ -231,46 +302,7 @@ def test():
         "article_owner_id": article_owner_id,  # user id
         "user_token": user_token  # user token
     })
-
-    # create_article({
-    #     "subject": subject,  # 標題
-    #     "content": content,  # 內文
-    #     "article_type": article_type,  # 類型
-    #     "article_img_url": article_img_url,  # 文章中圖片*
-    #     "ishome": home,  # 顯示首頁中間區域
-    #     "home_delete_time": home_delete_time,  # 首頁中間區域下架時間
-    #     "ishome_img": home_img,  # 顯示首頁上方區域
-    #     "home_img_delete_time": home_img_delete_time,  # 顯示首頁上方下架時間
-    #     "big_img": big_img,  # 文章大圖片
-    #     "article_owner_id": user_id,  # user id
-    #     "user_token": user_token  # user token
-    # })
-    # article_id = create_article_id()
-    # with open("static/data/article_data.json") as file:
-    #   data = json.load(file)
-    # # data = open("static/data/article_data.json", "w")
-    # data["article_id"]["article-"+article_id] = {
-    #     "article_id":"article-"+article_id
-    # }
-    # with open("static/data/article_data.json") as file:
-    #     data = json.load(file)
-    #     data["article_id"]["article-"+article_id] = {
-    #         "subject": subject,  # 標題
-    #         "content": content,  # 內文
-    #         "article_type": article_type,  # 類型
-    #         "article_img_url": article_img_url,  # 文章中圖片*
-    #         "ishome": home,  # 顯示首頁中間區域
-    #         "home_delete_time": home_delete_time,  # 首頁中間區域下架時間
-    #         "ishome_img": home_img,  # 顯示首頁上方區域
-    #         "home_img_delete_time": home_img_delete_time,  # 顯示首頁上方下架時間
-    #         "big_img_url": big_img,  # 文章大圖片
-    #         "article_owner_id": user_id,  # user id
-    #         "user_token": user_token  # user token
-    # }
-    
-    # with open("static/data/article_data.json", "w") as file:
-    #     json.dump(data, file)
-    return redirect(url_for("page", pageName="home"))
+    return jsonify(article_dict)
 
 @app.route('/data_update')
 def data_update():
@@ -297,12 +329,14 @@ def create_article(article_dict):
     # article_dict["isupload"] 前端處理
     with open("static/data/article_data.json", "r") as file:
         data = json.load(file)
-        
+
+    print("data1",data)
     data["article_id"][article_dict["article_id"]] = article_dict
-    
+
+    print("data2",data)
     with open("static/data/article_data.json", "w") as file:
         json.dump(data, file)
-    
+    return article_dict
     
 
     

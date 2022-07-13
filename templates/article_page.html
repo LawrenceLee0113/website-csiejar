@@ -24,8 +24,27 @@
     {{component_html_obj.error_window_html | safe}}
 
     <div class="container">
-        <div class="article_full_page">
-            
+        <div class="article_full_page w-100 bg-secondary p-5">
+            <div class="header_info d-flex flex-column">
+                <div class="header_text w-100 justify-content-between align-items-center d-flex">
+                    <span class="h3 mb-0">{{article_dict.subject | safe}}<span class="badge badge-danger h6">{{article_dict.article_type | safe}}</span></span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-share-fill" viewBox="0 0 16 16">
+                        <path
+                            d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5z" />
+                    </svg>
+                </div>
+                <div class="header_middle w-100 justify-content-between d-flex align-items-center">
+                    <div class="creat_time text-light">{{article_dict.create_time | safe}}</div>
+                    <div class="creat_owner text-light">擁有者:<span class="owner_name">{{article_dict.article_owner_name | safe}}</span></div>
+                </div>
+            </div>
+            <div class="content mt-4">
+                {{article_dict.content | safe}}
+            </div>
+            <div class="message_area">
+
+            </div>
         </div>
     </div>
     <script>

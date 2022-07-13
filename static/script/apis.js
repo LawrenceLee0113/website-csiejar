@@ -1,14 +1,15 @@
-var authenticationEndpoint = "https://csiejar.xyz/postImage";
+var authenticationEndpoint = "https://csiejar.xyz/uploadImage";
 var uploadData = true;
 function change_user_token(new_token){
     user.token = new_token
 }
-function progress_controller(progressId, num) {
+function progress_controller(progressId, num,finish_func=()=>{}) {
     $("#" + progressId).parent().show()
     $("#" + progressId).css("width", `${num}%`).attr("aria-valuenow", `${num}`).html(`${num}%`);
     if (num == "100") {
       setTimeout(() => {
         $("#" + progressId).addClass("bg-success").html("上傳成功").removeClass("progress-bar-animated");
+        finish_func()
       }, 500)
     }
   }
@@ -19,12 +20,13 @@ function imagekit_uploader({file_id,user_id,user_token,file_name,folder_name,fil
     formData.append("fileName", `${file_name}.${file_type}`);
     formData.append("publicKey","public_4YpxagNybX9kAXW6yNx8x9XnFX0=");
     formData.append("folder",`/web_v2${folder_name}/`);
+    // formData.append("useUniqueFileName","false");//唯一照片
     // alert("upload success")
     // Let's get the signature, token and expire from server side
     status_func.status0()
     $.ajax({
         url: authenticationEndpoint,
-        method: "GET",
+        method: "POST",
         dataType: "json",
         data:{user_id,user_token},
         success: function (body) {
@@ -58,7 +60,6 @@ function imagekit_uploader({file_id,user_id,user_token,file_name,folder_name,fil
             console.log(arguments);
         }
     });
-    status_func.status4()
 }
 function view_img(file_id,view_container_id){
     $("#"+file_id).change(function(){

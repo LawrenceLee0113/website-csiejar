@@ -43,6 +43,8 @@ function login_success() {
   $("#personnel_setting_login_type_label").html(user.login_type);
   $("#personnel_setting_img_url").val(user.img);
   $("#personnel_setting_view_img_container").html(`<img class="w-100"src="${user.img}">`);
+    $("#article_owner_id").val(user.user_id);
+    $("#user_token").val("user_token");
 
   $('#loginModalCenter').modal('hide')
 }
