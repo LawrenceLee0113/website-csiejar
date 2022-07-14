@@ -1,3 +1,5 @@
+
+
 var editor;//宣告內文編輯區 ckeditor obj
 InlineEditor
 .create(document.querySelector('#content_editor'), {
@@ -52,19 +54,21 @@ $(document).ready(function () {
 
 
     //文章類型載入
+    var article_type;
     {
         $.get("/api/article_type", {},
             function (data, textStatus, jqXHR) {
                 $("#article_type_selector").html("");
+                article_type = data
                 jQuery('<option>', {
                     value: "選擇您的文章類型",
                     html: "選擇您的文章類型",
                     selected:true
                 }).appendTo('#article_type_selector');
-                for(var i of data){
+                for(var i in data){
                     jQuery('<option>', {
                         value: i,
-                        html: i
+                        html: data[i]
                     }).appendTo('#article_type_selector');
                 }
             },
@@ -72,7 +76,6 @@ $(document).ready(function () {
         );
 
     }
-
     $("#view_article_btn").click(function (e) { 
         // 預覽按鈕
         e.preventDefault();
@@ -81,7 +84,7 @@ $(document).ready(function () {
         $(".article_view .header_text .h3").html($("input[name=subject]").val());
         jQuery('<div>', {
             class: 'badge badge-danger h6',
-            html: $("select[name=article_type]").val()
+            html: article_type[$("select[name=article_type]").val()]
         }).appendTo('.article_view .header_text .h3');
         $(".owner_name").html(user.view_name);
         var now = new Date(Date.now());

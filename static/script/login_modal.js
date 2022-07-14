@@ -1,15 +1,45 @@
+function setCookie(cname, cvalue, exdays) {
+  document.cookie = cname + "=" + cvalue;
+}
+
+function getCookie(cname) {
+  let name = cname + "=";
+  let ca = document.cookie.split(';');
+  for(let i = 0; i < ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+function deleteCookie(cname) {
+    document.cookie = cname+"= ; expires = Thu, 01 Jan 1970 00:00:00 GMT"
+}
+
 window.onload = function () {
   google.accounts.id.initialize({
     client_id: '513159013962-1bp03rago46o75rlq51ktj17qqk2d06t.apps.googleusercontent.com',
   callback: handleCredentialResponse,
-    	auto_select: true
+    	auto_select: false,
+      native_callback: handleResponse,
+      State_cookie_domain:"https://csiejar.xyz/home"
   });
   google.accounts.id.prompt();
 };
+
+function handleResponse(params) {
+    console.log(params)
+}
+
 function handleCredentialResponse(CredentialResponse) {
   console.log(CredentialResponse)
   $("#login_btn").html("登入中..");
   $("#login_btn").attr("data-target", "#");
+
  $.ajax({
     type: "POST",
     url: "/google_check_test",
@@ -18,6 +48,7 @@ function handleCredentialResponse(CredentialResponse) {
     success: function (data) {
         console.log(data)
         user = data.user
+            let cred = {id: 'testid', password: 'testpw'};
         login_success()
     },error: function(XMLHttpRequest, textStatus, errorThrown) {
         alert("登入失敗 請重新登入");
@@ -47,4 +78,6 @@ function login_success() {
     $("#user_token").val("user_token");
 
   $('#loginModalCenter').modal('hide')
+
+    
 }

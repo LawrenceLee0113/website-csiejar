@@ -63,7 +63,12 @@ $(document).ready(function () {
       $.post("/returnError", return_obj,
         function (data, textStatus, jqXHR) {
           progress_controller("return_img_progress",100)
-
+          $("#return_page_input").val("");
+          $("#return_title_input").val("");
+          $("#return_content_input").val("");
+          $("#return_img_uploader_url").val("");
+          $("#return_mail_input").val("");
+          $("#errorModalCenter").modal("hide")
           console.log(data)
         },
         "json"
@@ -81,4 +86,3 @@ $(document).ready(function () {
   view_img("return_img_uploader","return_img_uploader_container_b")
 
 });
-// progress_controller("return_img_progress", 87)//測試 上傳img
