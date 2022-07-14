@@ -61,6 +61,8 @@ def test_uptimerobot():
     return jsonify({"test": "success"})
 
 
+
+
 @app.route('/<pageName>')
 def page(pageName):
     if pageName == "home":
@@ -147,6 +149,26 @@ def create_user_id(id):
 
 #   return jsonify({"message":"true","passcode":create_user_id(id)})
 
+@app.route('/api/login',methods=["post"])
+def api_login():
+    login_type = request.form.get('login_type')
+    user_id = request.form.get('user_id')
+    user_token = request.form.get('user_token')
+    with open("static/data/ID_and_google.json") as file:
+        data = json.load(file)
+    
+    
+    try:
+        currect_token = data["user_id"][user_id]["user_token"]
+    except KeyError:
+        output = {"message": "user id not defind"}
+    if currect_token == user_token:
+        output = {"message": "pass"}
+    else:
+        output = {"message": "user token useless"}
+        
+        
+    return jsonify(output)
 
 @app.route('/google_check_test', methods=["POST"])
 def google_check_test():

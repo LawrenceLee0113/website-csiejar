@@ -1,9 +1,31 @@
-function setCookie(cname, cvalue, exdays) {
-  document.cookie = cname + "=" + cvalue;
+// function setCookie(cname, cvalue, exdays) {
+//   document.cookie = cname + "=" + cvalue;
+// }
+
+// function getCookie(cname) {
+//   let name = cname + "=";
+//   let ca = document.cookie.split(';');
+//   for(let i = 0; i < ca.length; i++) {
+//     let c = ca[i];
+//     while (c.charAt(0) == ' ') {
+//       c = c.substring(1);
+//     }
+//     if (c.indexOf(name) == 0) {
+//       return c.substring(name.length, c.length);
+//     }
+//   }
+//   return "";
+// }
+// function deleteCookie(cname) {
+//     document.cookie = cname+"= ; expires = Thu, 01 Jan 1970 00:00:00 GMT"
+// }
+
+function setCookie(cvalue) {
+  document.cookie = "usercookie" + "=" + JSON.stringify(cvalue);
 }
 
-function getCookie(cname) {
-  let name = cname + "=";
+function getCookie() {
+  let name = "usercookie" + "=";
   let ca = document.cookie.split(';');
   for(let i = 0; i < ca.length; i++) {
     let c = ca[i];
@@ -11,14 +33,15 @@ function getCookie(cname) {
       c = c.substring(1);
     }
     if (c.indexOf(name) == 0) {
-      return c.substring(name.length, c.length);
+      return JSON.parse(c.substring(name.length, c.length));
     }
   }
   return "";
 }
 function deleteCookie(cname) {
-    document.cookie = cname+"= ; expires = Thu, 01 Jan 1970 00:00:00 GMT"
+    document.cookie = "usercookie"+"= ; expires = Thu, 01 Jan 1970 00:00:00 GMT"
 }
+
 
 window.onload = function () {
   google.accounts.id.initialize({
@@ -75,9 +98,8 @@ function login_success() {
   $("#personnel_setting_img_url").val(user.img);
   $("#personnel_setting_view_img_container").html(`<img class="w-100"src="${user.img}">`);
     $("#article_owner_id").val(user.user_id);
-    $("#user_token").val("user_token");
+    $("#user_token").val(user.user_token);
 
   $('#loginModalCenter').modal('hide')
-
     
 }
