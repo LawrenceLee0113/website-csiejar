@@ -43,7 +43,6 @@ component_html_obj = {
     "error_window_html":
     "".join([
         str(component_html("div", "errorModalCenter")),
-        str(component_html("div", "loginModalCenter")),
         str(component_html("div", "unloginModalCenter"))
     ]),
     "header_info_html":
@@ -65,6 +64,7 @@ def test_uptimerobot():
 
 @app.route('/<pageName>')
 def page(pageName):
+    
     if pageName == "home":
         return render_template("home.html",
                                component_html_obj=component_html_obj)
@@ -92,9 +92,13 @@ def page(pageName):
     elif pageName == "create_article":
         return render_template("article_edit.html",
                                component_html_obj=component_html_obj)
+    elif pageName == "login":
+        return render_template("login.html",
+                               component_html_obj=component_html_obj)
     else:
         return render_template("noPage.html",
                                component_html_obj=component_html_obj)
+    
 
 
 def create_account(user_id, name, email, view_name, picture, login_type, id):
@@ -156,30 +160,40 @@ def api_login():
     user_token = request.form.get('user_token')
     with open("static/data/ID_and_google.json") as file:
         data = json.load(file)
-    
+
     
     try:
         currect_token = data["user_id"][user_id]["user_token"]
     except KeyError:
         output = {"message": "user id not defind"}
     if currect_token == user_token:
-        output = {"message": "pass"}
+        user = login(user_id)
+        output = {"message": "pass","user":user}
     else:
         output = {"message": "user token useless"}
         
         
     return jsonify(output)
-
+def login(now_user_id):
+    with open("static/data/ID_and_google.json") as file:
+        data = json.load(file)
+    token = "token-" + str(uuid.uuid4())
+    data["user_id"][now_user_id]["user_token"] = token
+    
+    with open("static/data/ID_and_google.json", "w") as file:
+        json.dump(data, file)
+    return data["user_id"][now_user_id]
+CLIENT_ID = "513159013962-1bp03rago46o75rlq51ktj17qqk2d06t.apps.googleusercontent.com"
 @app.route('/google_check_test', methods=["POST"])
 def google_check_test():
-    token_id = request.form.get('token_id')
-    client_id = request.form.get('client_id')
+    token_id = request.form.get('credential')
+    # client_id = request.form.get('g_csrf_token')
     user = {}
     try:
         # Specify the CLIENT_ID of the app that accesses the backend:
         idinfo = id_token.verify_oauth2_token(token_id, requests.Request(),
-                                              client_id)
-        print(idinfo)
+                                              CLIENT_ID)
+        # print(idinfo)
         user["user_id"] = idinfo['sub']
         user["user_email"] = idinfo["email"]
         user["view_name"] = idinfo["name"]
@@ -187,7 +201,6 @@ def google_check_test():
         user["user_family_name"] = idinfo["family_name"]
         user["img"] = idinfo["picture"]
 
-        # user["user_locale"] = idinfo["locale"]
         with open("static/data/ID_and_google.json") as file:
             data = json.load(file)
         try:
@@ -200,19 +213,16 @@ def google_check_test():
             now_user_id = "user-" + id
 
         finally:
-            with open("static/data/ID_and_google.json") as file:
-                data = json.load(file)
-            user = data["user_id"][now_user_id]
-            token = "token-" + str(uuid.uuid4())
-            data["user_id"][now_user_id]["user_token"] = token
-            with open("static/data/ID_and_google.json", "w") as file:
-                json.dump(data, file)
+            user = login(now_user_id)
+            print(user)
 
     except ValueError:
         # Invalid token
+        print("value error")
         user["user_id"] = "fail"
         pass
-    return jsonify({"user": user})
+    return render_template("test.html",
+                              user=user)
 
 
 @app.route('/uploadImage', methods=["POST"])

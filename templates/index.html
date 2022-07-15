@@ -23,21 +23,17 @@
   <!-- head 載入文件 -->
   <div id="header_info">
     <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <div id="g_id_onload"
-         data-client_id="463794153045-oaatiueehd89im9ft3s1uhdge0d6ebnb.apps.googleusercontent.com"
-         data-callback="handleCredentialResponse"
-        data-login_uri="https://csiejar.xyz/login"
-      data-cancel_on_tap_outside="false">
-    </div>
-<!--           data-auto_select="true"  -->
+
     <link rel="stylesheet" href="../static/css/topnav.css">
     <title>神奇的班網2.0</title>
     <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
     <script src="../static/script/apis.js"></script>
+    <script src="../static/script/login.js"></script>
   </div>
 
   <!-- 上方導覽頁 -->
   <nav class="navbar navbar-expand-lg navbar-light bg-light" style="height: 60px;" id="top_navbar">
+      <input type="hidden" value="{{user}}">
     <a class="navbar-brand h-100" style="vertical-align:middle;" href="/home">
       <img src="../static/img/logo.png" class="h-100" alt="csiejar_icon"><span class="font-weight-bold"
         style="font-size: 100%;">CSIEJAR</span>
@@ -89,7 +85,7 @@
         <a class="nav-link" href="https://sso.nutc.edu.tw/ePortal/">ePortal</a>
         <a class="nav-link" href="https://www.instagram.com/ntcust_csie_jar/">班帳</a>
         <a class="nav-link" href="/error" data-toggle="modal" data-target="#errorModalCenter">報錯</a>
-        <a class="nav-link" href="/login" data-toggle="modal" data-target="#loginModalCenter" id="login_btn">登入</a>
+        <a class="nav-link d-none" href="/login" id="login_btn">登入</a>
       </nav>
     </div>
 
@@ -196,7 +192,7 @@
   </div>
 
   <!-- 登入 Modal -->
-  <div class="modal fade" id="loginModalCenter" tabindex="-1" role="dialog" aria-labelledby="loginModalCenterTitle"
+<!--   <div class="modal fade" id="loginModalCenter" tabindex="-1" role="dialog" aria-labelledby="loginModalCenterTitle"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
@@ -208,8 +204,22 @@
         </div>
         <div class="modal-body">
           <div class="login_btns w-100 d-flex justify-content-center">
-<div class="g_id_signin" data-type="standard"></div>
-<!--             <div class="g-signin2" data-onsuccess="onSignIn"></div> -->
+            <div id="g_id_onload"
+                 data-client_id="513159013962-1bp03rago46o75rlq51ktj17qqk2d06t.apps.googleusercontent.com"
+                 data-context="signin"
+                 data-ux_mode="popup"
+                 data-login_uri="/google_check_test"
+                 data-auto_prompt="false">
+            </div>
+            
+            <div class="g_id_signin"
+                 data-type="standard"
+                 data-shape="rectangular"
+                 data-theme="filled_black"
+                 data-text="signin_with"
+                 data-size="large"
+                 data-logo_alignment="left">
+            </div>
           </div>
         </div>
         <div class="modal-footer">
@@ -218,7 +228,7 @@
       </div>
     </div>
     <script src="../static/script/login_modal.js"></script>
-  </div>
+  </div> -->
 
   <!-- 帳號設定 Modal -->
   <div class="modal fade" id="unloginModalCenter" tabindex="-1" role="dialog" aria-labelledby="unloginModalCenterTitle"

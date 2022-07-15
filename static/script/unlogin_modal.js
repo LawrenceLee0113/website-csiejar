@@ -1,14 +1,14 @@
 function signOut() {//google signOut
-    // var auth2 = gapi.auth2.getAuthInstance();
-    // auth2.signOut().then(function () {
-    //     console.log('User signed out.');
-    // });
-  // GoogleAuth.signOut()
+    
   google.accounts.id.disableAutoSelect();
   console.log('User signed out.');
   $('#unloginModalCenter').modal('hide')
 
-    // alert("test")
+  setCookie({
+    user_id:"",
+    user_token:"",
+    login_type:"sign_out"
+  })
 }
 function logout() {
     let login_type = "google"
@@ -18,7 +18,7 @@ function logout() {
             break;
     }
     $("#login_btn").html("登入");
-    $("#login_btn").attr("data-target", "#loginModalCenter");
+    $("#login_btn").removeAttr("data-toggle")
 
 }
 $(document).ready(function () {

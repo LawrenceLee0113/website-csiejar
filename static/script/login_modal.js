@@ -19,44 +19,69 @@
 // function deleteCookie(cname) {
 //     document.cookie = cname+"= ; expires = Thu, 01 Jan 1970 00:00:00 GMT"
 // }
+var user = {}
 
 function setCookie(cvalue) {
   document.cookie = "usercookie" + "=" + JSON.stringify(cvalue);
 }
 
 function getCookie() {
-  let name = "usercookie" + "=";
-  let ca = document.cookie.split(';');
-  for(let i = 0; i < ca.length; i++) {
-    let c = ca[i];
-    while (c.charAt(0) == ' ') {
-      c = c.substring(1);
-    }
-    if (c.indexOf(name) == 0) {
-      return JSON.parse(c.substring(name.length, c.length));
-    }
+let name = "usercookie" + "=";
+let ca = document.cookie.split(';');
+for(let i = 0; i < ca.length; i++) {
+  let c = ca[i];
+  while (c.charAt(0) == ' ') {
+  c = c.substring(1);
   }
-  return "";
+  if (c.indexOf(name) == 0) {
+  return JSON.parse(c.substring(name.length, c.length));
+  }
+}
+return "";
 }
 function deleteCookie(cname) {
-    document.cookie = "usercookie"+"= ; expires = Thu, 01 Jan 1970 00:00:00 GMT"
+  document.cookie = "usercookie"+"= ; expires = Thu, 01 Jan 1970 00:00:00 GMT"
 }
+$(document).ready(function () {
+  var user_cookie = getCookie()
+  if(user_cookie == ""){//沒有 cookie 紀錄
+      setCookie({
+          login_type:"",
+          user_token:"",
+          user_id:""
+
+      })
+  }else if(user_cookie["login_type"] == "sign_out"){
+
+
+  }else{
+
+      $.ajax({
+          type: "POST",
+          url: "/api/login",
+          data: user_cookie,
+          dataType: "json",
+          async:false,
+          success: function (response) {
+              console.log(response)
+              if(response.message == "pass"){
+                user = response.user
+                login_success()
+              }
+          }
+      });
+  }
+});
 
 
 window.onload = function () {
   google.accounts.id.initialize({
     client_id: '513159013962-1bp03rago46o75rlq51ktj17qqk2d06t.apps.googleusercontent.com',
   callback: handleCredentialResponse,
-    	auto_select: false,
-      native_callback: handleResponse,
-      State_cookie_domain:"https://csiejar.xyz/home"
+    	auto_select: false
   });
   google.accounts.id.prompt();
 };
-
-function handleResponse(params) {
-    console.log(params)
-}
 
 function handleCredentialResponse(CredentialResponse) {
   console.log(CredentialResponse)
@@ -71,7 +96,6 @@ function handleCredentialResponse(CredentialResponse) {
     success: function (data) {
         console.log(data)
         user = data.user
-            let cred = {id: 'testid', password: 'testpw'};
         login_success()
     },error: function(XMLHttpRequest, textStatus, errorThrown) {
         alert("登入失敗 請重新登入");
@@ -80,7 +104,6 @@ function handleCredentialResponse(CredentialResponse) {
      },
 });
 }
-var user = {}
 // user.view_name = "無敵臭臘腸"
 // user.user_id = "user-654646844655646"
 // user.role = "已認證"
@@ -101,5 +124,11 @@ function login_success() {
     $("#user_token").val(user.user_token);
 
   $('#loginModalCenter').modal('hide')
+
+  setCookie({
+    user_id:user.user_id,
+    user_token:user.user_token,
+    login_type:user.login_type
+  })
     
 }
