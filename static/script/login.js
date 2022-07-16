@@ -1,5 +1,5 @@
 function setCookie(cvalue) {
-    document.cookie = "usercookie" + "=" + JSON.stringify(cvalue);
+    document.cookie = "usercookie" + "=" + JSON.stringify(cvalue)+";path=/";
 }
 function getCookie() {
     let name = "usercookie" + "=";
@@ -31,7 +31,7 @@ $(document).ready(function () {
     } else if (user_cookie["login_type"] == "sign_out") {
 
     } else {
-
+        console.log(user_cookie)
         $.ajax({
             type: "POST",
             url: "/api/login",
@@ -43,6 +43,8 @@ $(document).ready(function () {
                 if (response.message == "pass") {
                     user = response.user
                     login_success()
+                }else{
+                    signOut()
                 }
             }
         });

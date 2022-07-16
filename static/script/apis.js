@@ -76,7 +76,7 @@ function view_img(file_id,view_container_id){
 
 //取得 文章類型
 
-function article_data(func){
+function article_data(func,req_obj={get_mode:"",article_id:""}){
 // function article_data({condition_type="article_type",article_type="none",other="none",user_id=user.user_id}){
     // $.ajax({
     //     type: "get",
@@ -95,8 +95,8 @@ function article_data(func){
     // });
     $.ajax({
         type: "get",
-        url: "/static/data/article_data.json",
-        data: {},
+        url: "/api/article",
+        data: req_obj,
         dataType: "json",
         success: function (response) {
             console.log(response)
@@ -167,7 +167,7 @@ function show_article({article_json,article_mode="home"}){
             
             let article_tmpl = $.parseHTML( article_tmpl_html_home )
             
-            $(article_tmpl).find("img").attr("src",article_json[i].ishome_img)
+            $(article_tmpl).find("img").attr("src",article_json[i].article_img_url)
             $(article_tmpl).find(".card-title").html(article_json[i].subject)
             $(article_tmpl).find(".card-text").html(article_json[i].content)
             $(article_tmpl).children(".card-body").find("a").attr("href",article_json[i].article_link)
@@ -207,15 +207,3 @@ function show_article({article_json,article_mode="home"}){
 
     }
 }
-$(document).ready(function () {
-    
-    article_data((res)=>{
-        
-        show_article({article_json:res.article_id,article_mode:"home"})
-    })
-    article_data((res)=>{
-        
-        show_article({article_json:res.article_id,article_mode:"home_img"})
-    })
-
-});

@@ -3,27 +3,9 @@
     "main.py": [
       {
         "id": "6022ffeb-f383-45e8-b59c-49a41ef66181",
-        "line": 167,
-        "version": 6022,
-        "index": 5385
-      },
-      {
-        "id": "2dcb11e9-b280-42aa-a96a-3aecc435451f",
-        "line": 199,
-        "version": 6022,
-        "index": 6524
-      },
-      {
-        "id": "a5b1c6b9-5570-4b23-9521-4e14752f5fc2",
-        "line": 199,
-        "version": 6022,
-        "index": 6524
-      },
-      {
-        "id": "54185965-aef7-45eb-a783-31c1f401bb8f",
-        "line": 424,
-        "version": 6022,
-        "index": 14457
+        "line": 139,
+        "version": 6355,
+        "index": 4574
       }
     ]
   }

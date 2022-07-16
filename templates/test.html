@@ -10,10 +10,11 @@
 </head>
 
 <body>
-    <p>即將將您重新向..</p>
+    <p>{{text}} 即將將您重新導向../home</p>
+<!--     <p>{{user}}</p> -->
     <script>
         function setCookie(cvalue) {
-            document.cookie = "usercookie" + "=" + JSON.stringify(cvalue);
+            document.cookie = "usercookie" + "=" + JSON.stringify(cvalue)+";path=/";
         }
         setCookie({
             login_type: "{{user.login_type}}",

@@ -1,4 +1,49 @@
 {
     "returnError": {
+    },
+    "article_allow_sub":{
+        "card":[
+            "article_id",
+            "article_link",
+            "article_type",
+            "big_img_url",
+            "create_time",
+            "ishome_img",
+            "subject"
+        ],
+        "article":[
+            "article_id",
+            "article_link",
+            "article_type",
+            "article_img_url",
+            "create_time",
+            "ishome",
+            "subject",
+            "isupload",
+            "content"
+        ],
+        "home_img":[
+            "article_id",
+            "article_link",
+            "article_type",
+            "big_img_url",
+            "create_time",
+            "ishome_img",
+            "subject"
+        ],
+        "home":[
+            "article_id",
+            "article_link",
+            "article_type",
+            "article_img_url",
+            "create_time",
+            "ishome",
+            "subject",
+            "content"
+        ],
+        "full":[
+            "none"
+        ]
     }
+    
 }
