@@ -23,7 +23,7 @@ $(document).ready(function () {
 
                 $(article_tmpl).find(".view_img_container").find("img").attr("src",article_json[i].article_img_url)
 
-                $("#article_card_container").append(article_tmpl);
+                $("#article-news").append(article_tmpl);
             }
-    },{"get_mode":"article","user_id":user.user_id})
+    },{"get_mode":"card","article_type":"news"})
 });
