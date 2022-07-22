@@ -84,7 +84,7 @@ def page(pageName):
         return render_template("manager.html",
                                component_html_obj=component_html_obj)
     elif pageName == "create_article":
-        return render_template("article_edit.html",
+        return render_template("article_create.html",
                                component_html_obj=component_html_obj)
     elif pageName == "login":
         return render_template("login.html",
@@ -107,8 +107,8 @@ def create_account(user_id, name, email, view_name, picture, login_type, id):
         "view_name": view_name,
         "gmail": email,
         "google_img": picture,
-        "own_article_id": {},
-        "edit_article_id": {},
+        "own_article_id": [],
+        "edit_article_id": [],
         "role": "visitor",
         "ban": "false",
         "authorize": "false",
@@ -285,6 +285,19 @@ def article_page(article_id):
             return render_template("noPage.html",
                                    component_html_obj=component_html_obj)
 
+@app.route('/edit_article/<article_id>', methods=["GET"])
+def edit_article(article_id):
+    try:
+        with open("static/data/article_data.json", "r") as file:
+            data = json.load(file)
+        article = data["article_id"][article_id]
+        
+
+    except KeyError:
+        article = "none key"
+    
+    return render_template("article_edit.html",
+                               component_html_obj=component_html_obj,article=article)
 
 def package_dict(dict, allow_sub):
     article_content = {}
@@ -387,34 +400,36 @@ def test():
 
         return jsonify({"article": output})
     elif request.method == "DELETE":
-        with open("static/data/article_data.json", "r") as file:
-            data = json.load(file)
-        with open("static/data/article_data.json", "w") as file:
-            data["article_amount"] += 1
-            json.dump(data, file)
-        article_id = request.form["article_id"]
-        user_id = request.form["user_id"]
-        user_token = request.form["user_token"]
+        article_id = request.form.get('article_id')
+        user_id = request.form.get("user_id")
+        user_token = request.form.get("user_token")
+        print(article_id,user_id,user_token)
         
-        article_dict = create_article({
-            "subject": subject,  # 標題
-            "content": content,  # 內文
-            "article_type": article_type,  # 類型
-            "article_img_url": article_img_url,  # 文章中圖片*
-            "ishome": ishome,  # 顯示首頁中間區域
-            "home_delete_time": home_delete_time,  # 首頁中間區域下架時間
-            "ishome_img": ishome_img,  # 顯示首頁上方區域
-            "home_img_delete_time": home_img_delete_time,  # 顯示首頁上方下架時間
-            "big_img_url": big_img_url,  # 文章大圖片
-            "article_owner_id": article_owner_id,  # user id
-            "user_token": user_token  # user token
-        })
+        with open("static/data/ID_and_google.json","r") as file:
+            data = json.load(file)
+            status = ""            
+            #若身分為admin或有文章編輯權 可刪
+            print(data["user_id"][user_id]["admin"])
+            print(article_id in data["user_id"][user_id]["own_article_id"])
+            if data["user_id"][user_id]["user_token"] == user_token:
+                if (data["user_id"][user_id]["admin"] == "true") or (article_id in data["user_id"][user_id]["own_article_id"]):
+                    with open("static/data/article_data.json", "r") as file:
+                        data = json.load(file)
+                    if article_id in data["article_id"]:
+                        with open("static/data/article_data.json", "w") as file:
+                            del data["article_id"][article_id]
+                            json.dump(data, file)
+                            status = "success"
+                    else:
+                        status = "Article is not define"
+                else:
+                    status = "Permission Error"
+            else:
+                status = "token is not currect"
 
-        # return jsonify({"article_dict":""})
-        return jsonify({
-            "article_dict": article_dict,
-            "user_token": login(article_owner_id)["user_token"]
-        })
+        new_token = login(user_id)["user_token"]
+        output = {"status":status,"user_token":new_token}
+        return jsonify(output)
     elif request.method == "PUT":
         return "ff"
 
@@ -444,7 +459,8 @@ def create_article(article_dict):
     with open("static/data/article_data.json") as file:
         data = json.load(file)
     amount = str(data["article_amount"])
-    article_dict["article_id"] = create_article_id(article_type, amount, 5)
+    article_id = create_article_id(article_type, amount, 5)
+    article_dict["article_id"] = article_id
     article_dict["article_link"] = f"/article/{article_dict['article_id']}"
     article_dict["ischeck"] = False
     user_id = article_dict["article_owner_id"]
@@ -467,6 +483,13 @@ def create_article(article_dict):
     print("data2", data)
     with open("static/data/article_data.json", "w") as file:
         json.dump(data, file)
+
+    with open("static/data/ID_and_google.json","r") as file:
+        data = json.load(file)
+        data["user_id"][user_id]["own_article_id"].append(article_id)
+        data["user_id"][user_id]["edit_article_id"].append(article_id)
+    with open("static/data/ID_and_google.json","w") as file:
+        json.dump(data,file)
     return article_dict
 
 
@@ -516,8 +539,8 @@ def our_signup():
                         "https://image.bc3ts.net/news_e7aeb614866149f3a7a098c5faf2b4c6.jpg",
                         "admin":
                         "false",
-                        "own_article_id": {},
-                        "edit_article_id": {},
+                        "own_article_id": [],
+                        "edit_article_id": [],
                         "role":
                         "visitor",
                         "ban":
