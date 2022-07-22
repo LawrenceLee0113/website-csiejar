@@ -1,47 +1,177 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    {{component_html_obj.header_info_html | safe}}
-    <script src="../static/script/news.js"></script>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+  <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+  {{component_html_obj.header_info_html | safe}}
+  <script src="../static/script/news.js"></script>
 
 </head>
+
 <body>
   {{component_html_obj.top_navbar_html | safe}}
-    {{component_html_obj.error_window_html | safe}}
+  {{component_html_obj.error_window_html | safe}}
   <div class="container">
-  <ul class="nav nav-tabs mb-2 text-center mt-3" id="pills-tab" role="tablist">
-    <li class="nav-item w-50">
-      <a class="nav-link active" id="dc-news-tab" data-toggle="pill" href="#dc-news" role="tab" aria-controls="dc-news" aria-selected="true">dc公告</a>
-    </li>
-    <li class="nav-item w-50">
-      <a class="nav-link" id="article-news-tab" data-toggle="pill" href="#article-news" role="tab" aria-controls="article-news" aria-selected="false">文章公告</a>
-    </li>
-  </ul>
-  <div class="tab-content" id="pills-tabContent">
-    <div class="tab-pane fade show active" id="dc-news" role="tabpanel" aria-labelledby="dc-news-tab">
-        <widgetbot
-    server="885480589233369098"
-    channel="982359735753900073"
-    width="100%"
-    height="735"
-    shard="https://widgetbot.io/"
-  ></widgetbot>
-    </div>
-    <div class="tab-pane fade" id="article-news" role="tabpanel" aria-labelledby="article-news-tab">
-      
+    <ul class="nav nav-tabs mb-2 text-center mt-3" id="pills-tab" role="tablist">
+      <li class="nav-item w-50">
+        <a class="nav-link active" id="dc-news-tab" data-toggle="pill" href="#dc-news" role="tab"
+          aria-controls="dc-news" aria-selected="true">dc公告</a>
+      </li>
+      <li class="nav-item w-50">
+        <a class="nav-link" id="article-news-tab" data-toggle="pill" href="#article-news" role="tab"
+          aria-controls="article-news" aria-selected="false">文章公告</a>
+      </li>
+    </ul>
+    <div class="tab-content" id="pills-tabContent">
+      <div class="tab-pane fade show active" id="dc-news" role="tabpanel" aria-labelledby="dc-news-tab">
+        <widgetbot server="885480589233369098" channel="982359735753900073" width="100%" height="735"
+          shard="https://widgetbot.io/"></widgetbot>
+      </div>
+      <div class="tab-pane fade" id="article-news" role="tabpanel" aria-labelledby="article-news-tab">
+            <style>
+              .view_content {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 4; 
+                        line-clamp: 2; 
+                -webkit-box-orient: vertical;
+                word-wrap: break-word;
+              }
+            </style>
+        <div class="card mb-2 w-100 flex-row" style="">
+          <div class="view_img_container card-img-left p-3 " style="height: 200px;width: 200px;">
+            <div class="view_img_container_wrapper h-100 w-100 border d-flex align-items-center " style="overflow: hidden;"> 
+              <img src="https://fakeimg.pl/400x800/" class="w-100"> 
+            </div>
+          </div>
+          <div class="card-body d-flex flex-column justify-content-between" style="width: calc(100% - 200px);">
+            <h5 class="card-title"><span class="subject">article subject</span> <span class="badge badge-danger article_type">公告</span></h5>
+            <div class="card-text view_content w-100" >
+              asdfsdaffasdffffffffffffffffffffffffffffffffffffffffffffffffffffffffffasdfsdaffasdffffffffffffffffffffffffffffffffffffffffffffffffffasdfsdaffasdffffffffffffffffffffffffffffffffffffffffffffffffffasdfsdaffasdffffffffffffffffffffffffffffffffffffffffffffffffffasdfsdaffasdffffffffffffffffffffffffffffffffffffffffffffffffffasdfsdaffasdffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffdaffasdffffffffffffffffffffffffffffffffffffffffffffffffffffffffffasdfsdaffasdffffffffffffffffffffffffffffffffffffffffffffffffffffffffffasdfsdaffasdffffffffffffffffffffffffffffffffffffffffffffffffffffffffffasdfsdaffasdffffffffffffffffffffffffffffffffffffffffffffffffffffffffffasdfsdaffasdffffffffffffffffffffffffffffffffffffffffffffffffffffffffffasdfsdaffasdffffffffffffffffffffffffffffffffffffffffffffffffffffffffffasdfsdaffasdffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+            </div>
+            <div class="div article_uis w-100 d-flex justify-content-between">
+              <ul class="d-flex p-0 mb-0">
+                <li class="d-inline mr-3"> 
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                  </svg> 
+                  <span>人員</span> 
+                </li>
+                <li class="d-inline mr-3"> 
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-pen-fill" viewBox="0 0 16 16">
+                    <path
+                      d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001z" />
+                  </svg> 
+                  <span>2021年5月3日</span> 
+                </li>
+                <li class="d-inline mr-3"> 
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                    <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                  </svg> 
+                  <span>5</span> 
+                </li>
+                <li class="d-inline mr-3"> 
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-chat-right-fill" viewBox="0 0 16 16">
+                    <path d="M14 0a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z"/>
+                  </svg> 
+                  <span>60</span> 
+                </li>
+              </ul>
+              <ul class="d-flex p-0 mb-0">
+                <li class="d-inline mr-3">
+                  <a href="/home">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"></path>
+                        <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"></path>
+                    </svg>
+                    <span>閱讀完整內容</span> 
+                  </a>
+  
+                </li>
+              </ul>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="card mb-2 w-100 flex-row" style="">
+          <div class="view_img_container card-img-left p-3 " style="height: 200px;width: 200px;">
+            <div class="view_img_container_wrapper h-100 w-100 border d-flex align-items-center " style="overflow: hidden;"> 
+              <img src="https://fakeimg.pl/400x800/" class="w-100"> 
+            </div>
+          </div>
+          <div class="card-body d-flex flex-column justify-content-between" style="width: calc(100% - 200px);">
+            <h5 class="card-title"><span class="subject"></span> <span class="badge badge-danger article_type">公告</span></h5>
+            <div class="card-text view_content w-100" >
+              
+            </div>
+            <div class="div article_uis w-100 d-flex justify-content-between">
+              <ul class="d-flex p-0 mb-0 left_ul">
+                <li class="d-inline mr-3"> 
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                  </svg> 
+                  <span></span> 
+                </li>
+                <li class="d-inline mr-3"> 
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-pen-fill" viewBox="0 0 16 16">
+                    <path
+                      d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001z" />
+                  </svg> 
+                  <span></span> 
+                </li>
+                <li class="d-inline mr-3"> 
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                    <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                  </svg> 
+                  <span></span> 
+                </li>
+                <li class="d-inline mr-3"> 
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-chat-right-fill" viewBox="0 0 16 16">
+                    <path d="M14 0a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z"/>
+                  </svg> 
+                  <span></span> 
+                </li>
+              </ul>
+              <ul class="d-flex p-0 mb-0 right_ul">
+                <li class="d-inline mr-3">
+                  <a href="/home">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"></path>
+                        <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"></path>
+                    </svg>
+                    <span>閱讀完整內容</span> 
+                  </a>
+  
+                </li>
+              </ul>
+
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-  </div>
-<script src="https://cdn.jsdelivr.net/npm/@widgetbot/html-embed"async></script>
-  
-  
+  <script src="https://cdn.jsdelivr.net/npm/@widgetbot/html-embed" async></script>
+
+
 </body>
+
 </html>

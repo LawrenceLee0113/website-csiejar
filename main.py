@@ -294,7 +294,7 @@ def package_dict(dict, allow_sub):
     return article_content
 
 
-@app.route('/api/article', methods=["GET", "POST"])  # article obj return api
+@app.route('/api/article', methods=["GET", "POST","DELETE"])  # article obj return api
 def test():
     if request.method == "POST":
         with open("static/data/article_data.json", "r") as file:
