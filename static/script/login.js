@@ -1,77 +1,86 @@
-function setCookie(cvalue) {
-    document.cookie = "usercookie" + "=" + JSON.stringify(cvalue)+";path=/";
-}
-function getCookie() {
-    let name = "usercookie" + "=";
-    let ca = document.cookie.split(';');
-    for (let i = 0; i < ca.length; i++) {
-        let c = ca[i];
-        while (c.charAt(0) == ' ') {
-            c = c.substring(1);
-        }
-        if (c.indexOf(name) == 0) {
-            return JSON.parse(c.substring(name.length, c.length));
-        }
+var emailRule = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
+
+function verifyPassLength(password1, password2) {
+
+    //check empty password field
+    if (password1 != password2) {
+    
+        alert("兩次密碼不相符!");
+        return false;
     }
-    return "";
+    if(password1 == "")
+    {
+        alert("密碼不得為空值...!");
+        return false;
+    }
+    
+    //Password minimum length
+    if(password1.length < 6) 
+    {
+        alert("密碼長度需要至少6字元!");
+        return false;
+    }
+
+    //Password maximum length
+    if(password1.length > 12)
+    {
+        alert("密碼長度需要小於12字元!");
+        return false;
+    }
+    if(!((password1.match(/[a-z]/g) || password1.match(/[A-Z]/g)) && password1.match(/[0-9]/g))){
+        alert("密碼至少一個英文與數字!");
+        return false;
+    }
+    return true;
 }
-function deleteCookie(cname) {
-    document.cookie = "usercookie" + "= ; expires = Thu, 01 Jan 1970 00:00:00 GMT"
+function email_change(obj){
+    
+    if($(obj).val().search(emailRule)!= -1){
+        $(obj).css("border-color","#2ecc71");
+        return true;
+    }else{
+        $(obj).css("border-color","red");
+        return false;
+    }
+}
+function name_check(obj){
+
+    if($(obj).val().trim().length < 6){
+        $(obj).css("border-color","red");
+        return false;
+    }
+    
+    if($(obj).val().trim()=="" || $(obj).val()==null || $(obj).val()==undefined){
+        $(obj).css("border-color","red");
+        return false;
+    }else{
+        $(obj).css("border-color","#2ecc71");
+        return true;
+    }
 }
 $(document).ready(function () {
-    
-    var user_cookie = getCookie()
-    if (user_cookie == "") {//沒有 cookie 紀錄
-        setCookie({
-            login_type: "",
-            user_token: "",
-            user_id: ""
+    $("#signup_form input[name=mail]").change(function (e) { 
+        e.preventDefault();
+        email_change(this);
+    });
 
-        })
-    } else if (user_cookie["login_type"] == "sign_out") {
-
-    } else {
-        console.log(user_cookie)
-        $.ajax({
-            type: "POST",
-            url: "/api/login",
-            data: user_cookie,
-            dataType: "json",
-            async: false,
-            success: function (response) {
-                console.log(response)
-                if (response.message == "pass") {
-                    user = response.user
-                    login_success()
-                }else{
-                    signOut()
-                }
-            }
-        });
-    }
-    $("#login_btn").removeClass("d-none")
+    $("#signup_form input[type=submit]").click(function (e) { 
+        e.preventDefault();
+        if(verifyPassLength($("#password1").val(),$("#password2").val()) && email_change($("#signup_form input[name=mail]")) && name_check($("#signup_form input[name=name]")))(
+            $.ajax({
+                url:"/api/our_signup",
+                type:"POST",
+                data:$("#signup_form").serialize()+'&form_name='+$("#signup_form").attr("name"),
+                success: function(data){
+                    console.log(data);
+                    setCookie({
+                        user_id: data.user.user_id,
+                        user_token: data.user.user_token,
+                        login_type: data.user.login_type
+                    })
+                    window.location.href = "/home";
+                },
+            })
+        )
+    });
 });
-
-function login_success() {
-    $("#login_btn").html("登出");
-    $("#login_btn").attr("data-target", "#unloginModalCenter");
-    $("#login_btn").attr("data-toggle", "modal");
-
-    $("#personnel_setting_view_name_input").val(user.view_name);
-    $("#personnel_setting_user_id_label").html(user.user_id);
-    $("#personnel_setting_role_label").html(user.role);
-    $("#personnel_setting_login_type_label").html(user.login_type);
-    $("#personnel_setting_img_url").val(user.img);
-    $("#personnel_setting_view_img_container").html(`<img class="w-100"src="${user.img}">`);
-    $("#article_owner_id").val(user.user_id);
-    $("#user_token").val(user.user_token);
-
-    $('#loginModalCenter').modal('hide')
-
-    setCookie({
-        user_id: user.user_id,
-        user_token: user.user_token,
-        login_type: user.login_type
-    })
-
-}

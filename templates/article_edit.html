@@ -31,8 +31,10 @@
 <body>
     {{component_html_obj.top_navbar_html | safe}}
     {{component_html_obj.error_window_html | safe}}
-    <input type="hidden" value="{{article}}" id="article_data">
-    
+    <script>
+        var now_article_id = "{{article_id}}"
+
+    </script>
 
     <div class="container">
         <!-- Button HTML (to Trigger Modal) -->
@@ -96,9 +98,10 @@
                     <div class="view_img form-control" id="article_img_uploader_container">
                         <img class="w-100" src="" id="article_img_uploader_container_b">
                     </div>
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="button"
-                            id="article_img_uploader_btn">更改</button>
+                    <div class="input-group-append d-flex flex-column">
+                        <button class="btn btn-outline-secondary" type="button" id="article_img_uploader_btn" style="flex:1">更改</button>
+                        <button class="btn btn-outline-danger" type="button" id="article_img_uploader_cancel_btn" style="display: none;">取消</button>
+
                     </div>
                 </div>
                 <div class="input-group mb-3">
@@ -172,8 +175,9 @@
                     <div class="view_img form-control" id="big_img_uploader_container">
                         <img class="w-100" src="" id="big_img_uploader_container_b">
                     </div>
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="button" id="big_img_uploader_btn">更改</button>
+                    <div class="input-group-append d-flex flex-column">
+                        <button class="btn btn-outline-secondary" type="button" id="big_img_uploader_btn" style="flex:1">更改</button>
+                        <button class="btn btn-outline-danger" type="button" id="big_img_uploader_cancel_btn" style="display: none;">取消</button>
                     </div>
                 </div>
                 <input type="hidden" value="user-id" name="article_owner_id" id="article_owner_id">

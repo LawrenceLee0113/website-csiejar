@@ -61,15 +61,18 @@ function imagekit_uploader({file_id,user_id,user_token,file_name,folder_name,fil
         }
     });
 }
-function view_img(file_id,view_container_id){
+function view_img(file_id,view_container_id,func=()=>{}){
     $("#"+file_id).change(function(){
         //當檔案改變後，做一些事 
         if(this.files && this.files[0]){
                 var reader = new FileReader();
+                let src;
                 reader.onload = function (e) {
-                $("#"+view_container_id).attr('src', e.target.result);
+                    src = e.target.result
+                $("#"+view_container_id).attr('src', src);
                 }
                 reader.readAsDataURL(this.files[0]);
+                func(src)
         }
     });
 }
@@ -88,4 +91,84 @@ function article_data(func,req_obj={get_mode:"",article_id:""}){
             // return response.article_id
         }
     });
+}
+
+
+//login func
+function setCookie(cvalue) {
+    document.cookie = "usercookie" + "=" + JSON.stringify(cvalue)+";path=/";
+}
+function getCookie() {
+    let name = "usercookie" + "=";
+    let ca = document.cookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return JSON.parse(c.substring(name.length, c.length));
+        }
+    }
+    return "";
+}
+function deleteCookie(cname) {
+    document.cookie = "usercookie" + "= ; expires = Thu, 01 Jan 1970 00:00:00 GMT"
+}
+$(document).ready(function () {
+    
+    var user_cookie = getCookie()
+    if (user_cookie == "") {//沒有 cookie 紀錄
+        setCookie({
+            login_type: "",
+            user_token: "",
+            user_id: ""
+
+        })
+    } else if (user_cookie["login_type"] == "sign_out") {
+
+    } else {
+        console.log(user_cookie)
+        $.ajax({
+            type: "POST",
+            url: "/api/login",
+            data: user_cookie,
+            dataType: "json",
+            async: false,
+            success: function (response) {
+                console.log(response)
+                if (response.message == "pass") {
+                    user = response.user
+                    login_success()
+                }else{
+                    signOut()
+                }
+            }
+        });
+    }
+    $("#login_btn").removeClass("d-none")
+});
+
+function login_success() {
+    $("#login_btn").html("登出");
+    $("#login_btn").attr("data-target", "#unloginModalCenter");
+    $("#login_btn").attr("data-toggle", "modal");
+
+    $("#personnel_setting_view_name_input").val(user.view_name);
+    $("#personnel_setting_user_id_label").html(user.user_id);
+    $("#personnel_setting_role_label").html(user.role);
+    $("#personnel_setting_login_type_label").html(user.login_type);
+    $("#personnel_setting_img_url").val(user.img);
+    $("#personnel_setting_view_img_container").html(`<img class="w-100"src="${user.img}">`);
+    $("#article_owner_id").val(user.user_id);
+    $("#user_token").val(user.user_token);
+
+    $('#loginModalCenter').modal('hide')
+
+    setCookie({
+        user_id: user.user_id,
+        user_token: user.user_token,
+        login_type: user.login_type
+    })
+
 }

@@ -92,6 +92,7 @@ def page(pageName):
     elif pageName == "forgot_password":
         return render_template("forget_password.html",
                                component_html_obj=component_html_obj)
+    
     else:
         return render_template("noPage.html",
                                component_html_obj=component_html_obj)
@@ -106,7 +107,7 @@ def create_account(user_id, name, email, view_name, picture, login_type, id):
         "google_name": name,
         "view_name": view_name,
         "gmail": email,
-        "google_img": picture,
+        "img": picture,
         "own_article_id": [],
         "edit_article_id": [],
         "role": "visitor",
@@ -177,14 +178,21 @@ def api_login():
 
 
 def login(now_user_id):
+    update_token(now_user_id)
+    with open("static/data/ID_and_google.json") as file:
+        data = json.load(file)
+    return data["user_id"][now_user_id]
+    
+
+def update_token(user_id):
     with open("static/data/ID_and_google.json") as file:
         data = json.load(file)
     token = "token-" + str(uuid.uuid4())
-    data["user_id"][now_user_id]["user_token"] = token
+    data["user_id"][user_id]["user_token"] = token
 
     with open("static/data/ID_and_google.json", "w") as file:
         json.dump(data, file)
-    return data["user_id"][now_user_id]
+    return token
 
 
 CLIENT_ID = "513159013962-1bp03rago46o75rlq51ktj17qqk2d06t.apps.googleusercontent.com"
@@ -285,19 +293,10 @@ def article_page(article_id):
             return render_template("noPage.html",
                                    component_html_obj=component_html_obj)
 
-@app.route('/edit_article/<article_id>', methods=["GET"])
-def edit_article(article_id):
-    try:
-        with open("static/data/article_data.json", "r") as file:
-            data = json.load(file)
-        article = data["article_id"][article_id]
-        
-
-    except KeyError:
-        article = "none key"
-    
+@app.route('/article_edit/<article_id>', methods=["GET"])
+def article_edit(article_id):
     return render_template("article_edit.html",
-                               component_html_obj=component_html_obj,article=article)
+                               component_html_obj=component_html_obj,article_id=article_id)
 
 def package_dict(dict, allow_sub):
     article_content = {}
@@ -307,7 +306,7 @@ def package_dict(dict, allow_sub):
     return article_content
 
 
-@app.route('/api/article', methods=["GET", "POST","DELETE"])  # article obj return api
+@app.route('/api/article', methods=["GET", "POST","DELETE","PUT"])  # article obj return api
 def test():
     if request.method == "POST":
         with open("static/data/article_data.json", "r") as file:
@@ -431,13 +430,69 @@ def test():
         output = {"status":status,"user_token":new_token}
         return jsonify(output)
     elif request.method == "PUT":
-        return "ff"
+        #跟前端要資料
+        change = request.form.get("change")
+        change_data = request.form.get("change_data")
+        change_data_dict = eval(change_data)
+        change_list = change.split(",")
+        article_id = request.form.get("article_id")
+        user_id = request.form.get("user_id")
+        user_token = request.form.get("user_token")
+        allow = ["content","subject","article_img_url","big_img_url","ishome","home_delete_time","ishome_img","home_img_delete_time"]
+        
+        with open("static/data/article_data.json","r") as file:
+            data = json.load(file)
+        for i in change_list:
+            if i in allow:
+                data["article_id"][article_id][i] = change_data_dict[i]
+            else:
+                pass
+        with open("static/data/article_data.json","w") as file:
+            json.dump(data,file)
+        print(change_list)
+        status = "success"
+        return jsonify({"user_token":update_token(user_id),"status":status})
+        
+
+@app.route('/api/user',methods =["PUT"])
+def user_change():
+    change = request.form.get("change")
+    change_data = request.form.get("change_data")
+    user_id = request.form.get("user_id")
+    user_token = request.form.get("user_token")
+    change_data_dict = eval(change_data)
+    change_list = change.split(",")
+    allow = ["view_name","img"]
+    
+    with open("static/data/ID_and_google.json","r") as file:
+            data = json.load(file)
+    if user_token == data["user_id"][user_id]["user_token"]:
+        for i in change_list:
+            if i in allow:
+                data["user_id"][user_id][i] = change_data_dict[i]
+            else:
+                pass
+        status = "success"
+    else:
+        status = "token_error"
+    with open("static/data/ID_and_google.json","w") as file:
+        json.dump(data,file)
+    return jsonify({"user_token":update_token(user_id),"status":status})
 
 
 @app.route('/data_update')  # update by uptime robot
 def data_update():
+    with open("static/data/article_data.json","r")as file:
+        data = json.load(file)
+    for i in data["article_id"]:
+        if str(datetime.datetime.now().strftime("%Y-%m-%d")) == data["article_id"][i]["home_delete_time"]:
+            data["article_id"][i]["ishome"] = "false"
+        elif str(datetime.datetime.now().strftime("%Y-%m-%d")) == data["article_id"][i]["home_img_delete_time"]:
+            data["article_id"][i]["ishome_img"] = "false"
+        else:
+            pass
     print(request.method)
-    print("data_update success!")
+    print("UptimeRobot更新完成")
     return "successful"
 
 
@@ -462,12 +517,12 @@ def create_article(article_dict):
     article_id = create_article_id(article_type, amount, 5)
     article_dict["article_id"] = article_id
     article_dict["article_link"] = f"/article/{article_dict['article_id']}"
-    article_dict["ischeck"] = False
+    article_dict["ischeck"] = "false"
     user_id = article_dict["article_owner_id"]
     article_dict["article_owner_name"] = id_data["user_id"][user_id][
         "view_name"]
     article_dict["article_owner_img"] = id_data["user_id"][user_id][
-        "google_img"]
+        "img"]
     article_dict["create_time"] = datetime.datetime.now()
     article_dict["last_edit_time"] = article_dict["create_time"]
     article_dict["last_editor_name"] = article_dict["article_owner_name"]
@@ -492,6 +547,10 @@ def create_article(article_dict):
         json.dump(data,file)
     return article_dict
 
+def check_token(user_id,user_token):
+    with open("static/data/ID_and_google.json") as file:
+        data = json.load(file)
+    return user_token == data["user_id"][user_id]["user_token"]
 
 #our_login_system
 @app.route('/api/our_login', methods=["POST"])
@@ -552,7 +611,7 @@ def our_signup():
                         "login_times":
                         1,
                         "login_type":
-                        "CSIEJAR ID",
+                        "CSIEJAR_ID",
                         "user_token":
                         "",
                         "user_id":
@@ -562,18 +621,16 @@ def our_signup():
                     with open("static/data/ID_and_google.json", "w") as file:
                         json.dump(data, file)
                     print(login(our_id))
-                    return render_template("test.html",
-                                           user=login(our_id),
-                                           text="註冊完成~ ")
+                    return jsonify({"user":login(our_id),"status":"success"})
                     
                 else:
-                    return "名稱不得為空"
+                    return jsonify({"status":"名稱不得為空"})
             else:
-                return "密碼長度不足六位"
+                return jsonify({"status":"密碼長度不足六位"})
         else:
-            return "密碼不可空白或含有空格"
+            return jsonify({"status":"密碼不可空白或含有空格"})
     else:
-        return "Email不可空白或含有空格"
+        return jsonify({"status":"Email不可空白或含有空格"})
 
 
 #run server
