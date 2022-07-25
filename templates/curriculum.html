@@ -22,7 +22,85 @@
 <body>
     {{component_html_obj.top_navbar_html | safe}}
     {{component_html_obj.error_window_html | safe}}
+<input type="hidden" id="semester_selector_val" value='{{semester_selector_val}}'>
+<div class="container">
+   
+    <div class="dropdown semester_selector">
+      <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        選擇學期
+      </a>
+    
+      <div class="dropdown-menu">
 
+        </div>
+    </div>
+
+    <div id="curriculum_iframe">
+
+    </div>
+    </iframe>
+    <script>
+        // load semester_selector_val
+        var semester_selector_val = JSON.parse($("#semester_selector_val").val().replace(/'/g,"\"")).values;
+        var active_target = JSON.parse($("#semester_selector_val").val().replace(/'/g,"\"")).target;
+        console.log(semester_selector_val)
+        for(let i of semester_selector_val){
+            let class_active = "";
+            if(active_target == i.url){
+                class_active = "active"
+            }
+            $(".semester_selector .dropdown-menu").append(`
+                <a class="dropdown-item ${class_active}" href="${i.url}">${i.html}</a>
+            `)
+        }
+        function show_data(obj){
+            $(".semester_selector .dropdown-toggle").html($(obj).html()); 
+            $("#curriculum_iframe").attr("src", $(obj).attr("href"));
+            let showed = false
+            $.each($("#curriculum_iframe").children("iframe"), function (i, v) { 
+                if($(v).attr("src") == $(obj).attr("href")){
+                    $(v).show();
+                    showed = true;
+                }else{
+                    $(v).hide();
+                }
+            });
+            if(!showed){
+                jQuery('<iframe>', {
+                    src: $(obj).attr("href"),
+                    style: 'border:none;width:100%',
+                    onload: 'resizeIframe(this)',
+                    id: `iframe_${$(obj).attr("href").split("/")[2]}`
+                    
+                }).appendTo('#curriculum_iframe');
+            }
+
+        }
+        $(document).ready(function () {
+            $.each($(".semester_selector .dropdown-menu").children("a"), function (i, v) {
+                if($(this).hasClass("active")){
+                    show_data($(v))
+                }
+            });
+            $(".semester_selector .dropdown-menu a").click(function (e) { 
+                e.preventDefault();
+                $.each($(".semester_selector .dropdown-menu").children("a"), function (i, v) { 
+                    $(v).removeClass("active");
+                     
+                });
+                $(this).addClass("active");
+                show_data($(this));
+
+            });
+        });
+    </script>
+    <script>
+  function resizeIframe(obj) {
+    obj.style.height = obj.contentWindow.document.documentElement.scrollHeight + 'px';
+  }
+</script>
+    
+</div>
 </body>
 
 </html>

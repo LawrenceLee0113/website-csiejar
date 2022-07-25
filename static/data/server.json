@@ -20,5 +20,18 @@
     },
     "returnError": {
         
+    },
+    "semester_selector_val":{
+        "values":[
+            {
+                "html":"一年級 上學期",
+                "url":"/curriculum/1_1"
+            },
+            {
+                "html":"一年級 下學期",
+                "url":"/curriculum/1_2"
+            }
+        ],
+        "target":"/curriculum/1_2"
     }
 }

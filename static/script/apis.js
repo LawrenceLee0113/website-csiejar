@@ -125,10 +125,20 @@ $(document).ready(function () {
             user_id: ""
 
         })
-    } else if (user_cookie["login_type"] == "sign_out") {
-
-    } else {
-        console.log(user_cookie)
+    }
+    
+    let pageName = location.pathname.split("/")[1]
+    switch(pageName){
+        case "article":
+        case "article_edit":
+        case "manager":
+            if (user_cookie.user_id == "") {
+                alert("此頁面需要登入才能使用 即將將您導向")
+                location.replace("/login")
+            }
+            break
+    }
+    if (user_cookie.user_id != "") {
         $.ajax({
             type: "POST",
             url: "/api/login",
@@ -140,12 +150,27 @@ $(document).ready(function () {
                 if (response.message == "pass") {
                     user = response.user
                     login_success()
-                }else{
-                    signOut()
+                }else if(response.message == "user token useless"){
+                    logout()
+                    alert("憑證碼過期 請重新登入!")
+                    location.replace("/login")
+
+                }else if(response.message == "user id not defind"){
+                    logout()
+                    alert("未查詢到使用者 請重新登入!")
+                    location.replace("/login")
+                }else{                    
+                    logout()
+                    alert("未知的錯誤 即將將您導向")
+                    location.replace("/login")
                 }
             }
+        
         });
     }
+
+        
+    
     $("#login_btn").removeClass("d-none")
 });
 

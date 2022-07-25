@@ -24,7 +24,18 @@
     {{component_html_obj.top_navbar_html | safe}}
     {{component_html_obj.error_window_html | safe}}
     <div class="container justify-content-center">
-        
+        <style>
+              .view_content {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 3; 
+                        line-clamp: 2; 
+                -webkit-box-orient: vertical;
+                word-wrap: break-word;
+              }
+            
+        </style>
         <div id="carouselExampleIndicator" class="carousel slide w-100 mb-2" data-ride="carousel">
             <ol class="carousel-indicators">
                 <!-- <li data-target="#carouselExampleIndicator" data-slide-to="0" class="active"></li>
@@ -64,6 +75,7 @@
                 快速連結專區
             </h3>
             <div class="link_container d-flex flex-wrap justify-content-around justify-content-center"> 
+<!--                 <a href="/news" class="btn-link" style="flex:33%">news</a>
                 <a href="/news" class="btn-link" style="flex:33%">news</a>
                 <a href="/news" class="btn-link" style="flex:33%">news</a>
                 <a href="/news" class="btn-link" style="flex:33%">news</a>
@@ -77,8 +89,7 @@
                 <a href="/news" class="btn-link" style="flex:33%">news</a>
                 <a href="/news" class="btn-link" style="flex:33%">news</a>
                 <a href="/news" class="btn-link" style="flex:33%">news</a>
-                <a href="/news" class="btn-link" style="flex:33%">news</a>
-                <a href="/news" class="btn-link" style="flex:33%"></a>
+                <a href="/news" class="btn-link" style="flex:33%"></a> -->
             </div>
         </div>
     </div>

@@ -52,6 +52,13 @@ $(document).ready(function () {
 
     });
 
+    $("#isupload_val").val("true");
+    $("#isupload_controller").attr("checked",true);
+    $("#isupload_controller").change(function (e) {
+        $("#isupload_val").val(document.getElementById("isupload_controller").checked);
+    });
+
+
     function checked_change() {
         //is 首頁top checked
         if (document.getElementById("home_top_controller").checked) {
@@ -69,6 +76,9 @@ $(document).ready(function () {
             $(".middle_img_checked").hide();
         }
         $("#is_home_middle").val(document.getElementById("home_middle_controller").checked);
+
+        
+        $("#isupload_val").val(document.getElementById("isupload_controller").checked);
     }
     $("#home_top_controller").change(function (e) {
         checked_change()
@@ -116,7 +126,9 @@ $(document).ready(function () {
             $("#edit_article_form input[name=is_home_top]").val(this_article.ishome_img);
             $("#edit_article_form input[name=home_img_delete_time]").val(this_article.home_img_delete_time);
             $('#big_img_uploader_container_b').attr("src", this_article.big_img_url);
+            
 
+            $("#isupload_controller").attr("checked", this_article.isupload == "true");
             checked_change()
 
             $("#article_img_uploader_cancel_btn").click(function (e) {
@@ -270,7 +282,7 @@ $(document).ready(function () {
 
 
     $("#edit_article_form button[type=submit]").click(function (e) {
-        // 送出新增表單
+        // 送出編輯表單
         e.preventDefault();
 
         if (foolproof()) {
@@ -337,6 +349,7 @@ $(document).ready(function () {
                 home_delete_time: add_change_item($("#edit_article_form input[name=home_delete_time]").val(), this_article.home_delete_time),
                 ishome_img: add_change_item($("#edit_article_form input[name=ishome_img]").val(), this_article.ishome_img),
                 home_img_delete_time: add_change_item($("#edit_article_form input[name=home_img_delete_time]").val(), this_article.home_img_delete_time),
+                isupload: add_change_item($("#edit_article_form input[name=isupload]").val(), this_article.isupload),
 
 
             }

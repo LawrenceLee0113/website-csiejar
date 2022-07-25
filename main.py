@@ -56,6 +56,12 @@ def index_page():
     return redirect(url_for("page", pageName="home"))
 
 
+@app.route('/curriculum/<curriculum_num>')
+def curriculum_html(curriculum_num):
+    if curriculum_num == "1_2":
+        return render_template("curriculum1_2.html")
+    else:
+        return "尚未有資料"
 @app.route('/<pageName>')
 def page(pageName):
 
@@ -66,8 +72,11 @@ def page(pageName):
         return render_template("news.html",
                                component_html_obj=component_html_obj)
     elif pageName == "curriculum":
+        with open("static/data/server.json") as file:
+            data = json.load(file)
         return render_template("curriculum.html",
-                               component_html_obj=component_html_obj)
+                               component_html_obj=component_html_obj,
+                              semester_selector_val=data["semester_selector_val"])
     elif pageName == "resource":
         return render_template("resource.html",
                                component_html_obj=component_html_obj)
@@ -318,6 +327,8 @@ def test():
         content = request.form["content"]
         article_type = request.form["article_type"]
         article_img_url = request.form["article_img_url"]
+        isupload = request.form["isupload"]
+        print(isupload)
         ishome = request.form["ishome"]
         home_delete_time = request.form["home_delete_time"]
         ishome_img = request.form["ishome_img"]
@@ -330,6 +341,7 @@ def test():
             "content": content,  # 內文
             "article_type": article_type,  # 類型
             "article_img_url": article_img_url,  # 文章中圖片*
+            "isupload":isupload,
             "ishome": ishome,  # 顯示首頁中間區域
             "home_delete_time": home_delete_time,  # 首頁中間區域下架時間
             "ishome_img": ishome_img,  # 顯示首頁上方區域
@@ -438,7 +450,7 @@ def test():
         article_id = request.form.get("article_id")
         user_id = request.form.get("user_id")
         user_token = request.form.get("user_token")
-        allow = ["content","subject","article_img_url","big_img_url","ishome","home_delete_time","ishome_img","home_img_delete_time"]
+        allow = ["content","subject","article_img_url","big_img_url","ishome","home_delete_time","ishome_img","home_img_delete_time","isupload"]
         
         with open("static/data/article_data.json","r") as file:
             data = json.load(file)
@@ -583,56 +595,94 @@ def our_signup():
     print(name, email, password)
     with open("static/data/ID_and_google.json", "r") as file:
         data = json.load(file)
-    our_id = "user-" + str(uuid.uuid4())
-    if email.replace(" ", "") != "":
-        if password.replace(" ", "") != "":
-            if len(str(password)) >= 6:
-                if name.strip() != "":
-                    data["our_id"][email] = our_id
-                    data["user_id"][our_id] = {
-                        "view_name":
-                        name,
-                        "email":
-                        email,
-                        "img":
-                        "https://image.bc3ts.net/news_e7aeb614866149f3a7a098c5faf2b4c6.jpg",
-                        "admin":
-                        "false",
-                        "own_article_id": [],
-                        "edit_article_id": [],
-                        "role":
-                        "visitor",
-                        "ban":
-                        "false",
-                        "authorize":
-                        "false",
-                        "last_login_time":
-                        datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                        "login_times":
-                        1,
-                        "login_type":
-                        "CSIEJAR_ID",
-                        "user_token":
-                        "",
-                        "user_id":
-                        our_id
-                    }
-                    data["our_password"][our_id] = password
-                    with open("static/data/ID_and_google.json", "w") as file:
-                        json.dump(data, file)
-                    print(login(our_id))
-                    return jsonify({"user":login(our_id),"status":"success"})
-                    
-                else:
-                    return jsonify({"status":"名稱不得為空"})
-            else:
-                return jsonify({"status":"密碼長度不足六位"})
-        else:
-            return jsonify({"status":"密碼不可空白或含有空格"})
+    if email in data["our_id"]:
+        return jsonify({"status":"Email已被使用"})
     else:
-        return jsonify({"status":"Email不可空白或含有空格"})
+        our_id = "user-" + str(uuid.uuid4())
+        if email.replace(" ", "") != "":
+            if password.replace(" ", "") != "":
+                if len(str(password)) >= 6:
+                    if name.strip() != "":
+                        data["our_id"][email] = our_id
+                        data["user_id"][our_id] = {
+                            "view_name":
+                            name,
+                            "email":
+                            email,
+                            "img":
+                            "https://image.bc3ts.net/news_e7aeb614866149f3a7a098c5faf2b4c6.jpg",
+                            "admin":
+                            "false",
+                            "own_article_id": [],
+                            "edit_article_id": [],
+                            "role":
+                            "visitor",
+                            "ban":
+                            "false",
+                            "authorize":
+                            "false",
+                            "last_login_time":
+                            datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                            "login_times":
+                            1,
+                            "login_type":
+                            "CSIEJAR_ID",
+                            "user_token":
+                            "",
+                            "user_id":
+                            our_id
+                        }
+                        data["our_password"][our_id] = password
+                        with open("static/data/ID_and_google.json", "w") as file:
+                            json.dump(data, file)
+                        print(login(our_id))
+                        return jsonify({"user":login(our_id),"status":"success"})
+                        
+                    else:
+                        return jsonify({"status":"名稱不得為空"})
+                else:
+                    return jsonify({"status":"密碼長度不足六位"})
+            else:
+                return jsonify({"status":"密碼不可空白或含有空格"})
+        else:
+            return jsonify({"status":"Email不可空白或含有空格"})
 
-
+@app.route('/api/fast_link', methods=["POST","GET","PUT"])
+def fast_link():
+    if request.method == "POST":
+        title = request.form("title")
+        link = request.form("link")
+        with open("static/data/fast_link.json","r") as file:
+            data = json.load(file)
+        data["fast_link"].append({
+          "title":title,
+          "link":link
+        })
+        with open("static/data/fast_link.json","w") as file:
+            json.dump(data,file)
+        return "新增成功"
+        
+    elif request.method == "GET":
+        with open("static/data/fast_link.json","r") as file:
+            data = json.load(file)
+        return jsonify(tuple(data["fast_link"]))
+    
+    elif request.method == "PUT":
+        with open("static/data/fast_link.json","r") as file:
+            data = json.load(file)
+        old_title = request.args.get("old_title")
+        old_link = request.args.get("old_link")
+        new_title = request.args.get("new_title")
+        new_link = request.args.get("new_link")
+        data["fast_link"].remove(old_title)
+        data["fast_link"].remove(old_link)
+        data["fast_link"].append({
+          "title":new_title,
+          "link":new_link
+        })
+        with open("static/data/fast_link.json","w") as file:
+            json.dump(data,file)
+        return "編輯成功"
 #run server
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8080, debug=True)

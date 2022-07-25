@@ -20,6 +20,15 @@ function logout() {
     $("#login_btn").html("登入");
     $("#login_btn").removeAttr("data-toggle")
 
+    let pageName = location.pathname.split("/")[1]
+    switch(pageName){
+        case "article":
+        case "article_edit":
+        case "manager":
+                location.replace("/home")
+            break
+    }
+
 }
 $(document).ready(function () {
     $('.popover-dismiss').popover()//copied 下方框宣告

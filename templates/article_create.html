@@ -62,13 +62,11 @@
                 </div>
 
 
-                <!-- article_img_uploader progress -->
-                <div class="progress w-100" style="display: none; height: 10px;">
-                    <!--error img上傳的進度條-->
-                    <div class="progress-bar progress-bar-striped progress-bar-animated"
-                        id="article_img_uploader_progress" role="progressbar" style="width: 0%" aria-valuenow="0"
-                        aria-valuemin="0" aria-valuemax="100">0%</div>
-                </div>
+
+                
+
+
+
                 <div class="input-group mb-3 d-none">
                     <!--article_img_uploader img上傳檔案選擇(消失)-->
                     <input type="hidden" value="" name="article_img_url" id="article_img_uploader_url">
@@ -86,6 +84,8 @@
                     </div>
                 </div>
 
+                
+
                 <div class="input-group mb-3">
                     <!--article_img_uploader 照片預覽(控制img上傳)-->
                     <div class="input-group-prepend">
@@ -99,6 +99,19 @@
                             id="article_img_uploader_btn">更改</button>
                     </div>
                 </div>
+
+
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            <input type="hidden" name="isupload" id="isupload_val">
+                            <input type="checkbox" value="true" id="isupload_controller"
+                                aria-label="Checkbox for following text input">
+                        </div>
+                    </div>
+                    <label class="form-control" aria-label="Text input with checkbox">上架</label>
+                </div>
+
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <div class="input-group-text">
@@ -138,13 +151,6 @@
                     }
                 </style>
 
-                <!-- big_img_uploader progress -->
-                <div class="progress w-100" style="display: none; height: 10px;">
-                    <!--big_img_uploader img上傳的進度條-->
-                    <div class="progress-bar progress-bar-striped progress-bar-animated" id="big_img_uploader_progress"
-                        role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%
-                    </div>
-                </div>
                 <div class="input-group mb-3 d-none">
                     <!--big_img_uploader img上傳檔案選擇(消失)-->
                     <input type="hidden" value="" name="big_img_url" id="big_img_uploader_url">

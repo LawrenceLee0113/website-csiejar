@@ -40,6 +40,14 @@ $(document).ready(function () {
         }
         $("#is_home_top").val(document.getElementById("home_top_controller").checked);
     });
+    
+    $("#isupload_val").val("true");
+    $("#isupload_controller").attr("checked",true);
+    $("#isupload_controller").change(function (e) {
+        $("#isupload_val").val(document.getElementById("isupload_controller").checked);
+    });
+
+
     $("#home_middle_controller").change(function (e) {
         //is 首頁middle checked
         if (document.getElementById("home_middle_controller").checked) {

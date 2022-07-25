@@ -1,0 +1,1007 @@
+
+    <style>
+        /* CSS Document */
+
+        form .btn-xs {
+            padding: 2px 12px;
+            margin: 0 3px;
+        }
+
+
+        .grid_view {
+            padding: 20px;
+            border-radius: 10px;
+            -moz-border-radius: 10px;
+            -webkit-border-radius: 10px;
+            width: 100%;
+            background: #425A64;
+            border-color: #496570;
+            border-collapse: separate;
+            border-spacing: 6px;
+        }
+
+        .grid_view table {
+            width: 100%;
+        }
+
+        .grid_view tr {
+            background: #425A64;
+            border-bottom: 1px solid #62767E;
+            color: #fff;
+        }
+
+        .grid_view tr:nth-child(odd) {
+            background-color: #425A64;
+        }
+
+        .grid_view tr:nth-child(even) {
+            background-color: #425A64;
+        }
+
+        .grid_view tr:hover {
+            background: #293c41;
+        }
+
+        .grid_view th {
+            padding: 0 6px 4px 6px;
+            background: #425A64;
+            color: #f0e68c;
+            white-space: nowrap;
+            text-align: left;
+            border-bottom: 1px solid #62767E;
+        }
+
+        .grid_view td {
+            line-height: 19px;
+            padding: 8px 6px;
+            color: #fff;
+        }
+
+        .grid_view td em {
+            color: #CC3333
+        }
+
+        .grid_view .hint,
+        .css_hint {
+            margin: 2px 0 0 2px;
+            font-size: 11px;
+            color: #888;
+        }
+
+        .grid_view td a {}
+
+        .grid_view td a:hover {}
+
+        .grid_view .btn {
+            padding: 2px 6px;
+            font-size: 14px;
+        }
+
+        .AdvisingClass .grid_view td a {
+            color: Pink;
+        }
+
+
+        .grid_view_v2 {
+            padding: 0px;
+            border-radius: 10px;
+            -moz-border-radius: 10px;
+            -webkit-border-radius: 10px;
+            width: 100%;
+            background: transparent;
+            border-collapse: separate;
+            border-spacing: 6px;
+            text-align: center;
+        }
+
+        .grid_view_v2 table {
+            width: 100%;
+            margin-bottom: 6px;
+        }
+
+        .grid_view_v2 tr {
+            background: #0B506D;
+            color: #fff;
+        }
+
+        .grid_view_v2 tr:nth-child(odd) {
+            background-color: #0B506D;
+        }
+
+        .grid_view_v2 tr:nth-child(even) {
+            background-color: #0B506D;
+        }
+
+        .grid_view_v2 tr:hover {
+            background: transparent;
+        }
+
+        .grid_view_v2 th {
+            padding: 4px 6px 4px 6px;
+            background: #3682A3;
+            color: #B0DBEE;
+            white-space: nowrap;
+            text-align: center;
+            border-bottom: 1px solid #32738F;
+            border: 1px solid #1D6F93;
+        }
+
+        .grid_view_v2 td {
+            line-height: 19px;
+            padding: 8px 6px;
+            color: #fff;
+            border: 1px solid #1D6F93;
+            background: #559FBF
+        }
+
+        .grid_view_v2 .hint,
+        .css_hint {
+            margin: 2px 0 0 2px;
+            font-size: 11px;
+            color: #888
+        }
+
+        .grid_view_v2 td a {}
+
+        .grid_view_v2 td a:hover {}
+
+
+
+        .grid_view_teacher {
+            padding: 20px;
+            border-radius: 10px;
+            -moz-border-radius: 10px;
+            -webkit-border-radius: 10px;
+            width: 100%;
+            background: #425A64;
+            border-color: #496570;
+            border-collapse: separate;
+            border-spacing: 6px;
+            margin-top: 6px;
+            margin-bottom: 6px;
+        }
+
+        .grid_view_teacher table {
+            width: 100%;
+        }
+
+        .grid_view_teacher tr {
+            background: #41555C;
+            border-bottom: 1px solid #62767E;
+            color: #fff;
+        }
+
+        .grid_view_teacher tr:nth-child(odd) {
+            background-color: #5f8691;
+        }
+
+        .grid_view_teacher tr:nth-child(even) {
+            background-color: #547782;
+        }
+
+        .grid_view_teacher tr:hover {
+            background: #293c41;
+        }
+
+        .grid_view_teacher th {
+            padding: 4px 3px;
+            background: #3e5e68;
+            color: #f0e68c;
+            white-space: nowrap;
+            text-align: center;
+            border: 1px solid #7d939b;
+        }
+
+        .grid_view_teacher td {
+            line-height: 19px;
+            padding: 6px 3px;
+            color: #fff;
+            border: 1px solid #7d939b;
+            text-align: center
+        }
+
+        .grid_view_teacher td em {
+            color: #CC3333
+        }
+
+        .grid_view_teacher .hint,
+        .css_hint {
+            margin: 2px 0 0 2px;
+            font-size: 11px;
+            color: #888;
+        }
+
+        .grid_view_teacher td a {}
+
+        .grid_view_teacher td a:hover {}
+
+        .grid_view_teacher .btn {
+            padding: 2px 6px;
+            font-size: 14px;
+            margin: 0 3px;
+        }
+
+        .grid_view_teacher hr {
+            border: 0px;
+            border-bottom: 1px solid #7d939b;
+            margin: 10px 0;
+        }
+
+        .grid_view_teacher .InputDiv {
+            margin-bottom: 12px;
+        }
+
+        .grid_view_teacher .InputDiv span {
+            display: inline-block;
+            margin: 0 7px;
+        }
+
+        .grid_view_teacher input,
+        .grid_view_teacher textarea,
+        .grid_view_teacher select {
+            color: #000000 !important;
+        }
+
+        .checkbox {
+            vertical-align: middle
+        }
+
+        .box {
+            padding: 20px;
+            background: #eeeeee;
+            border: 1px solid #bbbbbb;
+        }
+
+        .red_tips {
+            color: #ffffff;
+            background-color: #CC3333;
+            font-size: 15px;
+            line-height: 15px;
+        }
+
+
+        #calendar {}
+
+        .fc .fc-day-header {
+            padding-top: 2px;
+            padding-bottom: 6px;
+            font-size: 15px;
+        }
+
+        .fc-title {
+            font-size: 15px;
+            line-height: 15px;
+            text-align: center;
+            width: 100%;
+            white-space: nowrap;
+            color: #ffff00;
+            font-family: 'Microsoft JhengHei', 'simhei', 'Arial', 'Helvetica', 'PMingLiU', 'serif';
+        }
+
+        .fc-time {
+            width: 100%;
+            text-align: center
+        }
+
+        .fc-event,
+        .fc-agenda .fc-event-time,
+        .fc-event a {
+            font-size: 15px
+        }
+
+
+
+        .schedule_tab {
+            color: #000;
+            padding: 0;
+        }
+
+        .schedule_tab table {
+            border-collapse: collapse;
+            border-spacing: 1px;
+            background: #425A64;
+            width: 100%
+        }
+
+        .schedule_tab th {
+            background-color: #B4DAEB;
+            border: 1px solid #000;
+            padding: 6px;
+            text-align: center;
+            font-weight: normal;
+        }
+
+        .schedule_tab td {
+            background-color: #d6ebf8;
+            border: 1px solid #000;
+            text-align: center;
+            line-height: 15px;
+            padding: 6px
+        }
+
+        .schedule_tab .day {
+            width: 13%
+        }
+
+        .schedule_tab .sunday {
+            color: #DD3333;
+        }
+
+        .schedule_tab .saturday {
+            color: Green;
+        }
+
+        .schedule_tab .data {
+            font-size: 15px
+        }
+
+        .schedule_tab .day_ex {
+            width: 30px;
+            padding-top: 2px;
+            background-color: #AFFFAF;
+            color: #D00
+        }
+
+        .size30 {
+            width: 30px;
+            min-width: 15px
+        }
+
+        .size60 {
+            width: 60px
+        }
+
+        .schedule_tab .time {
+            padding: 0 3px;
+            font-family: Arial
+        }
+
+        .schedule_tab .time2 {
+            font-family: Arial;
+            background-color: #AFFFAF;
+            color: #D00;
+            line-height: 20px;
+            padding: 0 3px
+        }
+
+        .classroom {
+            margin: 5px 1px 0 0;
+            color: #0000cd;
+        }
+
+        .teacher_name {
+            margin: 5px 1px;
+            color: #438800;
+        }
+
+        .class_name {
+            margin: 5px 1px;
+            color: #438800
+        }
+
+        /**/
+        .input_tab {
+            color: #fff;
+            padding: 0;
+        }
+
+        .input_tab table {
+            border-collapse: collapse;
+            border-spacing: 1px;
+            background: transparent;
+            width: 100%
+        }
+
+        .input_tab th {
+            background-color: transparent;
+            border: 0px solid #000;
+            padding: 0px;
+            font-weight: normal;
+            text-align: left;
+        }
+
+        .input_tab td {
+            background-color: transparent;
+            border: 0px solid #000;
+            line-height: 15px;
+            padding: 4px 2px
+        }
+
+        .input_tab textarea {
+            width: 100%;
+        }
+
+        .input_tab input,
+        .input_tab textarea,
+        .input_tab select {
+            color: #000000 !important;
+        }
+
+        /**/
+        #listValid {}
+
+        #listSelected {}
+
+        .widget-content {
+            padding: 0;
+            margin: 0;
+            padding: 2px 2px 0px 2px;
+        }
+
+        .ui-selected {
+            color: #a52a2a;
+        }
+
+        .ui-selected em {
+            color: #a52a2a !important;
+        }
+
+        .ui-listview {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+        }
+
+        .data-class {
+            background: #24e5b8
+        }
+
+        /* previous version style definition */
+        .qtip-content {
+            font-size: 16px;
+            font-weight: bold;
+            line-height: 18px;
+        }
+
+        .qtip {
+            max-width: 100%;
+        }
+
+        .red_tips {
+            color: white;
+            background-color: #CC3333;
+            font-size: 16px;
+        }
+
+        .input_gray,
+        .inputgray {
+            border: 1px solid #CCCCCC;
+            padding: 2px 3px;
+            margin: 0 0 1px;
+            color: #333;
+            vertical-align: middle;
+            background: #FFF;
+            font-size: 15px
+        }
+
+        .selgray {
+            border: 1px solid #CCCCCC;
+            padding: -1px 3px 2px;
+            margin: -2px 30px 1px 0;
+            color: #333;
+            height: 22px;
+            vertical-align: middle;
+            background: #FFF;
+            font-size: 16px
+        }
+
+        .selpage {
+            border: 1px solid #CCCCCC;
+            padding: 0 3px 2px;
+            margin: 0 0 1px;
+            color: #333;
+            height: 22px;
+            vertical-align: middle;
+            background: #FFF;
+            font-size: 12px
+        }
+
+        .btn_small {
+            color: #333;
+            border: 1px solid #ccc;
+            text-align: center;
+            font-size: 14px;
+            line-height: normal;
+            height: 22px;
+            cursor: pointer;
+            margin: 0 0 2px;
+            padding: 0 6px 1px;
+            vertical-align: middle;
+            background: url(../../images/btn_bg.gif) repeat-x 0 top
+        }
+
+        .btn_middle {
+            color: #333;
+            border: 1px solid #AAA;
+            text-align: center;
+            line-height: normal;
+            font-size: 16px;
+            height: 24px;
+            cursor: pointer;
+            margin: 0 0 2px;
+            padding: 0 6px 1px;
+            vertical-align: middle;
+            background: url(../../images/btn_middle_bg.gif) repeat-x 0 top
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .Z {}
+
+        /* CSS Document */
+
+        * {
+            padding: 0px;
+            margin: 0px;
+        }
+
+        *,
+        *:after,
+        *:before {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft JhengHei', 'simhei', 'Arial', 'Helvetica', 'PMingLiU', 'serif'
+        }
+
+
+        a {
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        a:hover {
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        a:active {
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        a:focus {
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        hr {
+            border: 0px;
+            border-bottom: 1px solid #747474;
+        }
+
+        hr.hr-xs {
+            border: 0px;
+            border-bottom: 1px solid #747474;
+            margin: 10px 0;
+        }
+
+
+        .dropdown-submenu {
+            position: relative;
+        }
+
+        .dropdown-submenu>.dropdown-menu {
+            top: 0;
+            left: -95%;
+            max-width: 180px;
+            min-width: 140px;
+            text-align: left;
+            margin-top: -6px;
+            margin-right: -1px;
+            -webkit-border-radius: 6px 6px 6px 6px;
+            -moz-border-radius: 6px 6px 6px 6px;
+            border-radius: 6px 6px 6px 6px;
+        }
+
+        .dropdown-submenu:hover>.dropdown-menu {
+            display: block;
+        }
+
+        .dropdown-submenu>a:after {
+            display: block;
+            content: ' ';
+            float: left;
+            width: 0;
+            height: 0;
+            border-color: transparent;
+            border-style: solid;
+            border-width: 5px 5px 5px 0;
+            border-right-color: #999;
+            margin-top: 5px;
+            margin-right: 10px;
+        }
+
+        .dropdown-submenu:hover>a:after {
+            border-left-color: #ffffff;
+        }
+
+        .dropdown-submenu.pull-left {
+            float: none;
+        }
+
+        .dropdown-submenu.pull-left>.dropdown-menu {
+            left: -100%;
+            margin-left: 10px;
+            -webkit-border-radius: 6px 6px 6px 6px;
+            -moz-border-radius: 6px 6px 6px 6px;
+            border-radius: 6px 6px 6px 6px;
+        }
+
+        .dropdown-menu-right {
+            margin-left: 0;
+        }
+
+        .dropdown-menu .divider {
+            height: 1px;
+            margin: 5px 0;
+            overflow: hidden;
+            background-color: #e5e5e5;
+        }
+
+        .dropdown-menu>li>a:hover,
+        .dropdown-menu>li>a:focus {
+            color: #262626;
+            text-decoration: none;
+            background-color: #f5f5f5;
+        }
+
+        /**/
+        .navbar {
+            position: relative;
+            min-height: 100px;
+            margin-bottom: 0px;
+            border: 1px solid transparent;
+        }
+
+        .navbar-default {
+            background-color: transparent;
+            border-color: transparent;
+        }
+
+        .navbar-default .navbar-nav>li>a {
+            color: #FFFFFF;
+            padding-left: 8px;
+            padding-right: 8px;
+        }
+
+        .navbar-default .navbar-nav>li>a:hover,
+        .navbar-default .navbar-nav>li>a:focus {
+            color: #ffd700
+        }
+
+        .navbar-default .navbar-nav>.active>a,
+        .navbar-default .navbar-nav>.active>a:hover,
+        .navbar-default .navbar-nav>.active>a:focus {
+            color: #ffd700;
+            background-color: transparent
+        }
+
+        .navbar-default .navbar-nav>li>a:hover span,
+        .navbar-default .navbar-nav>li>a:focus span {
+            color: #fff
+        }
+
+        .navbar-default .navbar-nav>.active>a span,
+        .navbar-default .navbar-nav>.active>a:hover span,
+        .navbar-default .navbar-nav>.active>a:focus span {
+            color: #fff;
+            background-color: transparent
+        }
+
+        .navbar-brand {
+            font-size: 30px;
+            vertical-align: middle;
+            padding-top: 53px;
+        }
+
+        .navbar-brand,
+        .navbar-brand:hover {
+            color: #fff !important;
+            cursor: default;
+        }
+
+        @media (max-width: 767px) {
+            .navbar {
+                position: relative;
+                min-height: 50px;
+                margin-bottom: 20px;
+                border: 1px solid transparent;
+            }
+
+            .navbar-default {
+                background-color: #555F67;
+                border-color: #70787F
+            }
+
+            .navbar-default .navbar-nav>li>a {
+                color: #FFFFFF;
+                padding-left: 16px;
+            }
+
+            .navbar-default .navbar-toggle {
+                border-color: #3D474F;
+                background-color: #3D474F;
+            }
+
+            .navbar-default .navbar-toggle:hover,
+            .navbar-default .navbar-toggle:focus {
+                background-color: #3D474F
+            }
+
+            .navbar-default .navbar-toggle .icon-bar {
+                background-color: #ecf0f1;
+            }
+
+            .navbar-default .navbar-nav>li>a:hover,
+            .navbar-default .navbar-nav>li>a:focus {
+                color: #ffd700;
+            }
+
+            .navbar-default .navbar-nav>.active>a,
+            .navbar-default .navbar-nav>.active>a:hover,
+            .navbar-default .navbar-nav>.active>a:focus {
+                color: #ffd700;
+                background-color: #70787F;
+            }
+
+            .navbar-default .navbar-collapse,
+            .navbar-default .navbar-form {
+                border-color: #555F67
+            }
+
+            .navbar-nav span {
+                display: none;
+            }
+
+            .navbar-brand span {
+                display: none;
+            }
+
+            .navbar-brand {
+                height: 50px;
+                padding: 15px 15px;
+                font-size: 18px;
+                line-height: 20px;
+            }
+        }
+
+
+        /**/
+
+
+        .alert {
+            margin-bottom: 15px;
+            color: #fff;
+            background-color: #526F7B;
+            border: 1px solid #425A64;
+            -webkit-border-radius: 10px;
+            -moz-border-radius: 10px;
+            border-radius: 10px;
+            min-height: 65px;
+        }
+
+        .alert-notice {
+            min-height: 45px;
+        }
+
+        .alert>h4 {
+            font-size: 20px;
+            padding-top: 3px;
+        }
+
+        .alert select {
+            color: #000000
+        }
+
+        .label {
+            display: inline;
+            padding: .1em .6em .2em;
+            font-size: 75%;
+            font-weight: bold;
+            line-height: 1;
+            color: #fff;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            border-radius: .25em;
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                width: 98%;
+            }
+        }
+
+        @media (min-width: 992px) {
+            .container {
+                width: 95%;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .container {
+                width: 90%;
+            }
+        }
+
+
+
+        .z {}
+
+        /* CSS Document */
+
+        .PreselectAll {}
+
+        .CheckDeleteAll .ScheduleOut {
+            padding: 15px;
+            border-radius: 10px;
+            -moz-border-radius: 10px;
+            -webkit-border-radius: 10px;
+            background: #425A64;
+            display: inline-block;
+            clear: both;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .CheckDeleteAll .ScheduleOut table {
+            width: 100%;
+        }
+
+        .SportsGeneralAll {}
+
+        .SummerClassesAll {}
+
+        .SummerClassesAll .alert h4 {
+            float: left;
+            display: inherit;
+            margin-right: 6px;
+            line-height: 23px;
+        }
+
+        .SummerClassesAll .label {
+            display: inline-block;
+            padding: .3em .6em .3em;
+            font-size: 90%;
+            font-weight: bold;
+            line-height: 1;
+            color: #fff;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            border-radius: .55em;
+            margin-bottom: 13px;
+            margin-top: 3px;
+        }
+
+
+        /**/
+        .MyClassesAll {}
+
+        .CourseEnquiryAll {}
+
+        .CourseStandardAll {}
+
+        /**/
+        .TranscriptsAll {}
+
+        .TranscriptsAll .alert {
+            min-height: 55px !important;
+        }
+
+        /**/
+        .ApplicationProjectAll {}
+
+        .ApplicationDownloadAll {}
+
+        .ApplicationDownloadAll .alert {
+            min-height: 65px;
+        }
+
+        .ApplicationDownloadAll .alert>p {
+            font-size: 20px;
+        }
+
+        /**/
+        .TrainingScheduleAll {}
+
+        /**/
+        .ClassTimetableAll .ScheduleOut {
+            padding: 15px;
+            border-radius: 10px;
+            -moz-border-radius: 10px;
+            -webkit-border-radius: 10px;
+            background: #425A64;
+            display: inline-block;
+            clear: both;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .ClassTimetableAll .ScheduleOut table {
+            width: 100%;
+        }
+
+        .TeacherTimetableAll {}
+
+        .ClassRollAll {}
+
+        /**/
+        .WaivedCoursesAll {}
+
+        /**/
+        .ExternalLinksAll {}
+
+        /**/
+        .WinStudentInfoAll {}
+
+        /**/
+        .WinCourseInfoAll {}
+
+        .WinCourseInfoAll .grid_view {
+            margin-bottom: 6px;
+        }
+
+
+        .AssessmentDetails .sum_title {
+            text-align: center !important;
+            color: White !important;
+        }
+
+        .AssessmentDetails .sum_score {
+            text-align: center;
+            color: #f0e68c !important;
+            font-weight: bold;
+            vertical-align: middle;
+        }
+
+        .AssessmentDetails .subtotal {
+            text-align: right;
+            color: #f0e68c !important;
+            font-weight: bold;
+            padding-right: 10px !important;
+        }
+    </style>
+
+    <center><h1>這是課表內容</h1></center>
+    <div class='ScheduleOut'>
+    <div class='schedule_tab'>
+      <table id='schedule_tab' class='schedule_tab' cellpadding='0'>
+      <tbody><tr>
+        <th colspan='2' class='blank'>&nbsp;</th>
+
+        <th class='day' style='width: 18%;'>星期一</th>
+        <th class='day' style='width: 18%;'>星期二</th>
+        <th class='day' style='width: 18%;'>星期三</th>
+        <th class='day' style='width: 18%;'>星期四</th>
+        <th class='day' style='width: 18%;'>星期五</th>
+
+      </tr>
+<tr><th class='number'>1</th><th class='time'>08:10<br>｜<br>09:00</th><td class='data'><div class='course_name'> </div><div class='teacher_name'> </div><div class='classroom'> </div></td><td class='data'><div class='course_name'>數學</div><div class='teacher_name'>黃馨逸</div><div class='classroom'>6604</div></td><td class='data'><div class='course_name'> </div><div class='teacher_name'> </div><div class='classroom'> </div></td><td class='data'><div class='course_name'> </div><div class='teacher_name'> </div><div class='classroom'> </div></td><td class='data'><div class='course_name'> </div><div class='teacher_name'> </div><div class='classroom'> </div></td></tr><tr><th class='number'>2</th><th class='time'>09:10<br>｜<br>10:00</th><td class='data'><div class='course_name'> </div><div class='teacher_name'> </div><div class='classroom'> </div></td><td class='data'><div class='course_name'>數學</div><div class='teacher_name'>黃馨逸</div><div class='classroom'>6604</div></td><td class='data'><div class='course_name'>基本電學</div><div class='teacher_name'>陳柏淩</div><div class='classroom'>6701</div></td><td class='data'><div class='course_name'>英語文</div><div class='teacher_name'>謝玉娥</div><div class='classroom'>6701</div></td><td class='data'><div class='course_name'> </div><div class='teacher_name'> </div><div class='classroom'> </div></td></tr><tr><th class='number'>3</th><th class='time'>10:10<br>｜<br>11:00</th><td class='data'><div class='course_name'>數學</div><div class='teacher_name'>黃馨逸</div><div class='classroom'>6604</div></td><td class='data'><div class='course_name'>地理</div><div class='teacher_name'>郭基賢</div><div class='classroom'>5109</div></td><td class='data'><div class='course_name'>基本電學</div><div class='teacher_name'>陳柏淩</div><div class='classroom'>6701</div></td><td class='data'><div class='course_name'>英語文</div><div class='teacher_name'>謝玉娥</div><div class='classroom'>6701</div></td><td class='data'><div class='course_name'>資訊科技</div><div class='teacher_name'>賴錦緣</div><div class='classroom'>2701</div></td></tr><tr><th class='number'>4</th><th class='time'>11:10<br>｜<br>12:00</th><td class='data'><div class='course_name'>數學</div><div class='teacher_name'>黃馨逸</div><div class='classroom'>6604</div></td><td class='data'><div class='course_name'>地理</div><div class='teacher_name'>郭基賢</div><div class='classroom'>5109</div></td><td class='data'><div class='course_name'>基本電學</div><div class='teacher_name'>陳柏淩</div><div class='classroom'>6701</div></td><td class='data'><div class='course_name'>英語文</div><div class='teacher_name'>謝玉娥</div><div class='classroom'>6701</div></td><td class='data'><div class='course_name'>資訊科技</div><div class='teacher_name'>賴錦緣</div><div class='classroom'>2701</div></td></tr><tr><th class='number'>5</th><th class='time'>13:25<br>｜<br>14:15</th><td class='data'><div class='course_name'>音樂</div><div class='teacher_name'>呂佳陵</div><div class='classroom'>3305</div></td><td class='data'><div class='course_name'>歷史</div><div class='teacher_name'>張孟秋</div><div class='classroom'>6605</div></td><td class='data'><div class='course_name'>國語文</div><div class='teacher_name'>王月秀</div><div class='classroom'>6701</div></td><td class='data'><div class='course_name'>體育</div><div class='teacher_name'>簡岱芸</div><div class='classroom'>0000</div></td><td class='data'><div class='course_name'>資訊科技與運算思維</div><div class='teacher_name'>侯幸雨</div><div class='classroom'>2702</div></td></tr><tr><th class='number'>6</th><th class='time'>14:20<br>｜<br>15:10</th><td class='data'><div class='course_name'>音樂</div><div class='teacher_name'>呂佳陵</div><div class='classroom'>3305</div></td><td class='data'><div class='course_name'>歷史</div><div class='teacher_name'>張孟秋</div><div class='classroom'>6605</div></td><td class='data'><div class='course_name'>國語文</div><div class='teacher_name'>王月秀</div><div class='classroom'>6701</div></td><td class='data'><div class='course_name'>體育</div><div class='teacher_name'>簡岱芸</div><div class='classroom'>0000</div></td><td class='data'><div class='course_name'>資訊科技與運算思維</div><div class='teacher_name'>侯幸雨</div><div class='classroom'>2702</div></td></tr><tr><th class='number'>7</th><th class='time'>15:20<br>｜<br>16:10</th><td class='data'><div class='course_name'>基本電學實習</div><div class='teacher_name'>張文澤</div><div class='classroom'>2802</div></td><td class='data'><div class='course_name'>全民國防教育</div><div class='teacher_name'>單環琪</div><div class='classroom'>8402</div></td><td class='data'><div class='course_name'>國語文</div><div class='teacher_name'>王月秀</div><div class='classroom'>6701</div></td><td class='data'><div class='course_name'>週會/班會</div><div class='teacher_name'>劉嘉雯</div><div class='classroom'>6701</div></td><td class='data'><div class='course_name'>資訊科技與運算思維</div><div class='teacher_name'>侯幸雨</div><div class='classroom'>2702</div></td></tr><tr><th class='number'>8</th><th class='time'>16:15<br>｜<br>17:05</th><td class='data'><div class='course_name'>基本電學實習</div><div class='teacher_name'>張文澤</div><div class='classroom'>2802</div></td><td class='data'><div class='course_name'>健康與護理</div><div class='teacher_name'>林錦良</div><div class='classroom'>8401</div></td><td class='data'><div class='course_name'>計算機概論</div><div class='teacher_name'>張家瑋</div><div class='classroom'>2702</div></td><td class='data'><div class='course_name'>週會/班會</div><div class='teacher_name'>劉嘉雯</div><div class='classroom'>6701</div></td><td class='data'><div class='course_name'> </div><div class='teacher_name'> </div><div class='classroom'> </div></td></tr><tr><th class='number'>9</th><th class='time'>17:10<br>｜<br>18:00</th><td class='data'><div class='course_name'>基本電學實習</div><div class='teacher_name'>張文澤</div><div class='classroom'>2802</div></td><td class='data'><div class='course_name'> </div><div class='teacher_name'> </div><div class='classroom'> </div></td><td class='data'><div class='course_name'>計算機概論</div><div class='teacher_name'>張家瑋</div><div class='classroom'>2702</div></td><td class='data'><div class='course_name'> </div><div class='teacher_name'> </div><div class='classroom'> </div></td><td class='data'><div class='course_name'> </div><div class='teacher_name'> </div><div class='classroom'> </div></td></tr><tr>
+    
+  </tbody></table>
+</div>
+</div>
+   </div>
