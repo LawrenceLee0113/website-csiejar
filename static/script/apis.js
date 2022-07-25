@@ -126,10 +126,20 @@ $(document).ready(function () {
 
         })
     }
+
+    user_cookie = getCookie()
     
     let pageName = location.pathname.split("/")[1]
     switch(pageName){
         case "article":
+            let article_id = location.pathname.split("/")[2]
+            if(article_id == undefined || article_id == ""){
+                if (user_cookie.user_id == "") {
+                    alert("此頁面需要登入才能使用 即將將您導向")
+                    location.replace("/login")
+                }
+            }
+            break;
         case "article_edit":
         case "manager":
             if (user_cookie.user_id == "") {
@@ -157,12 +167,12 @@ $(document).ready(function () {
 
                 }else if(response.message == "user id not defind"){
                     logout()
-                    alert("未查詢到使用者 請重新登入!")
-                    location.replace("/login")
+                    // alert("未查詢到使用者 請重新登入!")
+                    // location.replace("/login")
                 }else{                    
                     logout()
-                    alert("未知的錯誤 即將將您導向")
-                    location.replace("/login")
+                    // alert("未知的錯誤 即將將您導向")
+                    // location.replace("/login")
                 }
             }
         

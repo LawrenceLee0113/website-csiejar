@@ -4,7 +4,7 @@ $(document).ready(function () {
         let article_json = res.article
         console.log(article_json);
         let article_tmpl_html_home = `
-        <div class="card" style="width: 16rem;"> <a class="img_wrapper card-img-top d-flex justify-content-center align-items-center" style="height: 200px;background-color: #9B9B9B;" href=""> <img class="" src="https://fakeimg.pl/900x500/" alt="Card image cap" style="max-height: 100%;max-width: 100%;"> </a> <div class="card-body"> <h5 class="card-title">Card title</h5> <p class="card-text view_content">Some quick example text to build on the card title and make up the bulk of the card's content.</p> <a href="#" class="btn btn-primary">Go somewhere</a> </div> </div>
+        <div class="card" style=""> <a class="img_wrapper card-img-top d-flex justify-content-center align-items-center" style="height: 200px;background-color: #9B9B9B;" href=""> <img class="" src="https://fakeimg.pl/900x500/" alt="Card image cap" style="max-height: 100%;max-width: 100%;"> </a> <div class="card-body"> <h5 class="card-title">Card title</h5> <p class="card-text view_content">Some quick example text to build on the card title and make up the bulk of the card's content.</p> <a href="#" class="btn btn-primary">Go somewhere</a> </div> </div>
         `
         
         for(let i in article_json){

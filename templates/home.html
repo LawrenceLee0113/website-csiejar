@@ -16,6 +16,33 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
     <script src="../static/script/home.js"></script>
+    <style>
+        @media only screen and (min-width: 576px) {
+            .card {
+                width:255px;
+            }
+        }
+        @media only screen and (min-width: 768px) {
+            .card {
+                width:230px;
+            }
+        }
+         @media only screen and (min-width: 992px) {
+            .card {
+                width:232.5px;
+            }
+        }
+        @media only screen and (min-width: 1200px) {
+            .card {
+                width:222px;
+            }
+        }
+        @media only screen and (max-width: 576px) {
+            .card {
+                width:230px;
+            }
+        }
+    </style>
     
     {{component_html_obj.header_info_html | safe}}
 </head>
@@ -58,7 +85,7 @@
                 <span class="sr-only">Next</span>
             </a>
         </div>
-        <div class="cards_area d-flex justify-content-between flex-wrap">
+        <div class="cards_area d-flex flex-wrap">
             <!-- <div class="card" style="width: 16rem;">
                 <a class="img_wrapper card-img-top d-flex justify-content-center align-items-center" style="height: 200px;background-color: #9B9B9B;" href="">
                     <img class="" src="https://fakeimg.pl/900x500/" alt="Card image cap" style="max-height: 100%;max-width: 100%;">
