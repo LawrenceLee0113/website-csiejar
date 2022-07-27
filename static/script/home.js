@@ -68,11 +68,13 @@ $(document).ready(function () {
         data: {},
         dataType: "json",
         success: function (response) {
-            for(let i of response){
+            console.log(response.fast_link)
+            for(let i in response.fast_link){
+                console.log(i)
                 jQuery('<a>', {
                     style: 'flex:33%',
-                    href: i.link,
-                    html: i.title,
+                    href: response.fast_link[i].link,
+                    html: response.fast_link[i].title,
                     class:"btn-link"
                 }).appendTo('.link_container');
             }

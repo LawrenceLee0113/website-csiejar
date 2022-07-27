@@ -72,13 +72,33 @@ $(document).ready(function () {
                 type:"POST",
                 data:$("#signup_form").serialize()+'&form_name='+$("#signup_form").attr("name"),
                 success: function(data){
-                    console.log(data);
-                    setCookie({
-                        user_id: data.user.user_id,
-                        user_token: data.user.user_token,
-                        login_type: data.user.login_type
-                    })
-                    window.location.href = "/home";
+                    switch(data.status){
+                        case "success":
+                            console.log(data);
+                            setCookie({
+                                user_id: data.user.user_id,
+                                user_token: data.user.user_token,
+                                login_type: data.user.login_type
+                            })
+                            window.location.href = "/home";
+                            break;
+                        case "名稱不得為空":
+                            alert("名稱不得為空");
+                            break;
+                        case "密碼長度不足六位":
+                            alert("密碼長度不足六位");
+                            break;
+                        case "密碼不可空白或含有空格":
+                            alert("密碼不可空白或含有空格");
+                            break;
+                        case "Email不可空白或含有空格":
+                            alert("Email不可空白或含有空格");
+                            break;
+                        case "Email已被使用":
+                            alert("Email已被使用");
+                            $("#signup_form input[name=mail]").css("border-color","red");
+                            break
+                    }
                 },
             })
         )

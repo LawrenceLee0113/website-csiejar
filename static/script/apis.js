@@ -163,7 +163,7 @@ $(document).ready(function () {
                 }else if(response.message == "user token useless"){
                     logout()
                     alert("憑證碼過期 請重新登入!")
-                    location.replace("/login")
+                    // location.replace("/login")
 
                 }else if(response.message == "user id not defind"){
                     logout()

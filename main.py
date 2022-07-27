@@ -3,6 +3,7 @@ import time, datetime, sys, codecs, uuid
 from bs4 import BeautifulSoup
 import datetime
 import mail
+from dateutil.relativedelta import relativedelta
 
 # google login import
 from google.oauth2 import id_token
@@ -123,7 +124,7 @@ def create_account(user_id, name, email, view_name, picture, login_type, id):
         "ban": "false",
         "authorize": "false",
         "last_login_time":
-        datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        (datetime.datetime.now()  + relativedelta(hours=8)).strftime("%Y-%m-%d %H:%M:%S"),
         "login_times": 1,
         "login_type": login_type,
         "google_id": id,
@@ -143,21 +144,6 @@ def create_user_id(id):
     return user_id
 
 
-# @app.route('/google',methods=["POST"])
-# def google_login():
-#   with open("static/data/ID_and_google") as file:
-#         data = json.load(file)
-
-#   try:
-#     id = request.form.get("id")
-#     name = request.form.get("name")
-#     user_id = data["google_id"][id]
-
-#   except KeyError:
-#       email = request.form.get("email")
-#       create_account(id,name,email)
-
-#   return jsonify({"message":"true","passcode":create_user_id(id)})
 
 
 @app.route('/api/login', methods=["post"])  #login by cookie user info
@@ -165,19 +151,12 @@ def api_login():
     login_type = request.form.get('login_type')
     user_id = request.form.get('user_id')
     user_token = request.form.get('user_token')
-    print("login_type", login_type)
-    print("user_id", user_id)
-    print("user_token", user_token)
-    with open("static/data/ID_and_google.json") as file:
-        data = json.load(file)
-
+    
     try:
-        currect_token = data["user_id"][user_id]["user_token"]
-        print("currect_token", currect_token)
-        if currect_token == user_token:
+        if check_token(user_id,user_token):
             user = login(user_id)
+            
             output = {"message": "pass", "user": user}
-            print("after user_token", user["user_token"])
         else:
             output = {"message": "user token useless"}
     except KeyError:
@@ -190,7 +169,27 @@ def login(now_user_id):
     update_token(now_user_id)
     with open("static/data/ID_and_google.json") as file:
         data = json.load(file)
+
+    # 增加login times 
+    datetime1 = datetime.datetime.strptime(data["user_id"][now_user_id]["last_login_time"],"%Y-%m-%d %H:%M:%S")# last time
+    datetime2 = datetime.datetime.now()# now time
+    datetime3 = datetime2 + relativedelta(hours=8)
+    _a = (datetime3 - datetime1).total_seconds() / 60# 相差分鐘
+    
+    if _a > 15:
+        data["user_id"][now_user_id]["login_times"] += 1
+        data["user_id"][now_user_id]["last_login_time"] = datetime3.strftime("%Y-%m-%d %H:%M:%S")
+    else:
+        data["user_id"][now_user_id]["last_login_time"] = datetime3.strftime("%Y-%m-%d %H:%M:%S")
+    with open("static/data/ID_and_google.json","w") as file:
+        json.dump(data,file)
     return data["user_id"][now_user_id]
+
+
+def check_token(user_id,user_token):
+    with open("static/data/ID_and_google.json") as file:
+        data = json.load(file)
+    return user_token == data["user_id"][user_id]["user_token"]
     
 
 def update_token(user_id):
@@ -367,7 +366,7 @@ def test():
         #     data["article_amount"] += 1
         #     json.dump(data, file)
         output = {}
-
+        
         allow_sub = server_data["article_allow_sub"][get_mode]
 
         if get_mode == None:
@@ -466,31 +465,114 @@ def test():
         return jsonify({"user_token":update_token(user_id),"status":status})
         
 
-@app.route('/api/user',methods =["PUT"])
+@app.route('/api/user',methods =["PUT","DELETE"])
 def user_change():
-    change = request.form.get("change")
-    change_data = request.form.get("change_data")
-    user_id = request.form.get("user_id")
-    user_token = request.form.get("user_token")
-    change_data_dict = eval(change_data)
-    change_list = change.split(",")
-    allow = ["view_name","img"]
+    if request.method == "PUT":
+        change = request.form.get("change")
+        change_data = request.form.get("change_data")
+        user_id = request.form.get("user_id")
+        user_token = request.form.get("user_token")
+        change_data_dict = eval(change_data)
+        change_list = change.split(",")
+        allow = ["view_name","img"]
     
-    with open("static/data/ID_and_google.json","r") as file:
-            data = json.load(file)
-    if user_token == data["user_id"][user_id]["user_token"]:
-        for i in change_list:
-            if i in allow:
-                data["user_id"][user_id][i] = change_data_dict[i]
-            else:
-                pass
-        status = "success"
-    else:
-        status = "token_error"
-    with open("static/data/ID_and_google.json","w") as file:
-        json.dump(data,file)
-    return jsonify({"user_token":update_token(user_id),"status":status})
+        with open("static/data/ID_and_google.json","r") as file:
+                data = json.load(file)
+        if user_token == data["user_id"][user_id]["user_token"]:
+            for i in change_list:
+                if i in allow:
+                    data["user_id"][user_id][i] = change_data_dict[i]
+                else:
+                    pass
+            status = "success"
+        else:
+            status = "token_error"
+        with open("static/data/ID_and_google.json","w") as file:
+            json.dump(data,file)
+        return jsonify({"user_token":update_token(user_id),"status":status})
 
+    #註銷帳號
+    elif request.method == "DELETE":
+        user_id = request.args.get("user_id")
+        want_delete_user_id = request.args.get("want_delete_user_id")
+        user_token = request.args.get("user_token")
+        with open("static/data/ID_and_google.json","r") as file:
+            data = json.load(file)
+        #自行註銷
+        if (user_id == want_delete_user_id) and (user_token == data["user_id"][user_id]["user_token"]):
+            if data["user_id"][user_id]["login_type"] == "google":
+                google_id = data["user_id"][user_id]["google_id"]
+                del data["google_id"][google_id]
+            del data["user_id"][user_id]
+
+            with open("static/data/ID_and_google.json","w") as file:
+                json.dump(data,file)
+            return "自行刪除成功"
+        #管理員刪除
+        elif (data["user_id"][user_id]["admin"] == "true") and (user_token == data["user_id"][user_id]["user_token"]):
+            if data["user_id"][want_delete_user_id]["login_type"] == "google":
+                google_id = data["user_id"][want_delete_user_id]["google_id"]
+                del data["google_id"][google_id]
+            del data["user_id"][want_delete_user_id]
+            new_token = update_token(user_id)
+            data["user_id"][user_id]["user_token"] = new_token
+            print(user_id+"的新token為"+new_token)
+            with open("static/data/ID_and_google.json","w") as file:
+                json.dump(data,file)
+            return "管理員刪除成功"
+        else:
+            return "你沒有權限或者Token錯誤"
+    
+    
+            
+@app.route('/api/admin',methods =["POST","DELETE"])
+def admin():
+    #新增管理者
+    if request.method == "POST":
+        user_id = request.args.get("user_id")
+        user_token = request.args.get("user_token")
+        new_admin_id = request.args.get("new_admin_id")
+        with open("static/data/ID_and_google.json") as file:
+            data = json.load(file)
+        if data["user_id"][new_admin_id]["admin"] == "true":
+            return "此用戶已為管理員"
+        elif (data["user_id"][user_id]["admin"] == "true") and (user_token == data["user_id"][user_id]["user_token"]):
+            data["user_id"][new_admin_id]["admin"] = "true"
+            new_token = update_token(user_id)
+            data["user_id"][user_id]["user_token"] = new_token
+            print(user_id+"的新token為"+new_token)
+            
+            new_token = update_token(new_admin_id)
+            data["user_id"][new_admin_id]["user_token"] = new_token
+            print(new_admin_id+"的新token為"+new_token)
+            
+            with open("static/data/ID_and_google.json","w") as file:
+                json.dump(data,file)
+            return "管理者新增成功"
+        else:
+            return "你沒有權限"
+
+    #刪除管理者
+    elif request.method == "DELETE":
+        user_id = request.args.get("user_id")
+        user_token = request.args.get("user_token")
+        remove_admin_id = request.args.get("remove_admin_id")
+        with open("static/data/ID_and_google.json","r") as file:
+            data = json.load(file)
+        if (data["user_id"][user_id]["admin"] == "true") and (data["user_id"][remove_admin_id]["admin"] == "true") and (data["user_id"][user_id]["user_token"] == user_token):
+            data["user_id"][remove_admin_id]["admin"] = "false"
+            new_token = update_token(user_id)
+            data["user_id"][user_id]["user_token"] = new_token
+            print(user_id+"的新token為"+new_token)
+            
+            new_token = update_token(remove_admin_id)
+            data["user_id"][remove_admin_id]["user_token"] = new_token
+            print(remove_admin_id+"的新token為"+new_token)
+            with open("static/data/ID_and_google.json","w") as file:
+                json.dump(data,file)
+            return "完成"
+        else:
+            return "失敗"
 
 @app.route('/data_update')  # update by uptime robot
 def data_update():
@@ -529,8 +611,11 @@ def create_article(article_dict):
     article_id = create_article_id(article_type, amount, 5)
     article_dict["article_id"] = article_id
     article_dict["article_link"] = f"/article/{article_dict['article_id']}"
-    article_dict["ischeck"] = "false"
     user_id = article_dict["article_owner_id"]
+    if (id_data["user_id"][user_id]["authorize"] == "false") or (id_data["user_id"][user_id]["ban"] == "true"):
+        article_dict["ischeck"] = "false"
+    else:
+        article_dict["ischeck"] = "true"
     article_dict["article_owner_name"] = id_data["user_id"][user_id][
         "view_name"]
     article_dict["article_owner_img"] = id_data["user_id"][user_id][
@@ -559,10 +644,7 @@ def create_article(article_dict):
         json.dump(data,file)
     return article_dict
 
-def check_token(user_id,user_token):
-    with open("static/data/ID_and_google.json") as file:
-        data = json.load(file)
-    return user_token == data["user_id"][user_id]["user_token"]
+
 
 #our_login_system
 @app.route('/api/our_login', methods=["POST"])
@@ -571,8 +653,8 @@ def our_login():
         data = json.load(file)
     email = request.form["mail"]
     password = request.form["password"]
-    our_id = data["our_id"][email]
-    if email in data["user_id"][our_id]["email"]:
+    if email in data["our_id"]:
+        our_id = data["our_id"][email]
         our_id = data["our_id"][email]
         if password == data["our_password"][our_id]:
             print("Login!")
@@ -647,42 +729,76 @@ def our_signup():
         else:
             return jsonify({"status":"Email不可空白或含有空格"})
 
-@app.route('/api/fast_link', methods=["POST","GET","PUT"])
+@app.route('/api/fast_link', methods=["POST","GET","PUT","DELETE"])
 def fast_link():
     if request.method == "POST":
-        title = request.form("title")
-        link = request.form("link")
-        with open("static/data/fast_link.json","r") as file:
+        title = request.form.get("title")
+        link = request.form.get("link")
+        user_id = request.form.get("user_id")
+        user_token = request.form.get("user_token")
+        
+        with open("static/data/ID_and_google.json","r") as file:
             data = json.load(file)
-        data["fast_link"].append({
-          "title":title,
-          "link":link
-        })
-        with open("static/data/fast_link.json","w") as file:
-            json.dump(data,file)
-        return "新增成功"
+        if (data["user_id"][user_id]["admin"] == "true") and check_token(user_id,user_token):
+            with open("static/data/fast_link.json","r") as file:
+                data = json.load(file)
+            link_id = "link-"+str(uuid.uuid4())
+            data["fast_link"][link_id] = {
+              "title":title,
+              "link":link,
+                "link_id":link_id
+            }
+            with open("static/data/fast_link.json","w") as file:
+                json.dump(data,file)
+            
+            
+            return jsonify({"status":"success","fast_link":data["fast_link"][link_id]})
+        else:
+            return jsonify({"status":"你沒有權限"})
         
     elif request.method == "GET":
         with open("static/data/fast_link.json","r") as file:
             data = json.load(file)
-        return jsonify(tuple(data["fast_link"]))
+            
+        return jsonify({"fast_link":data["fast_link"]})
     
     elif request.method == "PUT":
-        with open("static/data/fast_link.json","r") as file:
+        user_id = request.form.get("user_id")
+        user_token = request.form.get("user_token")
+        link_id = request.form.get("link_id")
+        new_title = request.form.get("new_title")
+        new_link = request.form.get("new_link")
+        with open("static/data/ID_and_google.json","r") as file:
             data = json.load(file)
-        old_title = request.args.get("old_title")
-        old_link = request.args.get("old_link")
-        new_title = request.args.get("new_title")
-        new_link = request.args.get("new_link")
-        data["fast_link"].remove(old_title)
-        data["fast_link"].remove(old_link)
-        data["fast_link"].append({
-          "title":new_title,
-          "link":new_link
-        })
-        with open("static/data/fast_link.json","w") as file:
-            json.dump(data,file)
-        return "編輯成功"
+        if (data["user_id"][user_id]["admin"] == "true") and check_token(user_id,user_token):
+            with open("static/data/fast_link.json","r") as file:
+                data = json.load(file)
+            data["fast_link"][link_id] = {
+                "title":new_title,
+                  "link":new_link
+            }
+            with open("static/data/fast_link.json","w") as file:
+                json.dump(data,file)
+            
+            return jsonify({"status":"success","new_fast_link":data["fast_link"][link_id]})
+        else:
+            return jsonify({"status":"你沒有權限"})
+    elif request.method == "DELETE":
+        user_id = request.form.get("user_id")
+        user_token = request.form.get("user_token")
+        link_id = request.form.get("link_id")
+        with open("static/data/ID_and_google.json","r") as file:
+            data = json.load(file)
+        if (data["user_id"][user_id]["admin"] == "true") and check_token(user_id,user_token):
+            with open("static/data/fast_link.json","r") as file:
+                data = json.load(file)
+            del data["fast_link"][link_id]
+            with open("static/data/fast_link.json","w") as file:
+                json.dump(data,file)
+            
+            return jsonify({"status":"success"})
+        else:
+            return jsonify({"status":"你沒有權限"})
 #run server
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8080, debug=True)
