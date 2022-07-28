@@ -1,1 +1,154 @@
-{"google_id": {"102572651454383685328": {"user_id": "user-052ad1e0-f240-40f0-a8de-2c1e623dcb11"}, "108306937659223701871": {"user_id": "user-fb7270df-92f7-473c-9a32-1a88c2d2f4bf"}, "110034467077626248649": {"user_id": "user-4d32701a-c41a-421d-a420-1f1888784acb"}, "113700981264861959355": {"user_id": "user-6b7d953a-7637-4308-83b1-7da436c71ed9"}}, "our_id": {"chensofia0214@gmail.com": "user-8b5a91bf-1a36-440a-b641-be8837315968", "j0970238552@gmail.com": "user-ea9e04c9-1431-4100-90d6-cfb181414b4c", "jerry950511@gmail.com": "user-fb6f49b2-3ee2-4739-b104-f5cbfba36e2c", "lawrencelee0112@gmail.com": "user-db905902-6bc0-4af9-9752-78f203e32388", "lawrencelee0113@gmail.com": "user-0b093cac-35df-4b3d-a0fd-3d38066fac67"}, "our_password": {"user-0b093cac-35df-4b3d-a0fd-3d38066fac67": "Abcd0113", "user-8b5a91bf-1a36-440a-b641-be8837315968": "a00000", "user-db905902-6bc0-4af9-9752-78f203e32388": "Abcd0113", "user-ea9e04c9-1431-4100-90d6-cfb181414b4c": "Abc950511", "user-fb6f49b2-3ee2-4739-b104-f5cbfba36e2c": "Abcd1234"}, "user_id": {"user-0b093cac-35df-4b3d-a0fd-3d38066fac67": {"admin": "false", "authorize": "false", "ban": "false", "edit_article_id": [], "email": "lawrencelee0113@gmail.com", "img": "https://image.bc3ts.net/news_e7aeb614866149f3a7a098c5faf2b4c6.jpg", "last_login_time": "2022-07-25 13:10:00", "login_times": 1, "login_type": "CSIEJAR_ID", "own_article_id": [], "role": "visitor", "user_id": "user-0b093cac-35df-4b3d-a0fd-3d38066fac67", "user_token": "token-ea0d4b68-682a-4655-991d-742ab17cf5a0", "view_name": "\u7121\u6575\u81edla\u8178"}, "user-4d32701a-c41a-421d-a420-1f1888784acb": {"admin": "false", "authorize": "false", "ban": "false", "edit_article_id": [], "gmail": "no-reply@csiejar.xyz", "google_id": "110034467077626248649", "google_name": "\u8cc7\u5de5\u81ed\u7532", "img": "https://lh3.googleusercontent.com/a/AItbvmkcelu6GD8N1H1dmcedjz5ZvdlSpACtkHvmIuMW=s96-c", "last_login_time": "Wed, 27 Jul 2022 08:41:04 GMT", "login_times": 1, "login_type": "google", "own_article_id": [], "role": "visitor", "user_id": "user-4d32701a-c41a-421d-a420-1f1888784acb", "user_token": "token-afbca3d2-4a82-4397-8ddd-d15fbd6514fe", "view_name": "\u8cc7\u5de5\u81ed\u7532"}, "user-6b7d953a-7637-4308-83b1-7da436c71ed9": {"admin": "false", "authorize": "false", "ban": "false", "edit_article_id": [], "gmail": "j0970238552@gmail.com", "google_id": "113700981264861959355", "google_name": "\u5353\u5bb6\u777f", "img": "https://lh3.googleusercontent.com/a-/AFdZucoELGpfvy4rni6TLkSAfLk5E7wY8bQjIRY_VZqcmg=s96-c", "last_login_time": "2022-07-27 05:37:08", "login_times": 1, "login_type": "google", "own_article_id": [], "role": "visitor", "user_id": "user-6b7d953a-7637-4308-83b1-7da436c71ed9", "user_token": "token-97ab2874-e870-417e-9ff1-a047dab10fe2", "view_name": "\u5353\u5bb6\u777f"}, "user-8b5a91bf-1a36-440a-b641-be8837315968": {"admin": "false", "authorize": "false", "ban": "false", "edit_article_id": [], "email": "chensofia0214@gmail.com", "img": "https://image.bc3ts.net/news_e7aeb614866149f3a7a098c5faf2b4c6.jpg", "last_login_time": "2022-07-26 07:13:19", "login_times": 1, "login_type": "CSIEJAR_ID", "own_article_id": [], "role": "visitor", "user_id": "user-8b5a91bf-1a36-440a-b641-be8837315968", "user_token": "token-682ac342-7e9f-4952-8d68-edbebed5807d", "view_name": "1111032011"}, "user-db905902-6bc0-4af9-9752-78f203e32388": {"admin": "false", "authorize": "false", "ban": "false", "edit_article_id": [], "email": "lawrencelee0112@gmail.com", "img": "https://image.bc3ts.net/news_e7aeb614866149f3a7a098c5faf2b4c6.jpg", "last_login_time": "2022-07-25 13:11:57", "login_times": 1, "login_type": "CSIEJAR_ID", "own_article_id": [], "role": "visitor", "user_id": "user-db905902-6bc0-4af9-9752-78f203e32388", "user_token": "token-32ab1939-fd56-4ba3-843f-2abc08dfefeb", "view_name": "\u7121\u6575\u81edla\u8178"}, "user-ea9e04c9-1431-4100-90d6-cfb181414b4c": {"admin": "false", "authorize": "false", "ban": "false", "edit_article_id": [], "email": "j0970238552@gmail.com", "img": "https://image.bc3ts.net/news_e7aeb614866149f3a7a098c5faf2b4c6.jpg", "last_login_time": "2022-07-27 17:05:31", "login_times": 6, "login_type": "CSIEJAR_ID", "own_article_id": [], "role": "visitor", "user_id": "user-ea9e04c9-1431-4100-90d6-cfb181414b4c", "user_token": "token-098ac17a-afa4-4472-8253-48bc3daf8ecc", "view_name": "\u560e\u560e\u560e\u560e\u560e\u560e"}, "user-fb7270df-92f7-473c-9a32-1a88c2d2f4bf": {"admin": "true", "authorize": "false", "ban": "false", "edit_article_id": ["project00001"], "gmail": "lawrencelee0113@gmail.com", "google_id": "108306937659223701871", "google_name": "\u674e\u5ead\u6137", "img": "https://lh3.googleusercontent.com/a-/AFdZucr_1lXn_LEFieM07FaJl6kUrjz4ZY7Uz25c74s2Kg=s96-c", "last_login_time": "2022-07-27 21:26:49", "login_times": 9, "login_type": "google", "own_article_id": ["project00001"], "role": "visitor", "user_id": "user-fb7270df-92f7-473c-9a32-1a88c2d2f4bf", "user_token": "token-e8046952-ceff-434d-8240-2ff58ee72c82", "view_name": "\u674e\u5ead\u6137"}}}
+{
+    "google_id": {
+        "102572651454383685328": {
+            "user_id": "user-052ad1e0-f240-40f0-a8de-2c1e623dcb11"
+        },
+        "108306937659223701871": {
+            "user_id": "user-fb7270df-92f7-473c-9a32-1a88c2d2f4bf"
+        },
+        "110034467077626248649": {
+            "user_id": "user-4d32701a-c41a-421d-a420-1f1888784acb"
+        },
+        "113700981264861959355": {
+            "user_id": "user-6b7d953a-7637-4308-83b1-7da436c71ed9"
+        }
+    },
+    "our_id": {
+        "chensofia0214@gmail.com": "user-8b5a91bf-1a36-440a-b641-be8837315968",
+        "j0970238552@gmail.com": "user-ea9e04c9-1431-4100-90d6-cfb181414b4c",
+        "jerry950511@gmail.com": "user-fb6f49b2-3ee2-4739-b104-f5cbfba36e2c",
+        "lawrencelee0112@gmail.com": "user-db905902-6bc0-4af9-9752-78f203e32388",
+        "lawrencelee0113@gmail.com": "user-0b093cac-35df-4b3d-a0fd-3d38066fac67"
+    },
+    "our_password": {
+        "user-0b093cac-35df-4b3d-a0fd-3d38066fac67": "Abcd0113",
+        "user-8b5a91bf-1a36-440a-b641-be8837315968": "a00000",
+        "user-db905902-6bc0-4af9-9752-78f203e32388": "Abcd0113",
+        "user-ea9e04c9-1431-4100-90d6-cfb181414b4c": "Abc950511",
+        "user-fb6f49b2-3ee2-4739-b104-f5cbfba36e2c": "Abcd1234"
+    },
+    "user_id": {
+        "user-0b093cac-35df-4b3d-a0fd-3d38066fac67": {
+            "admin": "false",
+            "authorize": "false",
+            "ban": "false",
+            "edit_article_id": [],
+            "email": "lawrencelee0113@gmail.com",
+            "img": "https://image.bc3ts.net/news_e7aeb614866149f3a7a098c5faf2b4c6.jpg",
+            "last_login_time": "2022-07-25 13:10:00",
+            "login_times": 1,
+            "login_type": "CSIEJAR_ID",
+            "own_article_id": [],
+            "role": "visitor",
+            "user_id": "user-0b093cac-35df-4b3d-a0fd-3d38066fac67",
+            "user_token": "token-ea0d4b68-682a-4655-991d-742ab17cf5a0",
+            "view_name": "\u7121\u6575\u81edla\u8178"
+        },
+        "user-4d32701a-c41a-421d-a420-1f1888784acb": {
+            "admin": "false",
+            "authorize": "false",
+            "ban": "false",
+            "edit_article_id": [],
+            "gmail": "no-reply@csiejar.xyz",
+            "google_id": "110034467077626248649",
+            "google_name": "\u8cc7\u5de5\u81ed\u7532",
+            "img": "https://lh3.googleusercontent.com/a/AItbvmkcelu6GD8N1H1dmcedjz5ZvdlSpACtkHvmIuMW=s96-c",
+            "last_login_time": "Wed, 27 Jul 2022 08:41:04 GMT",
+            "login_times": 1,
+            "login_type": "google",
+            "own_article_id": [],
+            "role": "visitor",
+            "user_id": "user-4d32701a-c41a-421d-a420-1f1888784acb",
+            "user_token": "token-afbca3d2-4a82-4397-8ddd-d15fbd6514fe",
+            "view_name": "\u8cc7\u5de5\u81ed\u7532"
+        },
+        "user-6b7d953a-7637-4308-83b1-7da436c71ed9": {
+            "admin": "false",
+            "authorize": "false",
+            "ban": "false",
+            "edit_article_id": [],
+            "gmail": "j0970238552@gmail.com",
+            "google_id": "113700981264861959355",
+            "google_name": "\u5353\u5bb6\u777f",
+            "img": "https://lh3.googleusercontent.com/a-/AFdZucoELGpfvy4rni6TLkSAfLk5E7wY8bQjIRY_VZqcmg=s96-c",
+            "last_login_time": "2022-07-27 05:37:08",
+            "login_times": 1,
+            "login_type": "google",
+            "own_article_id": [],
+            "role": "visitor",
+            "user_id": "user-6b7d953a-7637-4308-83b1-7da436c71ed9",
+            "user_token": "token-97ab2874-e870-417e-9ff1-a047dab10fe2",
+            "view_name": "\u5353\u5bb6\u777f"
+        },
+        "user-8b5a91bf-1a36-440a-b641-be8837315968": {
+            "admin": "false",
+            "authorize": "false",
+            "ban": "false",
+            "edit_article_id": [],
+            "email": "chensofia0214@gmail.com",
+            "img": "https://image.bc3ts.net/news_e7aeb614866149f3a7a098c5faf2b4c6.jpg",
+            "last_login_time": "2022-07-26 07:13:19",
+            "login_times": 1,
+            "login_type": "CSIEJAR_ID",
+            "own_article_id": [],
+            "role": "visitor",
+            "user_id": "user-8b5a91bf-1a36-440a-b641-be8837315968",
+            "user_token": "token-682ac342-7e9f-4952-8d68-edbebed5807d",
+            "view_name": "1111032011"
+        },
+        "user-db905902-6bc0-4af9-9752-78f203e32388": {
+            "admin": "false",
+            "authorize": "false",
+            "ban": "false",
+            "edit_article_id": [],
+            "email": "lawrencelee0112@gmail.com",
+            "img": "https://image.bc3ts.net/news_e7aeb614866149f3a7a098c5faf2b4c6.jpg",
+            "last_login_time": "2022-07-25 13:11:57",
+            "login_times": 1,
+            "login_type": "CSIEJAR_ID",
+            "own_article_id": [],
+            "role": "visitor",
+            "user_id": "user-db905902-6bc0-4af9-9752-78f203e32388",
+            "user_token": "token-32ab1939-fd56-4ba3-843f-2abc08dfefeb",
+            "view_name": "\u7121\u6575\u81edla\u8178"
+        },
+        "user-ea9e04c9-1431-4100-90d6-cfb181414b4c": {
+            "admin": "false",
+            "authorize": "false",
+            "ban": "false",
+            "edit_article_id": [],
+            "email": "j0970238552@gmail.com",
+            "img": "https://image.bc3ts.net/news_e7aeb614866149f3a7a098c5faf2b4c6.jpg",
+            "last_login_time": "2022-07-27 17:05:31",
+            "login_times": 6,
+            "login_type": "CSIEJAR_ID",
+            "own_article_id": [],
+            "role": "visitor",
+            "user_id": "user-ea9e04c9-1431-4100-90d6-cfb181414b4c",
+            "user_token": "token-098ac17a-afa4-4472-8253-48bc3daf8ecc",
+            "view_name": "\u560e\u560e\u560e\u560e\u560e\u560e"
+        },
+        "user-fb7270df-92f7-473c-9a32-1a88c2d2f4bf": {
+            "admin": "true",
+            "authorize": "false",
+            "ban": "false",
+            "edit_article_id": [
+                "project00001"
+            ],
+            "gmail": "lawrencelee0113@gmail.com",
+            "google_id": "108306937659223701871",
+            "google_name": "\u674e\u5ead\u6137",
+            "img": "https://ik.imagekit.io/csiejarimgstorage/web_v2/user/user-fb7270df-92f7-473c-9a32-1a88c2d2f4bf/view_head_img.png",
+            "last_login_time": "2022-07-27 22:40:57",
+            "login_times": 9,
+            "login_type": "google",
+            "own_article_id": [
+                "project00001"
+            ],
+            "role": "visitor",
+            "user_id": "user-fb7270df-92f7-473c-9a32-1a88c2d2f4bf",
+            "user_token": "token-46ec7861-2a0f-4520-9b7c-1bfcc13d4e31",
+            "view_name": "\u674e\u5ead\u6137"
+        }
+    }
+}

@@ -450,18 +450,29 @@ def test():
         user_id = request.form.get("user_id")
         user_token = request.form.get("user_token")
         allow = ["content","subject","article_img_url","big_img_url","ishome","home_delete_time","ishome_img","home_img_delete_time","isupload"]
-        
-        with open("static/data/article_data.json","r") as file:
+        datetime2 = datetime.datetime.now()# now time
+        datetime3 = datetime2 + relativedelta(hours=8)
+        with open("static/data/ID_and_google.json") as file:
             data = json.load(file)
-        for i in change_list:
-            if i in allow:
-                data["article_id"][article_id][i] = change_data_dict[i]
-            else:
-                pass
-        with open("static/data/article_data.json","w") as file:
-            json.dump(data,file)
-        print(change_list)
-        status = "success"
+            user_name = data["user_id"][user_id]["view_name"]
+        if (data["user_id"][user_id]["user_token"] == user_token) and((article_id in data["user_id"][user_id]["own_article_id"])or(data["user_id"][user_id]["admin"] == "true")):
+            with open("static/data/article_data.json","r") as file:
+                data = json.load(file)
+            
+            for i in change_list:
+                if i in allow:
+                    data["article_id"][article_id][i] = change_data_dict[i]
+                else:
+                    pass
+            data["article_id"][article_id]["last_edit_time"] = datetime3.strftime("%Y-%m-%d %H:%M:%S")
+            data["article_id"][article_id]["last_editor_id"] = user_id
+            data["article_id"][article_id]["last_editor_name"] = user_name
+            with open("static/data/article_data.json","w") as file:
+                json.dump(data,file)
+            print(change_list)
+            status = "success"
+        else:
+            status = "Permission error"
         return jsonify({"user_token":update_token(user_id),"status":status})
         
 
@@ -489,7 +500,7 @@ def user_change():
             status = "token_error"
         with open("static/data/ID_and_google.json","w") as file:
             json.dump(data,file)
-        return jsonify({"user_token":update_token(user_id),"status":status})
+        return jsonify({"user_token":update_token(user_id),"status":status,"value":change_data_dict[i]})
 
     #註銷帳號
     elif request.method == "DELETE":
@@ -674,6 +685,8 @@ def our_signup():
     name = request.form["name"]
     email = request.form["mail"]
     password = request.form["password"]
+    datetime2 = datetime.datetime.now()# now time
+    datetime3 = datetime2 + relativedelta(hours=8)
     print(name, email, password)
     with open("static/data/ID_and_google.json", "r") as file:
         data = json.load(file)
@@ -704,7 +717,7 @@ def our_signup():
                             "authorize":
                             "false",
                             "last_login_time":
-                            datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                            datetime3.strftime("%Y-%m-%d %H:%M:%S"),
                             "login_times":
                             1,
                             "login_type":

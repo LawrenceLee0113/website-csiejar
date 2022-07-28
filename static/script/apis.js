@@ -9,18 +9,22 @@ function progress_controller(progressId, num,finish_func=()=>{}) {
     if (num == "100") {
       setTimeout(() => {
         $("#" + progressId).addClass("bg-success").html("上傳成功").removeClass("progress-bar-animated");
+        setTimeout(() => {
+            $("#" + progressId).removeClass("bg-success").addClass("progress-bar-animated");
+            $("#" + progressId).parent().hide();
+          }, 500)
         finish_func()
       }, 500)
     }
   }
-function imagekit_uploader({file_id,user_id,user_token,file_name,folder_name,file_type="png",status_func={}}){
+function imagekit_uploader({file_id,user_id,user_token,file_name,folder_name,file_type="png",status_func={},useUniqueFileName="true"}){
     var file = document.getElementById(file_id);
     var formData = new FormData();
     formData.append("file", file.files[0]);
     formData.append("fileName", `${file_name}.${file_type}`);
     formData.append("publicKey","public_4YpxagNybX9kAXW6yNx8x9XnFX0=");
     formData.append("folder",`/web_v2${folder_name}/`);
-    // formData.append("useUniqueFileName","false");//唯一照片
+    formData.append("useUniqueFileName",useUniqueFileName);//唯一照片
     // alert("upload success")
     // Let's get the signature, token and expire from server side
     status_func.status0()
@@ -163,7 +167,7 @@ $(document).ready(function () {
                 }else if(response.message == "user token useless"){
                     logout()
                     alert("憑證碼過期 請重新登入!")
-                    // location.replace("/login")
+                    location.replace("/login")
 
                 }else if(response.message == "user id not defind"){
                     logout()
@@ -194,7 +198,7 @@ function login_success() {
     $("#personnel_setting_role_label").html(user.role);
     $("#personnel_setting_login_type_label").html(user.login_type);
     $("#personnel_setting_img_url").val(user.img);
-    $("#personnel_setting_view_img_container").html(`<img class="w-100"src="${user.img}">`);
+    $("#personnel_setting_view_img_container").html(`<img class="w-100"src="${user.img+"?v="+Math.random()}">`);
     $("#article_owner_id").val(user.user_id);
     $("#user_token").val(user.user_token);
 
