@@ -10,6 +10,14 @@ var manager_selector_setting = {
             options: ["全部", "審核中", "審核通過", "審核不通過"],
             options_id: ["all", "ischeck", "ischeck_pass", "ischeck_not_pass"]
         },
+        "article_type_selector": {
+            title: "文章類別",
+            selector_mode: "multi_select",
+            target_id: "article_type_selector",
+            default_value: [ "公告", "資源", "班級","作品"],
+            options: [ "公告", "資源", "班級","作品"],
+            options_id: ["news", "resource", "class", "project"]
+        },
         "isupload_selector": {
             title: "上架狀態",
             selector_mode: "select",
@@ -76,10 +84,10 @@ for (let now_manager_page in manager_selector_setting) {
         if (selector_mode == "select") {
             //add 小選單
             $(`#${now_manager_page} .selector_uis`).append(`
-            <div class="dropdown">
+            <div class="dropdown mr-3">
                 <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="${selector_setting}"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    ${now_manager_setting[selector_setting].default_value}
+                    ${now_manager_setting[selector_setting].title}(<span class="now_value">${now_manager_setting[selector_setting].default_value}</span>)
                 </a>
 
                 <div class="dropdown-menu">
@@ -99,11 +107,14 @@ for (let now_manager_page in manager_selector_setting) {
                                     <a class="dropdown-item ${class_active}" href="#" data-value="${options_id[option_num]}">${options[option_num]}</a>
                                 `)
             }
+            $(`#${now_manager_page}`).children(".input_area").append(`
+                <input type="hidden" value="${options_id[now_manager_setting[selector_setting].options.indexOf(default_value)]}" id="${selector_setting}_input">
+            `)
 
         } else if (selector_mode == "multi_select") {
             //add 小選單
             $(`#${now_manager_page} .selector_uis`).append(`
-            <div class="dropdown">
+            <div class="dropdown mr-3">
                 <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="${selector_setting}"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     ${now_manager_setting[selector_setting].title}
@@ -116,12 +127,14 @@ for (let now_manager_page in manager_selector_setting) {
             `);
             console.log("selector_setting:", selector_setting);
             let options = now_manager_setting[selector_setting].options
+            let allow_id = []
             for (let option_num in options) {
                 let class_active = ""
                 let target_id = now_manager_setting[selector_setting].target_id;
 
                 if (default_value.includes(options[option_num])) {
                     class_active = "checked"
+                    allow_id.push(options_id[option_num])
                 }
                 $(`#${target_id}`).siblings(".dropdown-menu").append(`
                     <div class="input-group">
@@ -134,15 +147,27 @@ for (let now_manager_page in manager_selector_setting) {
                     </div>
                 `)
             }
+            $(`#${now_manager_page}`).children(".input_area").append(`
+                <input type="hidden" value="${allow_id}" id="${selector_setting}_input">
+            `)
 
         }
-        $(`#${now_manager_page}`).children(".input_area").append(`
-                <input type="hidden" value="${options_id[now_manager_setting[selector_setting].options.indexOf(default_value)]}" id="${selector_setting}_input">
-        `)
+        
     }
+    $(`#${now_manager_page} .selector_uis`).append(`
+        <a class="query_icon d-flex  align-items-center" href="#" data-page_name="${now_manager_page}">
+            <i class="bi bi-search"></i>
+        </a>
+    `);
 }
 
 $(document).ready(function () {
+    $(".query_icon").click(function (e) { 
+        e.preventDefault();
+        query($(this).data("page_name"))
+
+        
+    });
     $("a.dropdown-item").click(function (e) {
         e.preventDefault();
         $(this).siblings(".dropdown-item").removeClass("active");
@@ -151,12 +176,12 @@ $(document).ready(function () {
         let now_selector_name = $(this).parents(".dropdown").children("a").attr("id");
         $(`#${now_page_name}`).children(".input_area").children(`#${now_selector_name}_input`).val($(this).data("value"));
 
-        $(this).parents(".dropdown").children("a").html($(this).html());
+        $(this).parents(".dropdown").children("a").children(".now_value").html($(this).html());
 
         // console.log(now_selector_name,now_selector_name,now_val);
 
         // $(this).parents("tab-pane").children(".input_area").children(`#${$(this).parent().attr("id")}_input`).val($(this).data("value"));
-        query(now_page_name)
+        // query(now_page_name)
     });
     $("input[type=checkbox].dropdown-item").click(function (e) {
         let output_value = [];
@@ -172,7 +197,7 @@ $(document).ready(function () {
         let now_selector_name = $(this).parents(".dropdown").children("a").attr("id");
         $(`#${now_page_name}`).children(".input_area").children(`#${now_selector_name}_input`).val(output_value);
         // alert($(this).prop("checked"))
-        query(now_page_name)
+        // query(now_page_name)
     });
 });
 function query(now_manager_page) {
