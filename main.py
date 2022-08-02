@@ -2,8 +2,12 @@ from flask import Flask, render_template, request, json, jsonify, redirect, url_
 import time, datetime, sys, codecs, uuid
 from bs4 import BeautifulSoup
 import datetime
-import mail
 from dateutil.relativedelta import relativedelta
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+import smtplib
+import random
+
 
 # google login import
 from google.oauth2 import id_token
@@ -102,10 +106,14 @@ def page(pageName):
     elif pageName == "forgot_password":
         return render_template("forget_password.html",
                                component_html_obj=component_html_obj)
+    elif pageName == "change_password":
+        return render_template("change_password.html",
+                               component_html_obj=component_html_obj)
     
     else:
         return render_template("noPage.html",
                                component_html_obj=component_html_obj)
+    
 
 
 def create_account(user_id, name, email, view_name, picture, login_type, id):
@@ -407,6 +415,7 @@ def test():
                 if now_article["article_type"] == article_type:
                     output[i] = package_dict(now_article, allow_sub)
             print("文章預覽")
+        
 
         return jsonify({"article": output})
     elif request.method == "DELETE":
@@ -473,7 +482,7 @@ def test():
             status = "success"
         else:
             status = "Permission error"
-        return jsonify({"user_token":update_token(user_id),"status":status})
+        return jsonify({"user_token":update_token(user_id),"status":tatus})
         
 
 @app.route('/api/user',methods =["PUT","DELETE"])
@@ -670,13 +679,14 @@ def our_login():
         if password == data["our_password"][our_id]:
             print("Login!")
             # return email + " is Logged in"
-            return render_template("test.html",user=login(our_id),text=email+"登入成功~ ")
+            return jsonify({"status":"success","user":login(our_id)})
+    
         else:
             print("Password Error")
-            return "Password Error"
+            return jsonify({"status":"Password Error"})
     else:
         print("Error")
-        return "找不到這個帳號"
+        return jsonify({"status":"Account is not define"})
 
 
 @app.route('/api/our_signup', methods=["POST"])
@@ -811,7 +821,107 @@ def fast_link():
             
             return jsonify({"status":"success"})
         else:
-            return jsonify({"status":"你沒有權限"})
+            return jsonify({"status":"你沒有權限"})@app.route("/api/manager" , methods=["GET"])
+
+
+def check_dict(val1,val2):
+    if val2 == "all":
+        return True
+    else:
+        return val1 in val2.split(",")
+    # return True
+def check_dict2(now_article,val1):
+    for i in val1.split(","):
+        if now_article[i] == "true":
+            return True
+    return False
+@app.route("/api/manager" , methods=["GET"])
+def manager():
+    if request.method == "GET":
+        manager_setting = request.args.get("manager_setting")
+        # user_id = request.args.get("user_id")
+        # user_token = request.args.get("user_token")
+        with open("static/data/article_data.json","r") as file:
+            data = json.load(file)
+
+        with open("static/data/server.json", "r") as file:
+            server_data = json.load(file)
+        allow_sub = server_data["article_allow_sub"]["manager"]
+        
+        output = {}
+        
+        # allow_sub = server_data["article_allow_sub"][get_mode]
+        #string
+        print(manager_setting)
+        manager_setting_dict = json.loads(manager_setting)
+        #dict
+        print(manager_setting_dict["ischeck_selector"])
+        # if (data["user_id"][user_id]["admin"] == "true") and (data["user_id"][user_id]["user_token"] == user_token):
+        for i in data["article_id"]:
+            article_content = {}
+            now_article = data["article_id"][i]
+            # print(i,now_article["ischeck"])
+            print(i,manager_setting_dict["other_selector"])
+            print(check_dict2(now_article,manager_setting_dict["other_selector"]))
+            if check_dict(now_article["ischeck"],manager_setting_dict["ischeck_selector"]):
+                if check_dict(now_article["isupload"],manager_setting_dict["isupload_selector"]):
+                    if check_dict(now_article["article_type"],manager_setting_dict["article_type_selector"]):
+                        # if check_dict2(now_article,manager_setting_dict["other_selector"]):
+                        output[i] = package_dict(now_article, allow_sub)
+                    
+                # if check_dict(now_article[]):#全部通過
+                    # if manager_setting_dict["other_selector"] == "all":
+                    #     print("ff")
+                    
+            # output[i] = package_dict(now_article, allow_sub)
+            # print("文章預覽")
+
+
+            # article_type = request.args.get("article_type")
+            # print("首頁區")
+            # for i in data["article_id"]:
+            #     article_content = {}
+            #     now_article = data["article_id"][i]
+            #     if now_article["article_type"] == article_type:
+            #         output[i] = package_dict(now_article, allow_sub)
+            # print("文章預覽")
+        # print("fff")
+    return jsonify({"output":output})
+
+@app.route("/api/forgot_password",methods = ["POST"])
+def forgot_pw():
+    mail = request.args.get("Mail")
+    with open("static/data/ID_and_google.json","r") as file:
+        data = json.load(file)
+    if mail in data["our_id"]:
+        CAPTCHA = str(random.randint(0,9999999))
+        if len(CAPTCHA) < 7:
+            CAPTCHA = "0"*(7-len(CAPTCHA)) + str(CAPTCHA)
+        else:
+            CAPTCHA = CAPTCHA
+        
+        print(mail+"的驗證碼為"+CAPTCHA)
+        content = MIMEMultipart()  #建立MIMEMultipart物件
+        content["subject"] = "CSIEJAR ID重設密碼"  #郵件標題
+        content["from"] = "csiejarjar@gmail.com"  #寄件者
+        content["to"] = mail #收件者
+        content.attach(MIMEText(mail+"你好,你的忘記密碼之驗證碼為"+CAPTCHA))  #郵件內容
+        
+        with smtplib.SMTP(host="smtp.gmail.com", port="587") as smtp:  # 設定SMTP伺服器
+            try:
+                smtp.ehlo()  # 驗證SMTP伺服器
+                smtp.starttls()  # 建立加密傳輸
+                smtp.login("csiejarjar@gmail.com", "mubmdpixdeoauscz")  # 登入寄件者gmail
+                smtp.send_message(content)  # 寄送郵件
+                print("寄出!")
+                return jsonify({"status":"成功寄出"})
+            except Exception as e:
+                print("寄出失敗 ", e)
+                return jsonify({"status":"寄出失敗"})
+    else:
+        return jsonify({"status":"你沒有權限"})
+
+
 #run server
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8080, debug=True)

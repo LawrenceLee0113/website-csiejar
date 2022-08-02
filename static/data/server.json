@@ -16,6 +16,10 @@
         "home_img": [
             "article_id", "article_link", "article_type", "big_img_url",
             "create_time", "ishome_img", "subject"
+        ],
+        "manager":[
+            "article_id", "article_link", "article_type", "article_img_url",
+            "create_time", "ishome", "subject", "isupload", "content"
         ]
     },
     "returnError": {

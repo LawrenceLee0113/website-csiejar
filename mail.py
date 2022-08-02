@@ -2,6 +2,13 @@
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import smtplib
+
+content = MIMEMultipart()  #建立MIMEMultipart物件
+content["subject"] = "CSIEJAR ID重設密碼"  #郵件標題
+content["from"] = "csiejarjar@gmail.com"  #寄件者
+content["to"] = "example@gmail.com" #收件者
+content.attach(MIMEText("Demo python send email"))  #郵件內容
+
 class mail():
     def __init__(self,title="this is title",text="this is content"):
         self.sender = "no-reply@csiejar.xyz"#你的gmail

@@ -31,14 +31,14 @@
             $(".board .note").html(article_dict.subject);
             $(".board .date").html(article_dict.create_time);
             // $(".board .subtitle").html(article_dict.subtitle);
-            $(".board .subtitle").html("");
+            // $(".board .subtitle").html("");
 
-            $(".board .owner").html(article_dict.article_owner_name);
+            $(".board .owner_name").html(article_dict.article_owner_name);
             $(".board .mainTxtArea").html(article_dict.content);
 
             // $(".board .date").html(article_dict.article_id);
-            // $(".board .date").html(article_dict.article_img_url);
-            // $(".board .date").html(article_dict.article_owner_img);
+            $(".board .txtPic").html(article_dict.article_img_url);
+            $(".board .headPic").html(article_dict.article_owner_img);
             // $(".board .date").html(article_dict.article_type);
             // $(".board .date").html(article_dict.ishome);
             // $(".board .date").html(article_dict.ishome_img);
@@ -48,19 +48,29 @@
         
     </script>
     <div class="container">
-         <div class="wrap">
+        <div class="wrap">
             <div class="board">
                 <div class="share">
                     <button class="shareIcon"><i class="fa-solid fa-share-nodes"></i></button>
                 </div>
                 <div class="title">
-                    <h1 class="note">筆記</h1>
+                    <div class="head">
+                        <img src="https://picsum.photos/80/90" class="headPic">
+                    </div>
+                    <h1 class="note">主題</h1>
                     <small class="date">Sun, 24 Jul 2022 12:00:35 GMT</small>
-                    <p class="subtitle">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quam minima laboriosam unde necessitatibus molestias suscipit voluptatum laudantium nam quisquam, consectetur quae vel culpa optio possimus pariatur dignissimos tempore. Maxime, fuga.</p>
-                    <p class="owner">擁有者:XXX</p>
+                    
+                    
+                    <div class="flexArea">
+                        <p class="owner">擁有者:<span class="owner_name"></span></p>
+                        <p class="type">公告</p>
+                    </div>
+                </div>
+                <div class="txtPicArea">
+                    <img src="https://picsum.photos/700/300" class="txtPic">
                 </div>
                 <div class="mainTxtArea">
-                    <h2 class="mainTitle">section1:</h2>
+                    <h2 class="mainTitle">段落一:</h2>
                     <ol class="mainTxt">
                         <li>Lorem ipsum dolor sit amet consectetur adipisicing elit.</li>
                         <li>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</li>
@@ -68,22 +78,7 @@
                         <li>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</li>
                         <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit voluptate exercitationem est ipsum aut dicta vitae corporis, repellendus minus! Perspiciatis id corporis sunt, voluptates rem voluptatum pariatur accusamus eum ipsam?</li>
                     </ol>
-                    <h2 class="mainTitle">section2:</h2>
-                    <ol class="mainTxt">
-                        <li>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</li>
-                        <li>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</li>
-                        <li>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</li>
-                        <li>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</li>
-                        <li>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</li>
-                    </ol>
-                    <h2 class="mainTitle">section3:</h2>
-                    <ol class="mainTxt">
-                        <li>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</li>
-                        <li>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</li>
-                        <li>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</li>
-                        <li>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</li>
-                        <li>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</li>
-                    </ol>
+                    
                 </div>
             </div>
         </div>

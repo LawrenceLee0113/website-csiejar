@@ -8,7 +8,7 @@ var manager_selector_setting = {
             target_id: "ischeck_selector",
             default_value: "全部",
             options: ["全部", "審核中", "審核通過", "審核不通過"],
-            options_id: ["all", "ischeck", "ischeck_pass", "ischeck_not_pass"]
+            options_id: ["all", "aaa", "true", "false"]
         },
         "article_type_selector": {
             title: "文章類別",
@@ -24,7 +24,7 @@ var manager_selector_setting = {
             target_id: "isupload_selector",
             default_value: "全部",
             options: ["全部", "上架", "下架"],
-            options_id: ["all", "isupload", "isupload_not"]
+            options_id: ["all", "true", "false"]
         },
         "other_selector": {
             title: "其他狀態",
@@ -32,7 +32,7 @@ var manager_selector_setting = {
             target_id: "other_selector",
             default_value: ["大圖區", "中圖區"],
             options: ["大圖區", "中圖區"],
-            options_id: ["home_img", "home"]
+            options_id: ["ishome_img", "ishome"]
         },
         "user_selector": {
             title: "使用者",
@@ -210,18 +210,18 @@ function query(now_manager_page) {
     });
     console.log(manager_setting);
 
-    // $.ajax({
-    //     type: "GET",
-    //     url: "/api/manager",
-    //     data: {
-    //         manager_page:now_manager_page,
-    //         manager_setting:manager_setting,
-    //     },
-    //     dataType: "dataType",
-    //     success: function (response) {
-
-    //     }
-    // });
+    $.ajax({
+        type: "GET",
+        url: "/api/manager",
+        data: {
+            get_mode:"manager",
+            manager_setting:JSON.stringify(manager_setting),
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response)
+        }
+    });
 }
 
 

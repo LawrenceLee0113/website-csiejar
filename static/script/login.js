@@ -103,4 +103,33 @@ $(document).ready(function () {
             })
         )
     });
+    
+    $("#signin_form input[type=submit]").click(function (e) { 
+        e.preventDefault();
+            $.ajax({
+                url:"/api/our_login",
+                type:"POST",
+                data:$("#signin_form").serialize()+'&form_name='+$("#signin_form").attr("name"),
+                success: function(data){
+                    // console.log(data.sta);
+                    switch(data.status){
+                        case "success":
+                            console.log(data);
+                            setCookie({
+                                user_id: data.user.user_id,
+                                user_token: data.user.user_token,
+                                login_type: data.user.login_type
+                            })
+                            window.location.href = "/home";
+                            break;
+                        case "Password Error":
+                            alert("密碼錯誤");
+                            break;
+                        case "Account is not define":
+                            alert("沒有與此email相符合的帳號");
+                            break;
+                    }
+                },
+            })
+    });
 });
