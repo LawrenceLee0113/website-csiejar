@@ -37,9 +37,9 @@
             $(".board .mainTxtArea").html(article_dict.content);
 
             // $(".board .date").html(article_dict.article_id);
-            $(".board .txtPic").html(article_dict.article_img_url);
-            $(".board .headPic").html(article_dict.article_owner_img);
-            // $(".board .date").html(article_dict.article_type);
+            $(".board .txtPic").attr("src",article_dict.article_img_url);
+            $(".board .headPic").attr("src",article_dict.article_owner_img);
+            $(".board .type").html(article_dict.article_type);
             // $(".board .date").html(article_dict.ishome);
             // $(".board .date").html(article_dict.ishome_img);
             // $(".board .date").html(article_dict.isupload);
@@ -66,8 +66,8 @@
                         <p class="type">公告</p>
                     </div>
                 </div>
-                <div class="txtPicArea">
-                    <img src="https://picsum.photos/700/300" class="txtPic">
+                <div class="txtPicArea" style="width: 700px;height: 300px;">
+                    <img src="https://picsum.photos/700/300" class="txtPic" style="max-height: 100%;max-width: 100%;">
                 </div>
                 <div class="mainTxtArea">
                     <h2 class="mainTitle">段落一:</h2>

@@ -342,18 +342,23 @@ def test():
         home_img_delete_time = request.form["home_img_delete_time"]
         big_img_url = request.form["big_img_url"]
         article_owner_id = request.form["article_owner_id"]
+        article_img_file_id = request.form["article_img_file_id"]
+        big_img_file_id = request.form["big_img_file_id"]
         user_token = request.form["user_token"]
+        
         article_dict = create_article({
             "subject": subject,  # 標題
             "content": content,  # 內文
             "article_type": article_type,  # 類型
             "article_img_url": article_img_url,  # 文章中圖片*
+            "article_img_file_id": article_img_file_id,
             "isupload":isupload,
             "ishome": ishome,  # 顯示首頁中間區域
             "home_delete_time": home_delete_time,  # 首頁中間區域下架時間
             "ishome_img": ishome_img,  # 顯示首頁上方區域
             "home_img_delete_time": home_img_delete_time,  # 顯示首頁上方下架時間
             "big_img_url": big_img_url,  # 文章大圖片
+            "big_img_file_id":big_img_file_id,
             "article_owner_id": article_owner_id,  # user id
             "user_token": user_token  # user token
         })
@@ -435,6 +440,17 @@ def test():
                     with open("static/data/article_data.json", "r") as file:
                         data = json.load(file)
                     if article_id in data["article_id"]:
+                        big_img_file_id = data["article_id"][article_id]["big_img_file_id"]
+                        article_img_file_id = data["article_id"][article_id]["article_img_file_id"]
+                        imagekit = ImageKit(
+                            public_key='public_4YpxagNybX9kAXW6yNx8x9XnFX0=',
+                            private_key='private_S9iytnyLQd+abJCWH7H/iwygXHc=',
+                            url_endpoint='https://ik.imagekit.io/csiejarimgstorage')
+                        if article_img_file_id != "":
+                            imagekit.delete_file(article_img_file_id)
+                        if big_img_file_id != "":
+                            imagekit.delete_file(big_img_file_id)
+                        print("刪除成功")
                         with open("static/data/article_data.json", "w") as file:
                             del data["article_id"][article_id]
                             json.dump(data, file)
@@ -523,8 +539,14 @@ def user_change():
             if data["user_id"][user_id]["login_type"] == "google":
                 google_id = data["user_id"][user_id]["google_id"]
                 del data["google_id"][google_id]
+                del data["user_id"][user_id]
             del data["user_id"][user_id]
-
+            
+            if data["user_id"][user_id]["login_type"] == "CSIEJAR ID":
+                user_email = data["user_id"][user_id]["email"]
+                del data["user_id"][user_id]
+                del data["our_password"][user_id]
+                del data["our_id"][user_email]
             with open("static/data/ID_and_google.json","w") as file:
                 json.dump(data,file)
             return "自行刪除成功"
@@ -533,7 +555,12 @@ def user_change():
             if data["user_id"][want_delete_user_id]["login_type"] == "google":
                 google_id = data["user_id"][want_delete_user_id]["google_id"]
                 del data["google_id"][google_id]
-            del data["user_id"][want_delete_user_id]
+                del data["user_id"][want_delete_user_id]
+            if data["user_id"][want_delete_user_id]["login_type"] == "CSIEJAR ID":
+                want_delete_user_email = data["user_id"][want_delete_user_id]["email"]
+                del data["user_id"][want_delete_user_id]
+                del data["our_password"][want_delete_user_id]
+                del data["our_id"][want_delete_user_email]
             new_token = update_token(user_id)
             data["user_id"][user_id]["user_token"] = new_token
             print(user_id+"的新token為"+new_token)
@@ -558,6 +585,7 @@ def admin():
             return "此用戶已為管理員"
         elif (data["user_id"][user_id]["admin"] == "true") and (user_token == data["user_id"][user_id]["user_token"]):
             data["user_id"][new_admin_id]["admin"] = "true"
+            data["user_id"][new_admin_id]["role"] = "admin"
             new_token = update_token(user_id)
             data["user_id"][user_id]["user_token"] = new_token
             print(user_id+"的新token為"+new_token)
@@ -581,6 +609,7 @@ def admin():
             data = json.load(file)
         if (data["user_id"][user_id]["admin"] == "true") and (data["user_id"][remove_admin_id]["admin"] == "true") and (data["user_id"][user_id]["user_token"] == user_token):
             data["user_id"][remove_admin_id]["admin"] = "false"
+            data["user_id"][remove_admin_id]["role"] = "visitor"
             new_token = update_token(user_id)
             data["user_id"][user_id]["user_token"] = new_token
             print(user_id+"的新token為"+new_token)
@@ -893,6 +922,8 @@ def forgot_pw():
     mail = request.args.get("Mail")
     with open("static/data/ID_and_google.json","r") as file:
         data = json.load(file)
+    user_id = data["our_id"][mail]
+    name = data["user_id"][user_id]["view_name"]
     if mail in data["our_id"]:
         CAPTCHA = str(random.randint(0,9999999))
         if len(CAPTCHA) < 7:
@@ -900,12 +931,12 @@ def forgot_pw():
         else:
             CAPTCHA = CAPTCHA
         
-        print(mail+"的驗證碼為"+CAPTCHA)
+        print(name+"("+mail+")"+"的驗證碼為"+CAPTCHA)
         content = MIMEMultipart()  #建立MIMEMultipart物件
         content["subject"] = "CSIEJAR ID重設密碼"  #郵件標題
         content["from"] = "csiejarjar@gmail.com"  #寄件者
         content["to"] = mail #收件者
-        content.attach(MIMEText(mail+"你好,你的忘記密碼之驗證碼為"+CAPTCHA))  #郵件內容
+        content.attach(MIMEText(name+"你好,你的忘記密碼之驗證碼為"+CAPTCHA))  #郵件內容
         
         with smtplib.SMTP(host="smtp.gmail.com", port="587") as smtp:  # 設定SMTP伺服器
             try:

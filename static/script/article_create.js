@@ -1,12 +1,15 @@
 
 var editor;//宣告內文編輯區 ckeditor obj
 InlineEditor
-.create(document.querySelector('#content_editor'), {
-    cloudServices: {
-        tokenUrl: 'https://90366.cke-cs.com/token/dev/d20e8fa470fade60fd1c8eb057600aff2f26e4cde07abe06302686ed03fd?limit=10',
-        uploadUrl: 'https://90366.cke-cs.com/easyimage/upload/'
-    }
-})
+.create(document.querySelector('#content_editor')
+// , {
+//     cloudServices: {
+//         tokenUrl: 'https://90366.cke-cs.com/token/dev/d20e8fa470fade60fd1c8eb057600aff2f26e4cde07abe06302686ed03fd?limit=10',
+//         uploadUrl: 'https://90366.cke-cs.com/easyimage/upload/'
+//     }
+// }
+
+)
 .then(a => {
     editor = a
     editor.model.document.on('change:data', () => {
@@ -18,6 +21,8 @@ InlineEditor
     console.error(error);
 });
 //ckeditor 宣告結束
+
+
 $(document).ready(function () {
     $("#article_img_uploader_btn").click(function (e) {
         //article_img_uploader img 檔案的按鈕
@@ -119,6 +124,7 @@ $(document).ready(function () {
         // console.log($("#big_img_uploader").val())//big img file
         // console.log($("#edit_article_form input[name=big_img_url]").val())
 
+        
         let necessary = [
             $("#edit_article_form input[name=subject]"),
             $("#edit_article_form input[name=content]"),
@@ -127,8 +133,10 @@ $(document).ready(function () {
             $("#edit_article_form input[name=ishome_img]"),
 
         ]
-        
+        // article_img_file_id
+        // big_img_file_id
         for(let i of necessary){
+            console.log($(i).val())
             if ($(i).val() == ""){
                 console.log("foolproof false")
                 $(i).css("border","red solid 1px");
@@ -143,7 +151,7 @@ $(document).ready(function () {
             }
         }
 
-        if (necessary.includes("")){
+        if (necessary.map(x=>$(x).val()).includes("")){
             foolproof = false
         }
 
@@ -162,7 +170,7 @@ $(document).ready(function () {
                 }
             }
 
-            if (ishome_necessary.includes("")){
+            if (ishome_necessary.map(x=>$(x).val()).includes("")){
                 foolproof = false
             }
         }
@@ -187,7 +195,7 @@ $(document).ready(function () {
                 }
             }
 
-            if (ishome_img_necessary.includes("")){
+            if (ishome_img_necessary.map(x=>$(x).val()).includes("")){
                 foolproof = false
             }
         }
@@ -262,6 +270,7 @@ $(document).ready(function () {
                                 console.log(body)
                                 console.log(body.url)
                                 $("#article_img_uploader_url").val(body.url);
+                                $("#article_img_file_id").val(body.fileId);
                                 refresh_upload_progress(15)
                             }
                         }
@@ -299,6 +308,7 @@ $(document).ready(function () {
                             console.log(body)
                             console.log(body.url)
                             $("#big_img_uploader_url").val(body.url);
+                            $("#big_img_file_id").val(body.fileId);
                             refresh_upload_progress(15)
                             }
                         }
