@@ -260,8 +260,22 @@
                   <span class="input-group-text w-100 text-center" id="personnel_setting_user_id">使用者id</span>
 
                 </div>
+                  <style>
+                      #personnel_setting_user_id_label{
+                      white-space: nowrap;
+                        width    : 85%;
+                        overflow: auto;
+                          
+                      }
+                      #personnel_setting_user_id_label::-webkit-scrollbar{
+                          width:0px;
+                          height:0px;
+                      }
+                  </style>
                 <div class="form-control">
-                  <label id="personnel_setting_user_id_label" aria-describedby="personnel_setting_user_id"></label>
+                  <label id="personnel_setting_user_id_label" aria-describedby="personnel_setting_user_id" class="mb-0">
+                      
+                      </label>
                   <button id="personnel_setting_user_id_copy_btn" class="close popover-dismiss" type="button"
                     data-container="body" data-toggle="popover" data-placement="bottom" data-content="copied">
                     <svg id="personnel_setting_user_id_copy" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -330,8 +344,12 @@
 
             </div>
           </div>
-          <div class="logout_btns w-100 d-flex justify-content-center">
-            <button type="button" class="btn btn-light border" onclick="logout()">登出</button>
+          <div class="logout_btns w-100 d-flex justify-content-center" >
+            <div class="logout_btns_wapper w-75 d-flex justify-content-center" style="position: relative;">
+
+              <button type="button" class="btn btn-light border" onclick="logout()">登出</button>
+              <a type="button" class="btn btn-link" style="position: absolute;right: 0px;" href="/change_password">變更密碼</a>
+            </div>
           </div>
         </div>
         <div class="modal-footer">

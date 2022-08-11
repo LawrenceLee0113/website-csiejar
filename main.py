@@ -3,10 +3,21 @@ import time, datetime, sys, codecs, uuid
 from bs4 import BeautifulSoup
 import datetime
 from dateutil.relativedelta import relativedelta
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-import smtplib
+
+
+
 import random
+
+
+#email smtp
+import smtplib
+import email
+import random
+import ssl
+from email import encoders
+from email.mime.base import MIMEBase
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
 
 # google login import
@@ -324,6 +335,7 @@ def package_dict(dict, allow_sub):
 
 @app.route('/api/article', methods=["GET", "POST","DELETE","PUT"])  # article obj return api
 def test():
+    
     if request.method == "POST":
         with open("static/data/article_data.json", "r") as file:
             data = json.load(file)
@@ -917,40 +929,165 @@ def manager():
         # print("fff")
     return jsonify({"output":output})
 
-@app.route("/api/forgot_password",methods = ["POST"])
+@app.route("/api/forgot_password",methods = ["POST","GET"])
 def forgot_pw():
-    mail = request.args.get("Mail")
-    with open("static/data/ID_and_google.json","r") as file:
-        data = json.load(file)
-    user_id = data["our_id"][mail]
-    name = data["user_id"][user_id]["view_name"]
-    if mail in data["our_id"]:
-        CAPTCHA = str(random.randint(0,9999999))
-        if len(CAPTCHA) < 7:
-            CAPTCHA = "0"*(7-len(CAPTCHA)) + str(CAPTCHA)
+    if request.method == "POST":
+        sender = "csiejarjar@gmail.com"
+        receiver = request.args.get("email")
+        password = "mubmdpixdeoauscz"
+        subject = "CSIEJAR ID重設密碼"
+        with open("static/data/ID_and_google.json") as file:
+            data = json.load(file)
+        print(receiver)
+        user_id = data["our_id"][receiver]
+        name = data["user_id"][user_id]["view_name"]
+        with open("static/data/CAPTCHA.json","r") as file:
+            CAPTCHA_data = json.load(file)
+            CAPTCHA_data["CAPTCHA"][receiver] = {
+                            "user":receiver
+                        }
+            captcha_apply_time = datetime.datetime.strptime(CAPTCHA_data["CAPTCHA"][receiver]["time"],"%Y-%m-%d %H:%M:%S")
+            now = (datetime.datetime.now()  + relativedelta(hours=8))
+            _a = (now - captcha_apply_time).total_seconds() / 60
+            print(_a)
+        
+        if (receiver in data["our_id"]):
+            if receiver in CAPTCHA_data["CAPTCHA"]:
+                if int(_a) > 3:
+                #CAPTCHA Build - start
+                    CAPTCHA = str(random.randint(0,9999999))
+                    if len(CAPTCHA) < 7:
+                        CAPTCHA = "0"*(7-len(CAPTCHA)) + str(CAPTCHA)
+                    else:
+                        CAPTCHA = CAPTCHA#pass
+                    
+                    print("驗證碼為"+CAPTCHA)
+                    with open("static/data/CAPTCHA.json") as file:
+                        data = json.load(file)
+                        data["CAPTCHA"][receiver] = {
+                            "user":receiver
+                        }
+                        data["CAPTCHA"][receiver]["user"] = receiver
+                        data["CAPTCHA"][receiver]["time"] = (datetime.datetime.now()  + relativedelta(hours=8)).strftime("%Y-%m-%d %H:%M:%S")
+                        data["CAPTCHA"][receiver]["CAPTCHA"] = CAPTCHA
+                    with open("static/data/CAPTCHA.json","w") as file:
+                        json.dump(data,file)
+                    #CAPTCHA Build - end
+                    
+                    #Mail Build - start
+                    msg = MIMEMultipart("alternative")
+                    msg["Subject"] = subject
+                    msg["From"] = sender
+                    msg["To"] = receiver
+                    html = """\
+                    <html>
+                    <body>
+                        嗨 """+name+""" 我們是資工臭甲 聽說你有重設密碼的需求?<br>
+                            <p>您的驗證碼為:<br>
+                                <b>"""+CAPTCHA+"""</b>
+                        </p><p> 請在頁面上輸入此驗證碼 驗證碼有效期只有10分鐘 若超過10分鐘請重新申請</p><br>
+                        <a href="https://csiejar.xyz/change_password?email="""+receiver+"""&CAPTCHA="""+CAPTCHA+"""">點擊我來重設你的密碼</a>
+                        <p>如果沒有要重設密碼 忽略此信件即可</p>
+                        <p>此為系統自動發送之信件內容 請勿回覆</p>
+                            
+                    </body>
+                    </html>
+                    """
+                    part = MIMEText(html, "html")
+                    msg.attach(part)
+                    
+                    context = ssl.create_default_context()
+                    with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
+                        server.login(sender, password)
+                        server.sendmail(
+                            sender, receiver, msg.as_string()
+                        )
+                        print("Email成功寄出 收件者為"+name+"("+receiver+")")
+                        return jsonify({"status":"成功寄出"})
+                    #Mail Build - end
+                else:
+                    return jsonify({"status":"速率限制"})
+            else:
+                #CAPTCHA Build - start
+                    CAPTCHA = str(random.randint(0,9999999))
+                    if len(CAPTCHA) < 7:
+                        CAPTCHA = "0"*(7-len(CAPTCHA)) + str(CAPTCHA)
+                    else:
+                        CAPTCHA = CAPTCHA#pass
+                    
+                    print("驗證碼為"+CAPTCHA)
+                    with open("static/data/CAPTCHA.json") as file:
+                        data = json.load(file)
+                        data["CAPTCHA"][receiver] = {
+                            "user":receiver
+                        }
+                        data["CAPTCHA"][receiver]["user"] = receiver
+                        data["CAPTCHA"][receiver]["time"] = (datetime.datetime.now()  + relativedelta(hours=8)).strftime("%Y-%m-%d %H:%M:%S")
+                        data["CAPTCHA"][receiver]["CAPTCHA"] = CAPTCHA
+                    with open("static/data/CAPTCHA.json","w") as file:
+                        json.dump(data,file)
+                    #CAPTCHA Build - end
+                    
+                    #Mail Build - start
+                    msg = MIMEMultipart("alternative")
+                    msg["Subject"] = subject
+                    msg["From"] = sender
+                    msg["To"] = receiver
+                    html = """\
+                    <html>
+                    <body>
+                        嗨 """+name+""" 我們是資工臭甲 聽說你有重設密碼的需求?<br>
+                            <p>您的驗證碼為:<br>
+                                <b>"""+CAPTCHA+"""</b>
+                        </p><p> 請在頁面上輸入此驗證碼 驗證碼有效期只有10分鐘 若超過10分鐘請重新申請</p><br>
+                        <a href="https://csiejar.xyz/change_password?email="""+receiver+"""&CAPTCHA="""+CAPTCHA+"""">點擊我來重設你的密碼</a>
+                        <p>如果沒有要重設密碼 忽略此信件即可</p>
+                        <p>此為系統自動發送之信件內容 請勿回覆</p>
+                            
+                    </body>
+                    </html>
+                    """
+                    part = MIMEText(html, "html")
+                    msg.attach(part)
+                    
+                    context = ssl.create_default_context()
+                    with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
+                        server.login(sender, password)
+                        server.sendmail(
+                            sender, receiver, msg.as_string()
+                        )
+                        print("Email成功寄出 收件者為"+name+"("+receiver+")")
+                        return jsonify({"status":"成功寄出"})
+                    #Mail Build - end
         else:
-            CAPTCHA = CAPTCHA
-        
-        print(name+"("+mail+")"+"的驗證碼為"+CAPTCHA)
-        content = MIMEMultipart()  #建立MIMEMultipart物件
-        content["subject"] = "CSIEJAR ID重設密碼"  #郵件標題
-        content["from"] = "csiejarjar@gmail.com"  #寄件者
-        content["to"] = mail #收件者
-        content.attach(MIMEText(name+"你好,你的忘記密碼之驗證碼為"+CAPTCHA))  #郵件內容
-        
-        with smtplib.SMTP(host="smtp.gmail.com", port="587") as smtp:  # 設定SMTP伺服器
-            try:
-                smtp.ehlo()  # 驗證SMTP伺服器
-                smtp.starttls()  # 建立加密傳輸
-                smtp.login("csiejarjar@gmail.com", "mubmdpixdeoauscz")  # 登入寄件者gmail
-                smtp.send_message(content)  # 寄送郵件
-                print("寄出!")
-                return jsonify({"status":"成功寄出"})
-            except Exception as e:
-                print("寄出失敗 ", e)
-                return jsonify({"status":"寄出失敗"})
+            return jsonify({"status":"你沒有CSIEJAR ID的帳號"})
+    elif request.method == "GET":#
+        email = request.args.get("email")
+        CAPTCHA = request.args.get("CAPTCHA")
+        pass
+
+@app.route("/api/change_password",methods = ["POST"])
+def change_password():
+    user_id = request.form.get("user_id")
+    user_token = request.form.get("user_token")
+    old_password = request.form.get("old_password")
+    new_password = request.form.get("new_password")
+    print(user_id,
+user_token,
+old_password,
+new_password)    
+    with open("static/data/ID_and_google.json" , "r") as file:
+        data = json.load(file)
+
+    print(data["user_id"][user_id]["user_token"] == user_token)
+    print(data["our_password"][user_id] == old_password)  
+    if (data["user_id"][user_id]["user_token"] == user_token) and (data["our_password"][user_id] == old_password):
+        data["our_password"][user_id] = new_password
+        with open("static/data/ID_and_google.json" , "w") as file:
+            json.dump(data,file)
+        return jsonify({"status":"success","user":update_token(user_id)})
     else:
-        return jsonify({"status":"你沒有權限"})
+        return jsonify({"status":"fail","user":login(user_id)})
 
 
 #run server
