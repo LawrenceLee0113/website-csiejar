@@ -946,15 +946,17 @@ def forgot_pw():
             CAPTCHA_data["CAPTCHA"][receiver] = {
                             "user":receiver
                         }
-            captcha_apply_time = datetime.datetime.strptime(CAPTCHA_data["CAPTCHA"][receiver]["time"],"%Y-%m-%d %H:%M:%S")
-            now = (datetime.datetime.now()  + relativedelta(hours=8))
-            _a = (now - captcha_apply_time).total_seconds() / 60
-            print(_a)
+            
         
         if (receiver in data["our_id"]):
             if receiver in CAPTCHA_data["CAPTCHA"]:
+                captcha_apply_time = datetime.datetime.strptime(CAPTCHA_data["CAPTCHA"][receiver]["time"],"%Y-%m-%d %H:%M:%S")
+                now = (datetime.datetime.now()  + relativedelta(hours=8))
+                _a = (now - captcha_apply_time).total_seconds() / 60
+                print(_a)
                 if int(_a) > 3:
-                #CAPTCHA Build - start
+                    
+                    #CAPTCHA Build - start
                     CAPTCHA = str(random.randint(0,9999999))
                     if len(CAPTCHA) < 7:
                         CAPTCHA = "0"*(7-len(CAPTCHA)) + str(CAPTCHA)
