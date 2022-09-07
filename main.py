@@ -120,7 +120,7 @@ def page(pageName):
     elif pageName == "change_password":
         return render_template("change_password.html",
                                component_html_obj=component_html_obj)
-    
+
     else:
         return render_template("noPage.html",
                                component_html_obj=component_html_obj)
