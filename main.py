@@ -933,7 +933,7 @@ def manager():
 def forgot_pw():
     if request.method == "POST":
         sender = "csiejarjar@gmail.com"
-        receiver = request.args.get("email")
+        receiver = request.form.get("email")
         password = "mubmdpixdeoauscz"
         subject = "CSIEJAR ID重設密碼"
         with open("static/data/ID_and_google.json") as file:
@@ -950,11 +950,11 @@ def forgot_pw():
         
         if (receiver in data["our_id"]):
             if receiver in CAPTCHA_data["CAPTCHA"]:
-                captcha_apply_time = datetime.datetime.strptime(CAPTCHA_data["CAPTCHA"][receiver]["time"],"%Y-%m-%d %H:%M:%S")
-                now = (datetime.datetime.now()  + relativedelta(hours=8))
-                _a = (now - captcha_apply_time).total_seconds() / 60
-                print(_a)
-                if int(_a) > 3:
+                # captcha_apply_time = datetime.datetime.strptime(CAPTCHA_data["CAPTCHA"][receiver]["time"],"%Y-%m-%d %H:%M:%S")
+                # now = (datetime.datetime.now()  + relativedelta(hours=8))
+                # _a = (now - captcha_apply_time).total_seconds() / 60
+                # print(_a)
+                # if int(_a) > 3:
                     
                     #CAPTCHA Build - start
                     CAPTCHA = str(random.randint(0,9999999))
@@ -1007,8 +1007,8 @@ def forgot_pw():
                         print("Email成功寄出 收件者為"+name+"("+receiver+")")
                         return jsonify({"status":"成功寄出"})
                     #Mail Build - end
-                else:
-                    return jsonify({"status":"速率限制"})
+                # else:
+                #     return jsonify({"status":"速率限制"})
             else:
                 #CAPTCHA Build - start
                     CAPTCHA = str(random.randint(0,9999999))
