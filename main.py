@@ -988,7 +988,7 @@ def forgot_pw():
                             <p>您的驗證碼為:<br>
                                 <b>"""+CAPTCHA+"""</b>
                         </p><p> 請在頁面上輸入此驗證碼 驗證碼有效期只有10分鐘 若超過10分鐘請重新申請</p><br>
-                        <a href="https://csiejar.xyz/change_password?email="""+receiver+"""&CAPTCHA="""+CAPTCHA+"""">點擊我來重設你的密碼</a>
+                        <a href="https://csiejar.xyz/api/forgot_password?email="""+receiver+"""&CAPTCHA="""+CAPTCHA+"""">點擊我來重設你的密碼</a>
                         <p>如果沒有要重設密碼 忽略此信件即可</p>
                         <p>此為系統自動發送之信件內容 請勿回覆</p>
                             
@@ -1042,7 +1042,7 @@ def forgot_pw():
                             <p>您的驗證碼為:<br>
                                 <b>"""+CAPTCHA+"""</b>
                         </p><p> 請在頁面上輸入此驗證碼 驗證碼有效期只有10分鐘 若超過10分鐘請重新申請</p><br>
-                        <a href="https://csiejar.xyz/change_password?email="""+receiver+"""&CAPTCHA="""+CAPTCHA+"""">點擊我來重設你的密碼</a>
+                        <a href="https://csiejar.xyz/api/change_password?email="""+receiver+"""&CAPTCHA="""+CAPTCHA+"""">點擊我來重設你的密碼</a>
                         <p>如果沒有要重設密碼 忽略此信件即可</p>
                         <p>此為系統自動發送之信件內容 請勿回覆</p>
                             
@@ -1066,7 +1066,20 @@ def forgot_pw():
     elif request.method == "GET":#
         email = request.args.get("email")
         CAPTCHA = request.args.get("CAPTCHA")
-        pass
+        with open("static/data/CAPTCHA.json","r") as file:
+            data = json.load(file)
+        if email in data["CAPTCHA"]:
+            
+            if data["CAPTCHA"][email]["CAPTCHA"] == CAPTCHA:
+                # return jsonify({"status":"驗證碼正確"})
+                return render_template("forget_change_password.html",
+                               component_html_obj=component_html_obj)
+            else:
+                # return jsonify({"status":"驗證碼錯誤"})
+                return "<h1>驗證不成功!!</h1>"
+        else:
+            # return jsonify({"status":"你沒有申請過驗證碼"})
+             return "<h1>不要甲了 你根本沒有驗證碼</h1>"
 
 @app.route("/api/change_password",methods = ["POST"])
 def change_password():
