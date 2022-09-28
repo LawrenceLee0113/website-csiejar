@@ -5,10 +5,6 @@ import datetime
 from dateutil.relativedelta import relativedelta
 
 
-
-import random
-
-
 #email smtp
 import smtplib
 import email
@@ -31,16 +27,10 @@ from imagekitio import ImageKit  # imgkit
 app = Flask(__name__)
 
 
-def reflashImagekitKey():  # kitimage get private_key
-    imagekit = ImageKit(
-        public_key='public_4YpxagNybX9kAXW6yNx8x9XnFX0=',
-        private_key='private_S9iytnyLQd+abJCWH7H/iwygXHc=',
-        url_endpoint='https://ik.imagekit.io/csiejarimgstorage')
-    auth_params = imagekit.get_authentication_parameters()
-    return auth_params
 
 
-def component_html(tag, id, innerTags=False):
+
+def component_html(tag, id, innerTags=False): # tag:標籤名稱 id:標籤id innerTags:是否要只取得innerhtml
     with open("templates/index.html", "r", encoding="utf-8") as f:
         text = f.read()
     soup = BeautifulSoup(text, "html.parser")
@@ -69,16 +59,11 @@ component_html_obj = {
 
 @app.route('/')
 def index_page():
-    return redirect(url_for("page", pageName="home"))
+    return redirect(url_for("page", pageName="home")) #預設導向 /home
 
 
-@app.route('/curriculum/<curriculum_num>')
-def curriculum_html(curriculum_num):
-    if curriculum_num == "1_2":
-        return render_template("curriculum1_2.html")
-    else:
-        return "尚未有資料"
-@app.route('/<pageName>')
+
+@app.route('/<pageName>') #各大頁面 home news ...
 def page(pageName):
 
     if pageName == "home":
@@ -164,26 +149,10 @@ def create_user_id(id):
 
 
 
-
-@app.route('/api/login', methods=["post"])  #login by cookie user info
-def api_login():
-    login_type = request.form.get('login_type')
-    user_id = request.form.get('user_id')
-    user_token = request.form.get('user_token')
-    
-    try:
-        if check_token(user_id,user_token):
-            user = login(user_id)
-            
-            output = {"message": "pass", "user": user}
-        else:
-            output = {"message": "user token useless"}
-    except KeyError:
-        output = {"message": "user id not defind"}
-
-    return jsonify(output)
-
-
+#?↓-↓-↓-↓-↓-↓-↓-↓-↓-↓ 帳號區 開始 ↓-↓-↓-↓-↓-↓-↓-↓-↓-↓
+"""
+你已經進入 帳號-函式區
+"""
 def login(now_user_id):
     update_token(now_user_id)
     with open("static/data/ID_and_google.json") as file:
@@ -222,10 +191,32 @@ def update_token(user_id):
     return token
 
 
+"""
+你已經進入 帳號-cookie登入驗證區
+"""
+@app.route('/api/login', methods=["post"])  #login by cookie user info
+def api_login():
+    login_type = request.form.get('login_type')
+    user_id = request.form.get('user_id')
+    user_token = request.form.get('user_token')
+    
+    try:
+        if check_token(user_id,user_token):
+            user = login(user_id)
+            
+            output = {"message": "pass", "user": user}
+        else:
+            output = {"message": "user token useless"}
+    except KeyError:
+        output = {"message": "user id not defind"}
+
+    return jsonify(output)
+
+"""
+你已經進入 帳號-登入方式區
+"""
 CLIENT_ID = "513159013962-1bp03rago46o75rlq51ktj17qqk2d06t.apps.googleusercontent.com"
-
-
-@app.route('/google_check_test', methods=["POST"])  #google id token
+@app.route('/google_check_test', methods=["POST"])  #google login 後 存cookie 導向
 def google_check_test():
     token_id = request.form.get('credential')
     # client_id = request.form.get('g_csrf_token')
@@ -264,451 +255,8 @@ def google_check_test():
         pass
     return render_template("test.html", user=user)
 
-
-@app.route('/uploadImage', methods=["POST"])
-def returnPrivateKay():  # response private_key
-    if request.method == "POST":
-        return jsonify(reflashImagekitKey())
-
-
-@app.route('/returnError', methods=["POST"])  # return error form
-def returnError():  # response private_key
-    if request.method == "POST":
-        returnErrorDictNum = "error-" + str(uuid.uuid4())
-        returnErrorDict = {
-            "return_page_input": request.form.get("return_page_input"),
-            "return_title_input": request.form.get("return_title_input"),
-            "return_content_input": request.form.get("return_content_input"),
-            "return_img_url_input": request.form.get("return_img_url_input"),
-            "return_mail_input": request.form.get("return_mail_input"),
-            "returnErrorDictNum": returnErrorDictNum
-        }
-        with open("static/data/server.json", "r") as file:
-            data = json.load(file)
-        data["returnError"][returnErrorDictNum] = returnErrorDict
-        with open("static/data/server.json", "w") as file:
-            json.dump(data, file)
-        return jsonify({"go": "go"})
-
-
-@app.route('/api/article_type', methods=["GET"])  # get article type(edit show)
-def article_type():
-    with open("static/data/article_data.json", "r") as file:
-        data = json.load(file)
-    output = data["article_type"]
-    return jsonify(output)
-
-
-@app.route('/article/<article_id>', methods=["GET"])
-def article_page(article_id):
-    with open("static/data/article_data.json", "r") as file:
-        data = json.load(file)
-
-    status = True
-    try:
-        article_dict = data["article_id"][article_id]
-
-    except KeyError:
-        status = False
-
-    finally:
-        if status:
-            return render_template("article_page.html",
-                                   component_html_obj=component_html_obj,
-                                   article_dict=article_dict)
-        else:
-            return render_template("noPage.html",
-                                   component_html_obj=component_html_obj)
-
-@app.route('/article_edit/<article_id>', methods=["GET"])
-def article_edit(article_id):
-    return render_template("article_edit.html",
-                               component_html_obj=component_html_obj,article_id=article_id)
-
-def package_dict(dict, allow_sub):
-    article_content = {}
-    for j in dict:
-        if j in allow_sub:
-            article_content[j] = dict[j]
-    return article_content
-
-
-@app.route('/api/article', methods=["GET", "POST","DELETE","PUT"])  # article obj return api
-def test():
-    
-    if request.method == "POST":
-        with open("static/data/article_data.json", "r") as file:
-            data = json.load(file)
-        with open("static/data/article_data.json", "w") as file:
-            data["article_amount"] += 1
-            json.dump(data, file)
-        subject = request.form["subject"]
-        content = request.form["content"]
-        article_type = request.form["article_type"]
-        article_img_url = request.form["article_img_url"]
-        isupload = request.form["isupload"]
-        print(isupload)
-        ishome = request.form["ishome"]
-        home_delete_time = request.form["home_delete_time"]
-        ishome_img = request.form["ishome_img"]
-        home_img_delete_time = request.form["home_img_delete_time"]
-        big_img_url = request.form["big_img_url"]
-        article_owner_id = request.form["article_owner_id"]
-        article_img_file_id = request.form["article_img_file_id"]
-        big_img_file_id = request.form["big_img_file_id"]
-        user_token = request.form["user_token"]
-        
-        article_dict = create_article({
-            "subject": subject,  # 標題
-            "content": content,  # 內文
-            "article_type": article_type,  # 類型
-            "article_img_url": article_img_url,  # 文章中圖片*
-            "article_img_file_id": article_img_file_id,
-            "isupload":isupload,
-            "ishome": ishome,  # 顯示首頁中間區域
-            "home_delete_time": home_delete_time,  # 首頁中間區域下架時間
-            "ishome_img": ishome_img,  # 顯示首頁上方區域
-            "home_img_delete_time": home_img_delete_time,  # 顯示首頁上方下架時間
-            "big_img_url": big_img_url,  # 文章大圖片
-            "big_img_file_id":big_img_file_id,
-            "article_owner_id": article_owner_id,  # user id
-            "user_token": user_token  # user token
-        })
-
-        # return jsonify({"article_dict":""})
-        return jsonify({
-            "article_dict": article_dict,
-            "user_token": login(article_owner_id)["user_token"]
-        })
-    elif request.method == "GET":
-        article_id = request.args.get("article_id")
-        get_mode = request.args.get("get_mode")
-        with open("static/data/article_data.json", "r") as file:
-            data = json.load(file)
-        with open("static/data/server.json", "r") as file:
-            server_data = json.load(file)
-        # with open("static/data/article_data.json", "w") as file:
-        #     data["article_amount"] += 1
-        #     json.dump(data, file)
-        output = {}
-        
-        allow_sub = server_data["article_allow_sub"][get_mode]
-
-        if get_mode == None:
-            print("none")
-        elif get_mode == "full":  #全頁文章
-            print("全頁文章")
-            output[article_id] = data["article_id"][article_id]
-        elif get_mode == "home":  #首頁區\
-            print("首頁區")
-            for i in data["article_id"]:
-                article_content = {}
-                now_article = data["article_id"][i]
-                if now_article["ishome"] == "true":
-                    output[i] = package_dict(now_article, allow_sub)
-        elif get_mode == "home_img":  #首頁大圖區
-            print("首頁區")
-            for i in data["article_id"]:
-                article_content = {}
-                now_article = data["article_id"][i]
-                if now_article["ishome_img"] == "true":
-                    output[i] = package_dict(now_article, allow_sub)
-        elif get_mode == "article":  #文章分頁編輯
-            print("首頁區")
-            user_id = request.args.get("user_id")
-            for i in data["article_id"]:
-                article_content = {}
-                now_article = data["article_id"][i]
-                if now_article["article_owner_id"] == user_id:
-                    output[i] = package_dict(now_article, allow_sub)
-            print("文章分頁編輯")
-
-        elif get_mode == "card":  #文章(依文章類型分類
-            article_type = request.args.get("article_type")
-            print("首頁區")
-            for i in data["article_id"]:
-                article_content = {}
-                now_article = data["article_id"][i]
-                if now_article["article_type"] == article_type:
-                    output[i] = package_dict(now_article, allow_sub)
-            print("文章預覽")
-        
-
-        return jsonify({"article": output})
-    elif request.method == "DELETE":
-        article_id = request.form.get('article_id')
-        user_id = request.form.get("user_id")
-        user_token = request.form.get("user_token")
-        print(article_id,user_id,user_token)
-        
-        with open("static/data/ID_and_google.json","r") as file:
-            data = json.load(file)
-            status = ""            
-            #若身分為admin或有文章編輯權 可刪
-            print(data["user_id"][user_id]["admin"])
-            print(article_id in data["user_id"][user_id]["own_article_id"])
-            if data["user_id"][user_id]["user_token"] == user_token:
-                if (data["user_id"][user_id]["admin"] == "true") or (article_id in data["user_id"][user_id]["own_article_id"]):
-                    with open("static/data/article_data.json", "r") as file:
-                        data = json.load(file)
-                    if article_id in data["article_id"]:
-                        big_img_file_id = data["article_id"][article_id]["big_img_file_id"]
-                        article_img_file_id = data["article_id"][article_id]["article_img_file_id"]
-                        imagekit = ImageKit(
-                            public_key='public_4YpxagNybX9kAXW6yNx8x9XnFX0=',
-                            private_key='private_S9iytnyLQd+abJCWH7H/iwygXHc=',
-                            url_endpoint='https://ik.imagekit.io/csiejarimgstorage')
-                        if article_img_file_id != "":
-                            imagekit.delete_file(article_img_file_id)
-                        if big_img_file_id != "":
-                            imagekit.delete_file(big_img_file_id)
-                        print("刪除成功")
-                        with open("static/data/article_data.json", "w") as file:
-                            del data["article_id"][article_id]
-                            json.dump(data, file)
-                            status = "success"
-                    else:
-                        status = "Article is not define"
-                else:
-                    status = "Permission Error"
-            else:
-                status = "token is not currect"
-
-        new_token = login(user_id)["user_token"]
-        output = {"status":status,"user_token":new_token}
-        return jsonify(output)
-    elif request.method == "PUT":
-        #跟前端要資料
-        change = request.form.get("change")
-        change_data = request.form.get("change_data")
-        change_data_dict = eval(change_data)
-        change_list = change.split(",")
-        article_id = request.form.get("article_id")
-        user_id = request.form.get("user_id")
-        user_token = request.form.get("user_token")
-        allow = ["content","subject","article_img_url","big_img_url","ishome","home_delete_time","ishome_img","home_img_delete_time","isupload"]
-        datetime2 = datetime.datetime.now()# now time
-        datetime3 = datetime2 + relativedelta(hours=8)
-        with open("static/data/ID_and_google.json") as file:
-            data = json.load(file)
-            user_name = data["user_id"][user_id]["view_name"]
-        if (data["user_id"][user_id]["user_token"] == user_token) and((article_id in data["user_id"][user_id]["own_article_id"])or(data["user_id"][user_id]["admin"] == "true")):
-            with open("static/data/article_data.json","r") as file:
-                data = json.load(file)
-            
-            for i in change_list:
-                if i in allow:
-                    data["article_id"][article_id][i] = change_data_dict[i]
-                else:
-                    pass
-            data["article_id"][article_id]["last_edit_time"] = datetime3.strftime("%Y-%m-%d %H:%M:%S")
-            data["article_id"][article_id]["last_editor_id"] = user_id
-            data["article_id"][article_id]["last_editor_name"] = user_name
-            with open("static/data/article_data.json","w") as file:
-                json.dump(data,file)
-            print(change_list)
-            status = "success"
-        else:
-            status = "Permission error"
-        return jsonify({"user_token":update_token(user_id),"status":tatus})
-        
-
-@app.route('/api/user',methods =["PUT","DELETE"])
-def user_change():
-    if request.method == "PUT":
-        change = request.form.get("change")
-        change_data = request.form.get("change_data")
-        user_id = request.form.get("user_id")
-        user_token = request.form.get("user_token")
-        change_data_dict = eval(change_data)
-        change_list = change.split(",")
-        allow = ["view_name","img"]
-    
-        with open("static/data/ID_and_google.json","r") as file:
-                data = json.load(file)
-        if user_token == data["user_id"][user_id]["user_token"]:
-            for i in change_list:
-                if i in allow:
-                    data["user_id"][user_id][i] = change_data_dict[i]
-                else:
-                    pass
-            status = "success"
-        else:
-            status = "token_error"
-        with open("static/data/ID_and_google.json","w") as file:
-            json.dump(data,file)
-        return jsonify({"user_token":update_token(user_id),"status":status,"value":change_data_dict[i]})
-
-    #註銷帳號
-    elif request.method == "DELETE":
-        user_id = request.args.get("user_id")
-        want_delete_user_id = request.args.get("want_delete_user_id")
-        user_token = request.args.get("user_token")
-        with open("static/data/ID_and_google.json","r") as file:
-            data = json.load(file)
-        #自行註銷
-        if (user_id == want_delete_user_id) and (user_token == data["user_id"][user_id]["user_token"]):
-            if data["user_id"][user_id]["login_type"] == "google":
-                google_id = data["user_id"][user_id]["google_id"]
-                del data["google_id"][google_id]
-                del data["user_id"][user_id]
-            del data["user_id"][user_id]
-            
-            if data["user_id"][user_id]["login_type"] == "CSIEJAR ID":
-                user_email = data["user_id"][user_id]["email"]
-                del data["user_id"][user_id]
-                del data["our_password"][user_id]
-                del data["our_id"][user_email]
-            with open("static/data/ID_and_google.json","w") as file:
-                json.dump(data,file)
-            return "自行刪除成功"
-        #管理員刪除
-        elif (data["user_id"][user_id]["admin"] == "true") and (user_token == data["user_id"][user_id]["user_token"]):
-            if data["user_id"][want_delete_user_id]["login_type"] == "google":
-                google_id = data["user_id"][want_delete_user_id]["google_id"]
-                del data["google_id"][google_id]
-                del data["user_id"][want_delete_user_id]
-            if data["user_id"][want_delete_user_id]["login_type"] == "CSIEJAR ID":
-                want_delete_user_email = data["user_id"][want_delete_user_id]["email"]
-                del data["user_id"][want_delete_user_id]
-                del data["our_password"][want_delete_user_id]
-                del data["our_id"][want_delete_user_email]
-            new_token = update_token(user_id)
-            data["user_id"][user_id]["user_token"] = new_token
-            print(user_id+"的新token為"+new_token)
-            with open("static/data/ID_and_google.json","w") as file:
-                json.dump(data,file)
-            return "管理員刪除成功"
-        else:
-            return "你沒有權限或者Token錯誤"
-    
-    
-            
-@app.route('/api/admin',methods =["POST","DELETE"])
-def admin():
-    #新增管理者
-    if request.method == "POST":
-        user_id = request.args.get("user_id")
-        user_token = request.args.get("user_token")
-        new_admin_id = request.args.get("new_admin_id")
-        with open("static/data/ID_and_google.json") as file:
-            data = json.load(file)
-        if data["user_id"][new_admin_id]["admin"] == "true":
-            return "此用戶已為管理員"
-        elif (data["user_id"][user_id]["admin"] == "true") and (user_token == data["user_id"][user_id]["user_token"]):
-            data["user_id"][new_admin_id]["admin"] = "true"
-            data["user_id"][new_admin_id]["role"] = "admin"
-            new_token = update_token(user_id)
-            data["user_id"][user_id]["user_token"] = new_token
-            print(user_id+"的新token為"+new_token)
-            
-            new_token = update_token(new_admin_id)
-            data["user_id"][new_admin_id]["user_token"] = new_token
-            print(new_admin_id+"的新token為"+new_token)
-            
-            with open("static/data/ID_and_google.json","w") as file:
-                json.dump(data,file)
-            return "管理者新增成功"
-        else:
-            return "你沒有權限"
-
-    #刪除管理者
-    elif request.method == "DELETE":
-        user_id = request.args.get("user_id")
-        user_token = request.args.get("user_token")
-        remove_admin_id = request.args.get("remove_admin_id")
-        with open("static/data/ID_and_google.json","r") as file:
-            data = json.load(file)
-        if (data["user_id"][user_id]["admin"] == "true") and (data["user_id"][remove_admin_id]["admin"] == "true") and (data["user_id"][user_id]["user_token"] == user_token):
-            data["user_id"][remove_admin_id]["admin"] = "false"
-            data["user_id"][remove_admin_id]["role"] = "visitor"
-            new_token = update_token(user_id)
-            data["user_id"][user_id]["user_token"] = new_token
-            print(user_id+"的新token為"+new_token)
-            
-            new_token = update_token(remove_admin_id)
-            data["user_id"][remove_admin_id]["user_token"] = new_token
-            print(remove_admin_id+"的新token為"+new_token)
-            with open("static/data/ID_and_google.json","w") as file:
-                json.dump(data,file)
-            return "完成"
-        else:
-            return "失敗"
-
-@app.route('/data_update')  # update by uptime robot
-def data_update():
-    with open("static/data/article_data.json","r")as file:
-        data = json.load(file)
-    for i in data["article_id"]:
-        if str(datetime.datetime.now().strftime("%Y-%m-%d")) == data["article_id"][i]["home_delete_time"]:
-            data["article_id"][i]["ishome"] = "false"
-        elif str(datetime.datetime.now().strftime("%Y-%m-%d")) == data["article_id"][i]["home_img_delete_time"]:
-            data["article_id"][i]["ishome_img"] = "false"
-        else:
-            pass
-    print(request.method)
-    print("UptimeRobot更新完成")
-    return "successful"
-
-
-#當送出文章按鈕被按下 執行函式
-
-
-def create_article_id(type, amount, final):
-    with open("static/data/article_data.json") as file:
-        data = json.load(file)
-    amount = str(data["article_amount"])
-    article_id = type + (final - len(amount)) * "0" + amount
-    return article_id
-
-
-def create_article(article_dict):
-    with open("static/data/ID_and_google.json") as file:
-        id_data = json.load(file)
-    article_type = article_dict["article_type"]
-    with open("static/data/article_data.json") as file:
-        data = json.load(file)
-    amount = str(data["article_amount"])
-    article_id = create_article_id(article_type, amount, 5)
-    article_dict["article_id"] = article_id
-    article_dict["article_link"] = f"/article/{article_dict['article_id']}"
-    user_id = article_dict["article_owner_id"]
-    if (id_data["user_id"][user_id]["authorize"] == "false") or (id_data["user_id"][user_id]["ban"] == "true"):
-        article_dict["ischeck"] = "false"
-    else:
-        article_dict["ischeck"] = "true"
-    article_dict["article_owner_name"] = id_data["user_id"][user_id][
-        "view_name"]
-    article_dict["article_owner_img"] = id_data["user_id"][user_id][
-        "img"]
-    article_dict["create_time"] = datetime.datetime.now()
-    article_dict["last_edit_time"] = article_dict["create_time"]
-    article_dict["last_editor_name"] = article_dict["article_owner_name"]
-    article_dict["last_editor_id"] = user_id
-
-    # article_dict["isupload"] 前端處理
-    with open("static/data/article_data.json", "r") as file:
-        data = json.load(file)
-
-    print("data1", data)
-    data["article_id"][article_dict["article_id"]] = article_dict
-
-    print("data2", data)
-    with open("static/data/article_data.json", "w") as file:
-        json.dump(data, file)
-
-    with open("static/data/ID_and_google.json","r") as file:
-        data = json.load(file)
-        data["user_id"][user_id]["own_article_id"].append(article_id)
-        data["user_id"][user_id]["edit_article_id"].append(article_id)
-    with open("static/data/ID_and_google.json","w") as file:
-        json.dump(data,file)
-    return article_dict
-
-
-
 #our_login_system
-@app.route('/api/our_login', methods=["POST"])
+@app.route('/api/our_login', methods=["POST"]) #CSIEJAR_ID 登入
 def our_login():
     with open("static/data/ID_and_google.json") as file:
         data = json.load(file)
@@ -730,7 +278,10 @@ def our_login():
         return jsonify({"status":"Account is not define"})
 
 
-@app.route('/api/our_signup', methods=["POST"])
+"""
+你已經進入 帳號-註冊區
+"""
+@app.route('/api/our_signup', methods=["POST"]) #CSIEJAR_ID 註冊
 def our_signup():
     our_id = "user-" + str(uuid.uuid4())
     name = request.form["name"]
@@ -793,143 +344,10 @@ def our_signup():
         else:
             return jsonify({"status":"Email不可空白或含有空格"})
 
-@app.route('/api/fast_link', methods=["POST","GET","PUT","DELETE"])
-def fast_link():
-    if request.method == "POST":
-        title = request.form.get("title")
-        link = request.form.get("link")
-        user_id = request.form.get("user_id")
-        user_token = request.form.get("user_token")
-        
-        with open("static/data/ID_and_google.json","r") as file:
-            data = json.load(file)
-        if (data["user_id"][user_id]["admin"] == "true") and check_token(user_id,user_token):
-            with open("static/data/fast_link.json","r") as file:
-                data = json.load(file)
-            link_id = "link-"+str(uuid.uuid4())
-            data["fast_link"][link_id] = {
-              "title":title,
-              "link":link,
-                "link_id":link_id
-            }
-            with open("static/data/fast_link.json","w") as file:
-                json.dump(data,file)
-            
-            
-            return jsonify({"status":"success","fast_link":data["fast_link"][link_id]})
-        else:
-            return jsonify({"status":"你沒有權限"})
-        
-    elif request.method == "GET":
-        with open("static/data/fast_link.json","r") as file:
-            data = json.load(file)
-            
-        return jsonify({"fast_link":data["fast_link"]})
-    
-    elif request.method == "PUT":
-        user_id = request.form.get("user_id")
-        user_token = request.form.get("user_token")
-        link_id = request.form.get("link_id")
-        new_title = request.form.get("new_title")
-        new_link = request.form.get("new_link")
-        with open("static/data/ID_and_google.json","r") as file:
-            data = json.load(file)
-        if (data["user_id"][user_id]["admin"] == "true") and check_token(user_id,user_token):
-            with open("static/data/fast_link.json","r") as file:
-                data = json.load(file)
-            data["fast_link"][link_id] = {
-                "title":new_title,
-                  "link":new_link
-            }
-            with open("static/data/fast_link.json","w") as file:
-                json.dump(data,file)
-            
-            return jsonify({"status":"success","new_fast_link":data["fast_link"][link_id]})
-        else:
-            return jsonify({"status":"你沒有權限"})
-    elif request.method == "DELETE":
-        user_id = request.form.get("user_id")
-        user_token = request.form.get("user_token")
-        link_id = request.form.get("link_id")
-        with open("static/data/ID_and_google.json","r") as file:
-            data = json.load(file)
-        if (data["user_id"][user_id]["admin"] == "true") and check_token(user_id,user_token):
-            with open("static/data/fast_link.json","r") as file:
-                data = json.load(file)
-            del data["fast_link"][link_id]
-            with open("static/data/fast_link.json","w") as file:
-                json.dump(data,file)
-            
-            return jsonify({"status":"success"})
-        else:
-            return jsonify({"status":"你沒有權限"})@app.route("/api/manager" , methods=["GET"])
-
-
-def check_dict(val1,val2):
-    if val2 == "all":
-        return True
-    else:
-        return val1 in val2.split(",")
-    # return True
-def check_dict2(now_article,val1):
-    for i in val1.split(","):
-        if now_article[i] == "true":
-            return True
-    return False
-@app.route("/api/manager" , methods=["GET"])
-def manager():
-    if request.method == "GET":
-        manager_setting = request.args.get("manager_setting")
-        # user_id = request.args.get("user_id")
-        # user_token = request.args.get("user_token")
-        with open("static/data/article_data.json","r") as file:
-            data = json.load(file)
-
-        with open("static/data/server.json", "r") as file:
-            server_data = json.load(file)
-        allow_sub = server_data["article_allow_sub"]["manager"]
-        
-        output = {}
-        
-        # allow_sub = server_data["article_allow_sub"][get_mode]
-        #string
-        print(manager_setting)
-        manager_setting_dict = json.loads(manager_setting)
-        #dict
-        print(manager_setting_dict["ischeck_selector"])
-        # if (data["user_id"][user_id]["admin"] == "true") and (data["user_id"][user_id]["user_token"] == user_token):
-        for i in data["article_id"]:
-            article_content = {}
-            now_article = data["article_id"][i]
-            # print(i,now_article["ischeck"])
-            print(i,manager_setting_dict["other_selector"])
-            print(check_dict2(now_article,manager_setting_dict["other_selector"]))
-            if check_dict(now_article["ischeck"],manager_setting_dict["ischeck_selector"]):
-                if check_dict(now_article["isupload"],manager_setting_dict["isupload_selector"]):
-                    if check_dict(now_article["article_type"],manager_setting_dict["article_type_selector"]):
-                        # if check_dict2(now_article,manager_setting_dict["other_selector"]):
-                        output[i] = package_dict(now_article, allow_sub)
-                    
-                # if check_dict(now_article[]):#全部通過
-                    # if manager_setting_dict["other_selector"] == "all":
-                    #     print("ff")
-                    
-            # output[i] = package_dict(now_article, allow_sub)
-            # print("文章預覽")
-
-
-            # article_type = request.args.get("article_type")
-            # print("首頁區")
-            # for i in data["article_id"]:
-            #     article_content = {}
-            #     now_article = data["article_id"][i]
-            #     if now_article["article_type"] == article_type:
-            #         output[i] = package_dict(now_article, allow_sub)
-            # print("文章預覽")
-        # print("fff")
-    return jsonify({"output":output})
-
-@app.route("/api/forgot_password",methods = ["POST","GET"])
+"""
+你已經進入 帳號-密碼變更區 (CSIEJAR_ID)
+"""
+@app.route("/api/forgot_password",methods = ["POST","GET","PUT"])
 def forgot_pw():
     if request.method == "POST":
         sender = "csiejarjar@gmail.com"
@@ -1080,7 +498,30 @@ def forgot_pw():
         else:
             # return jsonify({"status":"你沒有申請過驗證碼"})
              return "<h1>不要甲了 你根本沒有驗證碼</h1>"
-
+    elif request.method == "PUT":#
+        email = request.form.get("email")
+        CAPTCHA = request.form.get("CAPTCHA")
+        password = request.form.get("password")
+        with open("static/data/CAPTCHA.json","r") as file:
+            data = json.load(file)
+        with open("static/data/ID_and_google.json","r") as file:
+            acdata = json.load(file)
+        if email in data["CAPTCHA"]:
+            if data["CAPTCHA"][email]["CAPTCHA"] == CAPTCHA:
+                # return jsonify({"status":"驗證碼正確"})
+                print("驗證碼正確")
+                email_to_id = acdata["our_id"][email]
+                acdata["our_password"][email_to_id]=password
+                with open("static/data/ID_and_google.json","w") as file:
+                    json.dump(acdata,file)
+                return jsonify({"status":"success"})
+            else:
+                # return jsonify({"status":"驗證碼錯誤"})
+                return jsonify({"status":"驗證不成功"})
+        else:
+            # return jsonify({"status":"你沒有申請過驗證碼"})
+            return jsonify({"status":"沒有驗證碼"})
+            
 @app.route("/api/change_password",methods = ["POST"])
 def change_password():
     user_id = request.form.get("user_id")
@@ -1095,14 +536,643 @@ new_password)
         data = json.load(file)
 
     print(data["user_id"][user_id]["user_token"] == user_token)
-    print(data["our_password"][user_id] == old_password)  
-    if (data["user_id"][user_id]["user_token"] == user_token) and (data["our_password"][user_id] == old_password):
-        data["our_password"][user_id] = new_password
-        with open("static/data/ID_and_google.json" , "w") as file:
-            json.dump(data,file)
-        return jsonify({"status":"success","user":update_token(user_id)})
+    print(data["our_password"][user_id] == old_password)
+    print(old_password)
+    
+    if (data["user_id"][user_id]["user_token"] == user_token):
+        if (data["our_password"][user_id] == old_password):
+            data["our_password"][user_id] = new_password
+            if new_password == old_password:
+                return jsonify({"status":"舊密碼和新密碼不得相同"})
+            else:
+                with open("static/data/ID_and_google.json" , "w") as file:
+                    json.dump(data,file)
+                return jsonify({"status":"success","user":update_token(user_id)})
+        else:
+            return jsonify({"status":"舊密碼錯誤"})
     else:
         return jsonify({"status":"fail","user":login(user_id)})
+
+
+
+#TODO: 未來這邊會有 eportal 登入 !!
+
+
+#?↑-↑-↑-↑-↑-↑-↑-↑-↑-↑ 帳號區 結束 ↑-↑-↑-↑-↑-↑-↑-↑-↑-↑
+#====================>.< 緩衝區 >.<===================
+#?↓-↓-↓-↓-↓-↓-↓-↓-↓-↓ 文章區 開始 ↓-↓-↓-↓-↓-↓-↓-↓-↓-↓
+
+@app.route('/api/article_type', methods=["GET"])  # 動態取得文章類別
+def article_type():
+    with open("static/data/article_data.json", "r") as file:
+        data = json.load(file)
+    output = data["article_type"]
+    return jsonify(output)
+
+
+@app.route('/article/<article_id>', methods=["GET"]) #文章頁面 by article id
+def article_page(article_id):
+    with open("static/data/article_data.json", "r") as file:
+        data = json.load(file)
+
+    status = True
+    try:
+        article_dict = data["article_id"][article_id]
+
+    except KeyError:
+        status = False
+
+    finally:
+        if status:
+            return render_template("article_page.html",
+                                   component_html_obj=component_html_obj,
+                                   article_dict=article_dict)
+        else:
+            return render_template("noPage.html",
+                                   component_html_obj=component_html_obj)
+
+@app.route('/article_edit/<article_id>', methods=["GET"])
+def article_edit(article_id):
+    return render_template("article_edit.html",
+                               component_html_obj=component_html_obj,article_id=article_id)
+
+def package_dict(dict, allow_sub):
+    article_content = {}
+    for j in dict:
+        if j in allow_sub:
+            article_content[j] = dict[j]
+    return article_content
+
+
+@app.route('/api/article', methods=["GET", "POST","DELETE","PUT"])  # article obj return api
+def article_api():
+    
+    if request.method == "POST": #文章新增
+        with open("static/data/article_data.json", "r") as file:
+            data = json.load(file)
+        with open("static/data/article_data.json", "w") as file:
+            data["article_amount"] += 1
+            json.dump(data, file)
+        subject = request.form["subject"]
+        content = request.form["content"]
+        article_type = request.form["article_type"]
+        article_img_url = request.form["article_img_url"]
+        isupload = request.form["isupload"]
+        print(isupload)
+        ishome = request.form["ishome"]
+        home_delete_time = request.form["home_delete_time"]
+        ishome_img = request.form["ishome_img"]
+        home_img_delete_time = request.form["home_img_delete_time"]
+        big_img_url = request.form["big_img_url"]
+        article_owner_id = request.form["article_owner_id"]
+        article_img_file_id = request.form["article_img_file_id"]
+        big_img_file_id = request.form["big_img_file_id"]
+        user_token = request.form["user_token"]
+        
+        article_dict = create_article({
+            "subject": subject,  # 標題
+            "content": content,  # 內文
+            "article_type": article_type,  # 類型
+            "article_img_url": article_img_url,  # 文章中圖片*
+            "article_img_file_id": article_img_file_id,
+            "isupload":isupload,
+            "ishome": ishome,  # 顯示首頁中間區域
+            "home_delete_time": home_delete_time,  # 首頁中間區域下架時間
+            "ishome_img": ishome_img,  # 顯示首頁上方區域
+            "home_img_delete_time": home_img_delete_time,  # 顯示首頁上方下架時間
+            "big_img_url": big_img_url,  # 文章大圖片
+            "big_img_file_id":big_img_file_id,
+            "article_owner_id": article_owner_id,  # user id
+            "user_token": user_token  # user token
+        })
+
+        # return jsonify({"article_dict":""})
+        return jsonify({
+            "article_dict": article_dict,
+            "user_token": login(article_owner_id)["user_token"]
+        })
+    elif request.method == "GET": #文章取得 依不同類型 news card home ...
+        article_id = request.args.get("article_id")
+        get_mode = request.args.get("get_mode")
+        with open("static/data/article_data.json", "r") as file:
+            data = json.load(file)
+        with open("static/data/server.json", "r") as file:
+            server_data = json.load(file)
+        # with open("static/data/article_data.json", "w") as file:
+        #     data["article_amount"] += 1
+        #     json.dump(data, file)
+        output = {}
+        
+        allow_sub = server_data["article_allow_sub"][get_mode]
+
+        if get_mode == None:
+            print("none")
+        elif get_mode == "full":  #全頁文章
+            print("全頁文章")
+            output[article_id] = data["article_id"][article_id]
+        elif get_mode == "home":  #首頁區\
+            print("首頁區")
+            for i in data["article_id"]:
+                article_content = {}
+                now_article = data["article_id"][i]
+                if now_article["ishome"] == "true":
+                    output[i] = package_dict(now_article, allow_sub)
+        elif get_mode == "home_img":  #首頁大圖區
+            print("首頁區")
+            for i in data["article_id"]:
+                article_content = {}
+                now_article = data["article_id"][i]
+                if now_article["ishome_img"] == "true":
+                    output[i] = package_dict(now_article, allow_sub)
+        elif get_mode == "article":  #文章分頁編輯
+            print("首頁區")
+            user_id = request.args.get("user_id")
+            for i in data["article_id"]:
+                article_content = {}
+                now_article = data["article_id"][i]
+                if now_article["article_owner_id"] == user_id:
+                    output[i] = package_dict(now_article, allow_sub)
+            print("文章分頁編輯")
+
+        elif get_mode == "card":  #文章(依文章類型分類
+            article_type = request.args.get("article_type")
+            print("首頁區")
+            for i in data["article_id"]:
+                article_content = {}
+                now_article = data["article_id"][i]
+                if now_article["article_type"] == article_type:
+                    output[i] = package_dict(now_article, allow_sub)
+            print("文章預覽")
+        
+
+        return jsonify({"article": output})
+    elif request.method == "DELETE": #文章刪除
+        article_id = request.form.get('article_id')
+        user_id = request.form.get("user_id")
+        user_token = request.form.get("user_token")
+        print(article_id,user_id,user_token)
+        
+        with open("static/data/ID_and_google.json","r") as file:
+            data = json.load(file)
+            status = ""            
+            #若身分為admin或有文章編輯權 可刪
+            print(data["user_id"][user_id]["admin"])
+            print(article_id in data["user_id"][user_id]["own_article_id"])
+            if data["user_id"][user_id]["user_token"] == user_token:
+                if (data["user_id"][user_id]["admin"] == "true") or (article_id in data["user_id"][user_id]["own_article_id"]):
+                    with open("static/data/article_data.json", "r") as file:
+                        data = json.load(file)
+                    if article_id in data["article_id"]:
+                        big_img_file_id = data["article_id"][article_id]["big_img_file_id"]
+                        article_img_file_id = data["article_id"][article_id]["article_img_file_id"]
+                        imagekit = ImageKit(
+                            public_key='public_4YpxagNybX9kAXW6yNx8x9XnFX0=',
+                            private_key='private_S9iytnyLQd+abJCWH7H/iwygXHc=',
+                            url_endpoint='https://ik.imagekit.io/csiejarimgstorage')
+                        if article_img_file_id != "":
+                            imagekit.delete_file(article_img_file_id)
+                        if big_img_file_id != "":
+                            imagekit.delete_file(big_img_file_id)
+                        print("刪除成功")
+                        with open("static/data/article_data.json", "w") as file:
+                            del data["article_id"][article_id]
+                            json.dump(data, file)
+                            status = "success"
+                    else:
+                        status = "Article is not define"
+                else:
+                    status = "Permission Error"
+            else:
+                status = "token is not currect"
+
+        new_token = login(user_id)["user_token"]
+        output = {"status":status,"user_token":new_token}
+        return jsonify(output)
+    elif request.method == "PUT": #文章編輯
+        #跟前端要資料
+        change = request.form.get("change")
+        change_data = request.form.get("change_data")
+        change_data_dict = eval(change_data)
+        change_list = change.split(",")
+        article_id = request.form.get("article_id")
+        user_id = request.form.get("user_id")
+        user_token = request.form.get("user_token")
+        allow = ["content","subject","article_img_url","big_img_url","ishome","home_delete_time","ishome_img","home_img_delete_time","isupload"]
+        datetime2 = datetime.datetime.now()# now time
+        datetime3 = datetime2 + relativedelta(hours=8)
+        with open("static/data/ID_and_google.json") as file:
+            data = json.load(file)
+            user_name = data["user_id"][user_id]["view_name"]
+        if (data["user_id"][user_id]["user_token"] == user_token) and((article_id in data["user_id"][user_id]["own_article_id"])or(data["user_id"][user_id]["admin"] == "true")):
+            with open("static/data/article_data.json","r") as file:
+                data = json.load(file)
+            
+            for i in change_list:
+                if i in allow:
+                    data["article_id"][article_id][i] = change_data_dict[i]
+                else:
+                    pass
+            data["article_id"][article_id]["last_edit_time"] = datetime3.strftime("%Y-%m-%d %H:%M:%S")
+            data["article_id"][article_id]["last_editor_id"] = user_id
+            data["article_id"][article_id]["last_editor_name"] = user_name
+            with open("static/data/article_data.json","w") as file:
+                json.dump(data,file)
+            print(change_list)
+            status = "success"
+        else:
+            status = "Permission error"
+        return jsonify({"user_token":update_token(user_id),"status":tatus})
+        
+
+
+#?↑-↑-↑-↑-↑-↑-↑-↑-↑-↑ 文章區 結束 ↑-↑-↑-↑-↑-↑-↑-↑-↑-↑
+#====================>.< 緩衝區 >.<===================
+#?↓-↓-↓-↓-↓-↓-↓-↓-↓-↓ 其他資料區 開始 ↓-↓-↓-↓-↓-↓-↓-↓-↓-↓
+
+@app.route('/curriculum/<curriculum_num>') #課表回傳html檔
+def curriculum_html(curriculum_num):
+    if curriculum_num == "1_2":
+        return render_template("curriculum1_2.html")
+    else:
+        return "尚未有資料"
+
+@app.route('/api/fast_link', methods=["POST","GET","PUT","DELETE"])
+def fast_link():
+    if request.method == "POST":
+        title = request.form.get("title")
+        link = request.form.get("link")
+        user_id = request.form.get("user_id")
+        user_token = request.form.get("user_token")
+        
+        with open("static/data/ID_and_google.json","r") as file:
+            data = json.load(file)
+        if (data["user_id"][user_id]["admin"] == "true") and check_token(user_id,user_token):
+            with open("static/data/fast_link.json","r") as file:
+                data = json.load(file)
+            link_id = "link-"+str(uuid.uuid4())
+            data["fast_link"][link_id] = {
+              "title":title,
+              "link":link,
+                "link_id":link_id
+            }
+            with open("static/data/fast_link.json","w") as file:
+                json.dump(data,file)
+            
+            
+            return jsonify({"status":"success","fast_link":data["fast_link"][link_id]})
+        else:
+            return jsonify({"status":"你沒有權限"})
+        
+    elif request.method == "GET":
+        with open("static/data/fast_link.json","r") as file:
+            data = json.load(file)
+            
+        return jsonify({"fast_link":data["fast_link"]})
+    
+    elif request.method == "PUT":
+        user_id = request.form.get("user_id")
+        user_token = request.form.get("user_token")
+        link_id = request.form.get("link_id")
+        new_title = request.form.get("new_title")
+        new_link = request.form.get("new_link")
+        with open("static/data/ID_and_google.json","r") as file:
+            data = json.load(file)
+        if (data["user_id"][user_id]["admin"] == "true") and check_token(user_id,user_token):
+            with open("static/data/fast_link.json","r") as file:
+                data = json.load(file)
+            data["fast_link"][link_id] = {
+                "title":new_title,
+                  "link":new_link
+            }
+            with open("static/data/fast_link.json","w") as file:
+                json.dump(data,file)
+            
+            return jsonify({"status":"success","new_fast_link":data["fast_link"][link_id]})
+        else:
+            return jsonify({"status":"你沒有權限"})
+    elif request.method == "DELETE":
+        user_id = request.form.get("user_id")
+        user_token = request.form.get("user_token")
+        link_id = request.form.get("link_id")
+        with open("static/data/ID_and_google.json","r") as file:
+            data = json.load(file)
+        if (data["user_id"][user_id]["admin"] == "true") and check_token(user_id,user_token):
+            with open("static/data/fast_link.json","r") as file:
+                data = json.load(file)
+            del data["fast_link"][link_id]
+            with open("static/data/fast_link.json","w") as file:
+                json.dump(data,file)
+            
+            return jsonify({"status":"success"})
+        else:
+            return jsonify({"status":"你沒有權限"})@app.route("/api/manager" , methods=["GET"])
+
+
+
+
+@app.route('/returnError', methods=["POST"])  # return error form
+def returnError():  # response private_key
+    if request.method == "POST":
+        returnErrorDictNum = "error-" + str(uuid.uuid4())
+        returnErrorDict = {
+            "return_page_input": request.form.get("return_page_input"),
+            "return_title_input": request.form.get("return_title_input"),
+            "return_content_input": request.form.get("return_content_input"),
+            "return_img_url_input": request.form.get("return_img_url_input"),
+            "return_mail_input": request.form.get("return_mail_input"),
+            "returnErrorDictNum": returnErrorDictNum
+        }
+        with open("static/data/server.json", "r") as file:
+            data = json.load(file)
+        data["returnError"][returnErrorDictNum] = returnErrorDict
+        with open("static/data/server.json", "w") as file:
+            json.dump(data, file)
+        return jsonify({"go": "go"})
+
+#?↑-↑-↑-↑-↑-↑-↑-↑-↑-↑ 其他資料區 結束 ↑-↑-↑-↑-↑-↑-↑-↑-↑-↑
+
+#?↓-↓-↓-↓-↓-↓-↓-↓-↓-↓ 使用者權限區 開始 ↓-↓-↓-↓-↓-↓-↓-↓-↓-↓
+
+@app.route('/api/user',methods =["PUT","DELETE"])
+def user_change():
+    if request.method == "PUT":
+        change = request.form.get("change")
+        change_data = request.form.get("change_data")
+        user_id = request.form.get("user_id")
+        user_token = request.form.get("user_token")
+        change_data_dict = eval(change_data)
+        change_list = change.split(",")
+        allow = ["view_name","img"]
+    
+        with open("static/data/ID_and_google.json","r") as file:
+                data = json.load(file)
+        if user_token == data["user_id"][user_id]["user_token"]:
+            for i in change_list:
+                if i in allow:
+                    data["user_id"][user_id][i] = change_data_dict[i]
+                else:
+                    pass
+            status = "success"
+        else:
+            status = "token_error"
+        with open("static/data/ID_and_google.json","w") as file:
+            json.dump(data,file)
+        return jsonify({"user_token":update_token(user_id),"status":status,"value":change_data_dict[i]})
+
+    #註銷帳號
+    elif request.method == "DELETE":
+        user_id = request.args.get("user_id")
+        want_delete_user_id = request.args.get("want_delete_user_id")
+        user_token = request.args.get("user_token")
+        with open("static/data/ID_and_google.json","r") as file:
+            data = json.load(file)
+        #自行註銷
+        if (user_id == want_delete_user_id) and (user_token == data["user_id"][user_id]["user_token"]):
+            if data["user_id"][user_id]["login_type"] == "google":
+                google_id = data["user_id"][user_id]["google_id"]
+                del data["google_id"][google_id]
+                del data["user_id"][user_id]
+            del data["user_id"][user_id]
+            
+            if data["user_id"][user_id]["login_type"] == "CSIEJAR ID":
+                user_email = data["user_id"][user_id]["email"]
+                del data["user_id"][user_id]
+                del data["our_password"][user_id]
+                del data["our_id"][user_email]
+            with open("static/data/ID_and_google.json","w") as file:
+                json.dump(data,file)
+            return "自行刪除成功"
+        #管理員刪除
+        elif (data["user_id"][user_id]["admin"] == "true") and (user_token == data["user_id"][user_id]["user_token"]):
+            if data["user_id"][want_delete_user_id]["login_type"] == "google":
+                google_id = data["user_id"][want_delete_user_id]["google_id"]
+                del data["google_id"][google_id]
+                del data["user_id"][want_delete_user_id]
+            if data["user_id"][want_delete_user_id]["login_type"] == "CSIEJAR ID":
+                want_delete_user_email = data["user_id"][want_delete_user_id]["email"]
+                del data["user_id"][want_delete_user_id]
+                del data["our_password"][want_delete_user_id]
+                del data["our_id"][want_delete_user_email]
+            new_token = update_token(user_id)
+            data["user_id"][user_id]["user_token"] = new_token
+            print(user_id+"的新token為"+new_token)
+            with open("static/data/ID_and_google.json","w") as file:
+                json.dump(data,file)
+            return "管理員刪除成功"
+        else:
+            return "你沒有權限或者Token錯誤"
+    
+@app.route('/api/admin',methods =["POST","DELETE"])
+def admin():
+    #新增管理者
+    if request.method == "POST":
+        user_id = request.args.get("user_id")
+        user_token = request.args.get("user_token")
+        new_admin_id = request.args.get("new_admin_id")
+        with open("static/data/ID_and_google.json") as file:
+            data = json.load(file)
+        if data["user_id"][new_admin_id]["admin"] == "true":
+            return "此用戶已為管理員"
+        elif (data["user_id"][user_id]["admin"] == "true") and (user_token == data["user_id"][user_id]["user_token"]):
+            data["user_id"][new_admin_id]["admin"] = "true"
+            data["user_id"][new_admin_id]["role"] = "admin"
+            new_token = update_token(user_id)
+            data["user_id"][user_id]["user_token"] = new_token
+            print(user_id+"的新token為"+new_token)
+            
+            new_token = update_token(new_admin_id)
+            data["user_id"][new_admin_id]["user_token"] = new_token
+            print(new_admin_id+"的新token為"+new_token)
+            
+            with open("static/data/ID_and_google.json","w") as file:
+                json.dump(data,file)
+            return "管理者新增成功"
+        else:
+            return "你沒有權限"
+
+    #刪除管理者
+    elif request.method == "DELETE":
+        user_id = request.args.get("user_id")
+        user_token = request.args.get("user_token")
+        remove_admin_id = request.args.get("remove_admin_id")
+        with open("static/data/ID_and_google.json","r") as file:
+            data = json.load(file)
+        if (data["user_id"][user_id]["admin"] == "true") and (data["user_id"][remove_admin_id]["admin"] == "true") and (data["user_id"][user_id]["user_token"] == user_token):
+            data["user_id"][remove_admin_id]["admin"] = "false"
+            data["user_id"][remove_admin_id]["role"] = "visitor"
+            new_token = update_token(user_id)
+            data["user_id"][user_id]["user_token"] = new_token
+            print(user_id+"的新token為"+new_token)
+            
+            new_token = update_token(remove_admin_id)
+            data["user_id"][remove_admin_id]["user_token"] = new_token
+            print(remove_admin_id+"的新token為"+new_token)
+            with open("static/data/ID_and_google.json","w") as file:
+                json.dump(data,file)
+            return "完成"
+        else:
+            return "失敗"
+
+
+
+#?↑-↑-↑-↑-↑-↑-↑-↑-↑-↑ 使用者權限區 結束 ↑-↑-↑-↑-↑-↑-↑-↑-↑-↑
+
+
+
+#當送出文章按鈕被按下 執行函式
+
+#?↓-↓-↓-↓-↓-↓-↓-↓-↓-↓ 其他怪怪的API區 開始 ↓-↓-↓-↓-↓-↓-↓-↓-↓-↓
+
+def reflashImagekitKey():  # kitimage get private_key
+    imagekit = ImageKit(
+        public_key='public_4YpxagNybX9kAXW6yNx8x9XnFX0=',
+        private_key='private_S9iytnyLQd+abJCWH7H/iwygXHc=',
+        url_endpoint='https://ik.imagekit.io/csiejarimgstorage')
+    auth_params = imagekit.get_authentication_parameters()
+    return auth_params
+@app.route('/uploadImage', methods=["POST"]) #imagekit private key get api
+def returnPrivateKay():  # response private_key
+    if request.method == "POST":
+        return jsonify(reflashImagekitKey())
+
+@app.route('/data_update')  # update by uptime robot
+def data_update():
+    with open("static/data/article_data.json","r")as file:
+        data = json.load(file)
+    for i in data["article_id"]:
+        if str(datetime.datetime.now().strftime("%Y-%m-%d")) == data["article_id"][i]["home_delete_time"]:
+            data["article_id"][i]["ishome"] = "false"
+        elif str(datetime.datetime.now().strftime("%Y-%m-%d")) == data["article_id"][i]["home_img_delete_time"]:
+            data["article_id"][i]["ishome_img"] = "false"
+        else:
+            pass
+    print(request.method)
+    print("UptimeRobot更新完成")
+    return "successful"
+
+        
+#?↑-↑-↑-↑-↑-↑-↑-↑-↑-↑ 其他怪怪的API區 結束 ↑-↑-↑-↑-↑-↑-↑-↑-↑-↑
+
+
+#? 不知道幹嘛用的 function @嘎嘎嘎嘎 分個類八
+
+def create_article_id(type, amount, final):
+    with open("static/data/article_data.json") as file:
+        data = json.load(file)
+    amount = str(data["article_amount"])
+    article_id = type + (final - len(amount)) * "0" + amount
+    return article_id
+
+
+def create_article(article_dict):
+    with open("static/data/ID_and_google.json") as file:
+        id_data = json.load(file)
+    article_type = article_dict["article_type"]
+    with open("static/data/article_data.json") as file:
+        data = json.load(file)
+    amount = str(data["article_amount"])
+    article_id = create_article_id(article_type, amount, 5)
+    article_dict["article_id"] = article_id
+    article_dict["article_link"] = f"/article/{article_dict['article_id']}"
+    user_id = article_dict["article_owner_id"]
+    if (id_data["user_id"][user_id]["authorize"] == "false") or (id_data["user_id"][user_id]["ban"] == "true"):
+        article_dict["ischeck"] = "false"
+    else:
+        article_dict["ischeck"] = "true"
+    article_dict["article_owner_name"] = id_data["user_id"][user_id][
+        "view_name"]
+    article_dict["article_owner_img"] = id_data["user_id"][user_id][
+        "img"]
+    article_dict["create_time"] = datetime.datetime.now()
+    article_dict["last_edit_time"] = article_dict["create_time"]
+    article_dict["last_editor_name"] = article_dict["article_owner_name"]
+    article_dict["last_editor_id"] = user_id
+
+    # article_dict["isupload"] 前端處理
+    with open("static/data/article_data.json", "r") as file:
+        data = json.load(file)
+
+    print("data1", data)
+    data["article_id"][article_dict["article_id"]] = article_dict
+
+    print("data2", data)
+    with open("static/data/article_data.json", "w") as file:
+        json.dump(data, file)
+
+    with open("static/data/ID_and_google.json","r") as file:
+        data = json.load(file)
+        data["user_id"][user_id]["own_article_id"].append(article_id)
+        data["user_id"][user_id]["edit_article_id"].append(article_id)
+    with open("static/data/ID_and_google.json","w") as file:
+        json.dump(data,file)
+    return article_dict
+
+
+
+
+def check_dict(val1,val2):
+    if val2 == "all":
+        return True
+    else:
+        return val1 in val2.split(",")
+    # return True
+def check_dict2(now_article,val1):
+    for i in val1.split(","):
+        if now_article[i] == "true":
+            return True
+    return False
+@app.route("/api/manager" , methods=["GET"]) #!壞了>.<
+def manager():
+    if request.method == "GET":
+        manager_setting = request.args.get("manager_setting")
+        # user_id = request.args.get("user_id")
+        # user_token = request.args.get("user_token")
+        with open("static/data/article_data.json","r") as file:
+            data = json.load(file)
+
+        with open("static/data/server.json", "r") as file:
+            server_data = json.load(file)
+        allow_sub = server_data["article_allow_sub"]["manager"]
+        
+        output = {}
+        
+        # allow_sub = server_data["article_allow_sub"][get_mode]
+        #string
+        print(manager_setting)
+        manager_setting_dict = json.loads(manager_setting)
+        #dict
+        print(manager_setting_dict["ischeck_selector"])
+        # if (data["user_id"][user_id]["admin"] == "true") and (data["user_id"][user_id]["user_token"] == user_token):
+        for i in data["article_id"]:
+            article_content = {}
+            now_article = data["article_id"][i]
+            # print(i,now_article["ischeck"])
+            print(i,manager_setting_dict["other_selector"])
+            print(check_dict2(now_article,manager_setting_dict["other_selector"]))
+            if check_dict(now_article["ischeck"],manager_setting_dict["ischeck_selector"]):
+                if check_dict(now_article["isupload"],manager_setting_dict["isupload_selector"]):
+                    if check_dict(now_article["article_type"],manager_setting_dict["article_type_selector"]):
+                        # if check_dict2(now_article,manager_setting_dict["other_selector"]):
+                        output[i] = package_dict(now_article, allow_sub)
+                    
+                # if check_dict(now_article[]):#全部通過
+                    # if manager_setting_dict["other_selector"] == "all":
+                    #     print("ff")
+                    
+            # output[i] = package_dict(now_article, allow_sub)
+            # print("文章預覽")
+
+
+            # article_type = request.args.get("article_type")
+            # print("首頁區")
+            # for i in data["article_id"]:
+            #     article_content = {}
+            #     now_article = data["article_id"][i]
+            #     if now_article["article_type"] == article_type:
+            #         output[i] = package_dict(now_article, allow_sub)
+            # print("文章預覽")
+        # print("fff")
+    return jsonify({"output":output})
 
 
 #run server

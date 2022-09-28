@@ -204,6 +204,16 @@ function login_success() {
 
     $('#loginModalCenter').modal('hide')
 
+    function change_password_url(login_type){
+        return login_type=="CSIEJAR_ID"
+                ?"/change_password"
+                :login_type=="google"
+                    ?"https://myaccount.google.com/signinoptions/password"
+                    :""
+    }
+    
+    $(".logout_btns_wapper a").attr("href",`${change_password_url(user.login_type)}`)
+    
     setCookie({
         user_id: user.user_id,
         user_token: user.user_token,
