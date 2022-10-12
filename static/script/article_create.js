@@ -36,8 +36,26 @@ $(document).ready(function () {
     });
     view_img("big_img_uploader","big_img_uploader_container_b")
     //預覽大圖片
+    let is_home_top_controller_first_click = true;
     $("#home_top_controller").change(function (e) {
         //is 首頁top checked
+        if(is_home_top_controller_first_click){
+            // alert("haha")
+            debugger
+            let middel_img_input = document.getElementById("big_img_uploader");
+            document.getElementById("big_img_uploader").files = document.getElementById("article_img_uploader").files;
+            if(middel_img_input.files && middel_img_input.files[0]){
+                var reader = new FileReader();
+                let src;
+                reader.onload = function (e) {
+                    src = e.target.result
+                $("#"+"big_img_uploader_container_b").attr('src', src);
+                }
+                reader.readAsDataURL(middel_img_input.files[0]);
+                // func(src)
+            }
+            is_home_top_controller_first_click = false;
+        }
         if (document.getElementById("home_top_controller").checked) {
             $(".big_img_checked").css("display", "flex");
         } else {
@@ -52,9 +70,9 @@ $(document).ready(function () {
         $("#isupload_val").val(document.getElementById("isupload_controller").checked);
     });
 
-
     $("#home_middle_controller").change(function (e) {
         //is 首頁middle checked
+        
         if (document.getElementById("home_middle_controller").checked) {
             $(".middle_img_checked").css("display", "flex");
 

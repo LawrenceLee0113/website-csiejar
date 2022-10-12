@@ -29,13 +29,20 @@
         "values":[
             {
                 "html":"一年級 上學期",
-                "url":"/curriculum/1_1"
+				"id":"curriculum1_1",
+                "url":"https://lawrencelee0113.github.io/csiejar_curriculum_database/curriculum1_1.html"
             },
             {
                 "html":"一年級 下學期",
-                "url":"/curriculum/1_2"
+				"id":"curriculum1_2",
+                "url":"https://lawrencelee0113.github.io/csiejar_curriculum_database/curriculum1_2.html"
+            },
+            {
+                "html":"二年級 上學期",
+				"id":"curriculum2_1",
+                "url":"https://lawrencelee0113.github.io/csiejar_curriculum_database/curriculum2_1.html"
             }
         ],
-        "target":"/curriculum/1_2"
+        "target":0
     }
 }

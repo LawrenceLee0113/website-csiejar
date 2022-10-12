@@ -26,66 +26,131 @@
     {{component_html_obj.error_window_html | safe}}
 <script>
         $(document).ready(function () {
-            var article_dict = "{{article_dict | safe}}"
-            article_dict = JSON.parse(article_dict.replace(/'/g, '"'))
-            $(".board .note").html(article_dict.subject);
-            $(".board .date").html(article_dict.create_time);
-            // $(".board .subtitle").html(article_dict.subtitle);
-            // $(".board .subtitle").html("");
+			var article_id = location.pathname.split("/")[2]
+            $.ajax({
+                type: "GET",
+                url: `https://csiejar.xyz/api/article?article_id=${article_id}&get_mode=full`,
+                data: {},
+                dataType: "json",
+                success: function (response) {
+                    let now_article = response.article[article_id]
+                    console.log(now_article)
 
-            $(".board .owner_name").html(article_dict.article_owner_name);
-            $(".board .mainTxtArea").html(article_dict.content);
-
-            // $(".board .date").html(article_dict.article_id);
-            $(".board .txtPic").attr("src",article_dict.article_img_url);
-            $(".board .headPic").attr("src",article_dict.article_owner_img);
-            $(".board .type").html(article_dict.article_type);
-            // $(".board .date").html(article_dict.ishome);
-            // $(".board .date").html(article_dict.ishome_img);
-            // $(".board .date").html(article_dict.isupload);
-            // $(".board .date").html(article_dict.last_edit_time);
+                    $(".title_blog").text(now_article.subject);
+                    $(".content_blog").html(now_article.content);
+                    $(".article_img_url_blog").attr("src", now_article.article_img_url!=""?now_article.article_img_url:"https://dummyimage.com/900x400/ced4da/6c757d.jpg");
+                    $(".article_info_blog").text(`上次更改${now_article.last_edit_time} by ${now_article.last_editor_name}`);
+                    $(".article_type_blog").attr("href", `/article/type/${now_article.article_type}`);
+                    $(".article_type_blog").html(now_article.article_type);
+                    $(".article_owner_img_blog").attr("src", now_article.article_owner_img);
+                }
+            });
         });
+
         
     </script>
-    <div class="container">
-        <div class="wrap">
-            <div class="board">
-                <div class="share">
-                    <button class="shareIcon"><i class="fa-solid fa-share-nodes"></i></button>
-                </div>
-                <div class="title">
-                    <div class="head">
-                        <img src="https://picsum.photos/80/90" class="headPic">
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-lg-8">
+                <!-- Post content-->
+                <article>
+                    <!-- Post header-->
+                    <header class="article_header mb-4">
+                        <!-- Post title-->
+                        <h1 class="title_blog fw-bolder mb-1">文章title</h1>
+                        <!-- Post meta content-->
+                        <div class="article_info_blog text-muted fst-italic mb-2">Posted on January 1, 2022 by Start Bootstrap</div>
+                        <!-- Post categories-->
+                        <a class="article_type_blog badge bg-secondary text-decoration-none link-light" href="#!">Web Design</a>
+                    </header>
+                    <!-- Preview image figure-->
+                    <figure class="mb-4"><img class="article_img_url_blog img-fluid rounded" src="https://dummyimage.com/900x400/ced4da/6c757d.jpg" alt="..." /></figure>
+                    <!-- Post content-->
+                    <section class="content_blog mb-5">
+                        
+                    </section>
+                </article>
+                <!-- Comments section-->
+                <section class="mb-5 d-none">
+                    <div class="card bg-light">
+                        <div class="card-body">
+                            <!-- Comment form-->
+                            <form class="mb-4"><textarea class="form-control" rows="3" placeholder="Join the discussion and leave a comment!"></textarea></form>
+                            <!-- Comment with nested comments-->
+                            <div class="d-flex mb-4">
+                                <!-- Parent comment-->
+                                <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
+                                <div class="ms-3">
+                                    <div class="fw-bold">Commenter Name</div>
+                                    If you're going to lead a space frontier, it has to be government; it'll never be private enterprise. Because the space frontier is dangerous, and it's expensive, and it has unquantified risks.
+                                    <!-- Child comment 1-->
+                                    <div class="d-flex mt-4">
+                                        <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
+                                        <div class="ms-3">
+                                            <div class="fw-bold">Commenter Name</div>
+                                            And under those conditions, you cannot establish a capital-market evaluation of that enterprise. You can't get investors.
+                                        </div>
+                                    </div>
+                                    <!-- Child comment 2-->
+                                    <div class="d-flex mt-4">
+                                        <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
+                                        <div class="ms-3">
+                                            <div class="fw-bold">Commenter Name</div>
+                                            When you put money directly to a problem, it makes a good headline.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Single comment-->
+                            <div class="d-flex">
+                                <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
+                                <div class="ms-3">
+                                    <div class="fw-bold">Commenter Name</div>
+                                    When I look at the universe and all the ways the universe wants to kill us, I find it hard to reconcile that with statements of beneficence.
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <h1 class="note">主題</h1>
-                    <small class="date">Sun, 24 Jul 2022 12:00:35 GMT</small>
-                    
-                    
-                    <div class="flexArea">
-                        <p class="owner">擁有者:<span class="owner_name"></span></p>
-                        <p class="type">公告</p>
+                </section>
+            </div>
+            <!-- Side widgets-->
+            <div class="col-lg-4">
+                <!-- Side widget-->
+                <div class="card mb-4">
+                    <div class="card-header">簡介</div>
+                    <div class="card-body">
+                        <figure class="mb-0 article_owner_img_blog_figure p-2" style="height: 100px;width: 100px;overflow-y: hidden;">
+                            <img src="https://fakeimg.pl/250x600/200" class="article_owner_img_blog w-100" style="max-height: 100px;">
+                        </figure>
+                        這裡是簡介的地方 OK嗎 會看起來怪怪的嬤??
                     </div>
                 </div>
-                <div class="txtPicArea" style="width: 700px;height: 300px;">
-                    <img src="https://picsum.photos/700/300" class="txtPic" style="max-height: 100%;max-width: 100%;">
+                <!-- Categories widget-->
+                <div class="card mb-4">
+                    <div class="card-header">連結</div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <ul class="list-unstyled mb-0">
+                                    <li><a href="#!">Web Design</a></li>
+                                    <li><a href="#!">HTML</a></li>
+                                    <li><a href="#!">Freebies</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-sm-6">
+                                <ul class="list-unstyled mb-0">
+                                    <li><a href="#!">JavaScript</a></li>
+                                    <li><a href="#!">CSS</a></li>
+                                    <li><a href="#!">Tutorials</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="mainTxtArea">
-                    <h2 class="mainTitle">段落一:</h2>
-                    <ol class="mainTxt">
-                        <li>Lorem ipsum dolor sit amet consectetur adipisicing elit.</li>
-                        <li>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</li>
-                        <li>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</li>
-                        <li>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</li>
-                        <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit voluptate exercitationem est ipsum aut dicta vitae corporis, repellendus minus! Perspiciatis id corporis sunt, voluptates rem voluptatum pariatur accusamus eum ipsam?</li>
-                    </ol>
-                    
-                </div>
+                
             </div>
         </div>
     </div>
-
-
-
 </body>
 
 </html>

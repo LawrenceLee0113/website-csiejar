@@ -38,19 +38,16 @@
     <div id="curriculum_iframe">
 
     </div>
-    </iframe>
+<!--     </iframe> -->
     <script>
         // load semester_selector_val
         var semester_selector_val = JSON.parse($("#semester_selector_val").val().replace(/'/g,"\"")).values;
         var active_target = JSON.parse($("#semester_selector_val").val().replace(/'/g,"\"")).target;
         console.log(semester_selector_val)
-        for(let i of semester_selector_val){
+        for(let i in semester_selector_val){
             let class_active = "";
-            if(active_target == i.url){
-                class_active = "active"
-            }
             $(".semester_selector .dropdown-menu").append(`
-                <a class="dropdown-item ${class_active}" href="${i.url}">${i.html}</a>
+                <a class="dropdown-item ${i == active_target?"active":""}" href="${semester_selector_val[i].url}" data-id="${semester_selector_val[i].id}">${semester_selector_val[i].html}</a>
             `)
         }
         function show_data(obj){
@@ -69,8 +66,8 @@
                 jQuery('<iframe>', {
                     src: $(obj).attr("href"),
                     style: 'border:none;width:100%',
-                    onload: 'resizeIframe(this)',
-                    id: `iframe_${$(obj).attr("href").split("/")[2]}`
+                    onload: `resizeIframe("iframe_${$(obj).attr("data-id")}")`,
+                    id: `iframe_${$(obj).attr("data-id")}`
                     
                 }).appendTo('#curriculum_iframe');
             }
@@ -95,8 +92,20 @@
         });
     </script>
     <script>
-  function resizeIframe(obj) {
-    obj.style.height = obj.contentWindow.document.documentElement.scrollHeight + 'px';
+  function resizeIframe(id) {
+	  // debugger;
+    addEventListener('message', e => {
+        // e.data為子頁面發送的資料
+		//by id
+		console.log(e.data)
+		if(id.replace("iframe_","") == e.data.id){
+        e.data.h&&(document.getElementById(id).height = e.data.h)
+			
+		}
+		//by obj
+        // e.data.h&&(obj.height = e.data.h)
+		
+    })
   }
 </script>
     
