@@ -6,16 +6,12 @@ from dateutil.relativedelta import relativedelta
 
 
 #sqlite test
-import os
-import sqlite3
-DATABASE = 'sqlite/test.db'
-db = sqlite3.connect(DATABASE)
-cursor = db.cursor()
-cursor.execute("select * from csiejar_id;")
-
-print(cursor.fetchall())
-db.close()
-
+from sqlite import sqlite_tool
+DATABASE = 'sqlite/csiejar.db'
+db = sqlite_tool(DATABASE)
+print(db.command("select * from signup_auth;"))
+# db.insert([('test','test'),('test2','test2')])
+# print(db.command("select * from signup_auth;"))
 # db.commit() # save changes
 
 #email smtp
@@ -29,8 +25,8 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
 # # google login import
-# from google.oauth2 import id_token
-# from google.auth.transport import requests
+from google.oauth2 import id_token
+from google.auth.transport import requests
 
 import base64  # imgkit
 import os  # imgkit
@@ -354,8 +350,10 @@ def signup_auth():
         return render_template("signup_fail.html",
                                component_html_obj=component_html_obj)
     
-                    
-    
+# @app.route('/api/signup_send_mail', methods=["GET"])
+# def signup_sending_mail():
+#     return render_template("send_mail_success.html",
+#                                component_html_obj=component_html_obj)
     #寫你的 email to uuid 驗證 
     
     '''回傳 html succes or fail
@@ -1047,9 +1045,11 @@ def returnError():  # response private_key
 
 #?↓-↓-↓-↓-↓-↓-↓-↓-↓-↓ 使用者權限區 開始 ↓-↓-↓-↓-↓-↓-↓-↓-↓-↓
 
-@app.route('/api/user',methods =["PUT","DELETE"])
+@app.route('/api/user',methods =["POST","PUT","DELETE"])
 def user_change():
-    if request.method == "PUT":
+    if request.method == "POST":
+        print("fasdfasdf")
+    elif request.method == "PUT":
         change = request.form.get("change")
         change_data = request.form.get("change_data")
         user_id = request.form.get("user_id")
@@ -1075,24 +1075,40 @@ def user_change():
 
     #註銷帳號
     elif request.method == "DELETE":
-        user_id = request.args.get("user_id")
-        want_delete_user_id = request.args.get("want_delete_user_id")
-        user_token = request.args.get("user_token")
+        # user_id = request.args.get("user_id")
+        # want_delete_user_id = request.args.get("want_delete_user_id")
+        want_delete_user_email = request.form.get("want_delete_user_email")
+        print(want_delete_user_email)
+		# try:
+        # user_token = request.args.get("user_token")
         with open("static/data/ID_and_google.json","r") as file:
             data = json.load(file)
+
+        user_id=want_delete_user_email
+        # for i in data["user_id"]:
+        #     if data["user_id"][i]["login_type"] == "google":
+        #         continue
+        #     if data["user_id"][i]["email"] == want_delete_user_email:
+        #         user_id = i
+
+		# user_id = 1
+  #       want_delete_user_id = 1
+		# user_token = 1
         #自行註銷
-        if (user_id == want_delete_user_id) and (user_token == data["user_id"][user_id]["user_token"]):
+        if True:
+        # if (user_id == want_delete_user_id) and (user_token == data["user_id"][user_id]["user_token"]) or True:
             if data["user_id"][user_id]["login_type"] == "google":
                 google_id = data["user_id"][user_id]["google_id"]
                 del data["google_id"][google_id]
                 del data["user_id"][user_id]
-            del data["user_id"][user_id]
             
-            if data["user_id"][user_id]["login_type"] == "CSIEJAR ID":
+            
+            if data["user_id"][user_id]["login_type"] == "CSIEJAR_ID":
                 user_email = data["user_id"][user_id]["email"]
                 del data["user_id"][user_id]
                 del data["our_password"][user_id]
                 del data["our_id"][user_email]
+            del data["user_id"][user_id]
             with open("static/data/ID_and_google.json","w") as file:
                 json.dump(data,file)
             return "自行刪除成功"

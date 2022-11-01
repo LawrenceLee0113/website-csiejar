@@ -1,9 +1,1 @@
-{
-    "auth": {
-        "lawrenceleework1@gmail.com": {
-            "auth_uuid": "752006cd-b7ce-4dce-ae5f-b0555a5a2c9a",
-            "name": "laasdfasdf",
-            "password": "Abcd0113"
-        }
-    }
-}
+{"auth": {"s1111032015@nutc.edu.tw": {"auth_uuid": "0233f113-37c6-4cd8-8c06-aa2887d47dd6", "name": "gagagaga", "password": "123456a"}, "s111103215@nutc.edu.tw": {"auth_uuid": "e729de7c-9150-4701-a215-a6a8e701539a", "name": "gagagaga", "password": "123456a"}}}

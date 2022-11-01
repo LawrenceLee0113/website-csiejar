@@ -22,26 +22,19 @@
 <body>
     {{component_html_obj.top_navbar_html | safe}}
     {{component_html_obj.error_window_html | safe}}
-    <div class="container">
-        <input type="text" id="haha">
-        <button id="haha2">submit</button>
-        <script>
-            $(document).ready(function () {
-                $("#haha2").click(function (e) { 
-                    e.preventDefault();
-                    $.ajax({
-                        type: "DELETE",
-                        url: "https://csiejar.xyz/api/user",
-                        data: {want_delete_user_email:$("#haha").val()},
-                        dataType: "json",
-                        success: function (response) {
-                            console.log(response)
-                        }
-                    });
-                    
-                });
-            });
-        </script>
+    <div class="container d-flex justify-content-center">
+        <div class="hint_box w-50 bg-light border d-flex justify-content-center flex-column">
+            <h1 class="text-center">註冊成功</h1>
+            <div class="hint_text d-flex justify-content-center">
+
+                <p class="w-75"><span id="email_hint">aaa@gmail.com</span>已成功註冊 CSIEJAR_ID 請點擊以下連結返回"登入頁面"登入一次</p>
+            </div>
+            <div class="link_area justify-content-center d-flex">
+
+                <a href="/login" class="btn btn-link btn-primary bg-primary text-light">登入按此</a>
+            </div>
+
+        </div>
     </div>
 
 </body>

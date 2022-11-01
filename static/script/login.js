@@ -66,6 +66,7 @@ $(document).ready(function () {
 
     $("#signup_form input[type=submit]").click(function (e) { 
         e.preventDefault();
+        var now_mail = $("#signup_form input[name=mail]").val()
         if(verifyPassLength($("#password1").val(),$("#password2").val()) && email_change($("#signup_form input[name=mail]")) && name_check($("#signup_form input[name=name]")))(
             $.ajax({
                 url:"/api/our_signup",
@@ -73,14 +74,26 @@ $(document).ready(function () {
                 data:$("#signup_form").serialize()+'&form_name='+$("#signup_form").attr("name"),
                 success: function(data){
                     switch(data.status){
-                        case "success":
+                        case "傳送成功":
                             console.log(data);
-                            setCookie({
-                                user_id: data.user.user_id,
-                                user_token: data.user.user_token,
-                                login_type: data.user.login_type
-                            })
-                            window.location.href = "/home";
+							
+                            // window.location.href = "/send_mail_success";
+                            $(".container").html(`
+                            <div class="hint_box w-50 bg-light border d-flex justify-content-center flex-column">
+                            <h1 class="text-center">註冊成功</h1>
+                            <div class="hint_text d-flex justify-content-center">
+                
+                                <p class="w-75"><span id="email_hint">aaa@gmail.com</span>信件已成功寄出 請至自己的電子信箱裡點擊連結註冊CSIEJAR_ID</p>
+                            </div>
+                            <div class="link_area justify-content-center d-flex">
+                
+                                <a href="/home" class="btn btn-link btn-primary bg-primary text-light">首頁按此</a>
+                            </div>
+                
+                        </div>
+                            `);
+                            $(".container").addClass("justify-content-center").addClass("d-flex");
+                            $("#email_hint").html(now_mail);
                             break;
                         case "名稱不得為空":
                             alert("名稱不得為空");
